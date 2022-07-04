@@ -1,0 +1,47 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "camelcase": "error",
+    "indent": ["error", 2],
+    "spaced-comment": "error",
+    "quotes": ["error", "single"],
+    "no-duplicate-imports": "error",
+    "valid-typeof": ["error", { "requireStringLiterals": true }],
+    "no-unused-vars": "error",
+    "keyword-spacing": ["error", { "before": true }],
+    "eqeqeq": ["error", "always"],
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "curly": ["error", "multi"],
+    "handle-callback-err": ["error", "error"],
+    "no-multiple-empty-lines": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}

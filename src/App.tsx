@@ -1,7 +1,13 @@
+import { Boards } from './conponents/Boars'
+import { Header } from './conponents/Header'
+
 function App() {
-  return <div className='App'>
-    Test string
-  </div>
+  return (
+    <>
+      <Header />
+      <Boards />
+    </>
+  )
 }
 
 export default App

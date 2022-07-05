@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import { getBoards } from '../api/boardsApi'
 import { useAppDispatch, useAppSelector } from '../hooks'
+import { Button } from './share/button'
 
 export const Boards: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -21,22 +22,32 @@ export const Boards: React.FC = () => {
               <StyledLink color={board.color}>{board.title}</StyledLink>
             </li>
           ))}
-          <li>Create board</li>
+          <li>
+            <StyledButton>Create Board</StyledButton>
+          </li>
         </StyledUl>
       </div>
     </StyledContainer>
   )
 }
 const StyledUl = styled.ul`
-  list-style: none;
   display: flex;
   gap: 20px;
   margin-top: 20px;
 `
+const StyledButton = styled(Button)`
+  width: 200px;
+  height: 100px;
+  background-color: #f0f2f5;
+  color: #172b4d;
+  &:hover {
+    background-color: #091e4214;
+  }
+`
 
 const StyledLink = styled.a`
   display: inline-block;
-  background-color: ${(props) => (props.color)};
+  background-color: ${(props) => props.color};
   width: 200px;
   height: 100px;
   border-radius: 3px;
@@ -45,12 +56,12 @@ const StyledLink = styled.a`
   padding: 5px;
   cursor: pointer;
   position: relative;
-  &::after{
+  &::after {
     content: '';
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     left: 0;
     top: 0;
     opacity: 0;

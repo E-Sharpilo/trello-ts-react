@@ -34,7 +34,8 @@
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "curly": ["error", "multi"],
     "handle-callback-err": ["error", "error"],
-    "no-multiple-empty-lines": "error"
+    "no-multiple-empty-lines": "error",
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {

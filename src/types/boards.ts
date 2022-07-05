@@ -1,7 +1,7 @@
-import { Board } from './board';
+import { TBoard } from './board';
 
-export type Boards = {
-  boards: Board[];
+export type TBoards = {
+  boards: TBoard[];
   loading: boolean;
   error: string | null;
 }

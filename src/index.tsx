@@ -11,7 +11,8 @@ const Global = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    color: #172b4d
+    color: #172b4d;
+    list-style: none;
   }
 `
 

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getBoards } from '../api/boardsApi'
-import { Boards } from '../types/boards'
+import { TBoards } from '../types/boards'
 
-const initialState: Boards = {
+const initialState: TBoards = {
   boards: [],
   loading: false,
   error: null,
@@ -20,8 +20,6 @@ const boardsSlice = createSlice({
       })
       .addCase(getBoards.fulfilled, (state, action) => {
         state.boards = action.payload
-        console.log(state.boards);
-        
         state.loading = false
       })
   },

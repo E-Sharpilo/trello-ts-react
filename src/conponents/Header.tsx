@@ -1,7 +1,16 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Button } from './share/button'
+import { CreateBoardForm } from './share/createBoardForm'
+import { Modal } from './share/modal'
 
 export const Header: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const clickHandler = () => {
+    setModalOpen(false)
+  }
+
   return (
     <StyledHeader>
       <Nav>
@@ -9,8 +18,13 @@ export const Header: React.FC = () => {
           <Logo />
         </LogoLink>
         <Button arrow>My boards</Button>
-        <Button darkblue>Create</Button>
+        <Button onClick={() => setModalOpen(true)} darkblue>
+          Create
+        </Button>
       </Nav>
+      <Modal isOpen={modalOpen} close={clickHandler}>
+        <CreateBoardForm />
+      </Modal>
     </StyledHeader>
   )
 }
@@ -24,6 +38,7 @@ const StyledHeader = styled.header`
 `
 const Nav = styled.nav`
   display: flex;
+  gap: 10px;
 `
 const LogoLink = styled.a`
   padding: 0 6px;

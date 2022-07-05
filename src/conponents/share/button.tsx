@@ -4,7 +4,6 @@ const StyledButton = styled.button`
   background-color: ${(props: any) => (props.darkblue) ? '#014a75' : 'transparent'};
   white-space: nowrap;
   padding: 0 10px;
-  margin-left: 10px;
   height: 32px;
   line-height: 32px;
   border: none;
@@ -32,6 +31,7 @@ interface Props {
   children: string
   arrow?: boolean
   darkblue?: boolean
+  onClick?: () => void
 }
 
 export const Button: React.FC<Props> = (props: Props) => {

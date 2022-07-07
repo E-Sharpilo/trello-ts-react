@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { TCard } from '../types/card'
-import { Card } from './Card'
 
 
 type Props = {
@@ -8,13 +7,13 @@ type Props = {
   cards: TCard[]
 }
 
-export const List: React.FC<Props> = ({ title, cards }) => {
+export const List: React.FC<Props> = ({ title}) => {
   return (
     <Div>
       <Title>{title}</Title>
-      {cards.map((card) => (
-        <Card key={card._id} title={card.title} />
-      ))}
+      {/* {cards.map((card) => (
+
+      ))} */}
     </Div>
   )
 }

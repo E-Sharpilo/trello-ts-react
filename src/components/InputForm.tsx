@@ -1,8 +1,8 @@
 import { FormikErrors, useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { createBoardsFetch } from '../../reducers/boardsReducer'
-import Button from './Button'
+import { createBoardsFetch } from '../reducers/boardsReducer'
+import Button from './share/Button'
 
 type Props = {
   color: string
@@ -20,7 +20,7 @@ const validate = (values: FormValues) => {
     errors.title = 'Required'
   }
 
-  return
+  return errors
 }
 
 export const InputForm: React.FC<Props> = ({ color }) => {
@@ -54,7 +54,7 @@ export const InputForm: React.FC<Props> = ({ color }) => {
         name='title'
       />
       {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-      <Button type='submit' darkblue>
+      <Button type='submit' color='#014a75'>
         Create Board
       </Button>
     </Form>

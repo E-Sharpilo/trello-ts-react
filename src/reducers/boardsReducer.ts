@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 import { TBoards } from './boards'
 
@@ -11,8 +12,7 @@ const boardsSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {
-    // eslint-disable-next-line no-unused-vars
-    getBoardsFetch: (state) => {
+    getBoardsFetch: (state, action) => {
       state.loading = true
     },
     getBoardsSuccess: (state, action) => {
@@ -23,8 +23,7 @@ const boardsSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
-    // eslint-disable-next-line no-unused-vars
-    createBoardsFetch: (state, action) => {
+    createBoardsFetch: (state, _action) => {
       state.loading = true
     },
     createBoardsSuccess: (state, action) => {
@@ -32,6 +31,32 @@ const boardsSlice = createSlice({
       state.loading = false
     },
     createBoardsFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
+    updateBoardsFetch: (state, _action) => {
+      state.loading = true
+    },
+    updateBoardsSuccess: (state, action) => {
+      const index = state.boards.findIndex((item) => item._id === action.payload._id)
+      console.log(index)
+      if (index >= 0) {
+        state.boards.splice(index, 1, action.payload)
+      }
+      state.loading = false
+    },
+    updateBoardsFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
+    deleteBoardsFetch: (state, _action) => {
+      state.loading = true
+    },
+    deleteBoardsSuccess: (state, action) => {
+      state.boards = state.boards.filter((item) => item._id !== action.payload)
+      state.loading = false
+    },
+    deleteBoardsFailure: (state, action) => {
       state.error = action.payload
       state.loading = false
     },
@@ -45,6 +70,12 @@ export const {
   createBoardsFetch,
   createBoardsSuccess,
   createBoardsFailure,
+  updateBoardsFetch,
+  updateBoardsSuccess,
+  updateBoardsFailure,
+  deleteBoardsFetch,
+  deleteBoardsSuccess,
+  deleteBoardsFailure,
 } = boardsSlice.actions
 
 export default boardsSlice.reducer

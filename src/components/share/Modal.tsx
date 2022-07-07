@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import { CloseButton } from './CloseButton'
 
 type Props = {
   isOpen: boolean
@@ -14,7 +15,7 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose }) => {
     <>
       <Overlay onClick={onClose}/>
       <ModalWindow>
-        <CloseButton onClick={onClose} />
+        <CloseButton onClick={onClose}/>
         {children}
       </ModalWindow>
     </>,
@@ -46,22 +47,3 @@ const ModalWindow = styled.div`
   z-index: 1001;
 `
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  font-size: 30px;
-  cursor: pointer;
-  border: none;
-  border-radius: 3px;
-  background-color: #fff;
-  transition: color 0.2s ease-out;
-  &::after {
-    content: '×';
-    position: absolute;
-    top: -9px;
-    right: 5px;
-  }
-`

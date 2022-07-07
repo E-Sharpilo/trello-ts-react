@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import BorderPreview from './share/icons/BorderPreview'
 import CheckMark from './share/icons/CheckMark'
-import { InputForm } from './share/InputForm'
+import { InputForm } from './InputForm'
 
 type Props = {
   background: string

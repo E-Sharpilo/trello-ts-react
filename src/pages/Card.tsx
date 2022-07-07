@@ -1,12 +1,9 @@
 import styled from 'styled-components'
 
-type Props = {
-  title: string
-}
 
-export const Card: React.FC<Props> = ({title}) => {
+export const Card: React.FC = () => {
   return (
-    <StyledCard>{title}</StyledCard>
+    <StyledCard>title card</StyledCard>
   )
 }
 

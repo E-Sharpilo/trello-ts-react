@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from './share/Button'
 import CreateBoardForm from './CreateBoardForm'
 import Modal from './share/Modal'
-
 
 const Header: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false)
@@ -15,11 +15,15 @@ const Header: React.FC = () => {
   return (
     <StyledHeader>
       <Nav>
-        <LogoLink href='/#'>
-          <Logo />
-        </LogoLink>
-        <Button arrow type='button'>My boards</Button>
-        <Button type='button' onClick={clickHandler} darkblue>
+        <Link to="/">
+          <LogoWrapper>
+            <Logo />
+          </LogoWrapper>
+        </Link>
+        <Button arrow type='button'>
+          My boards
+        </Button>
+        <Button type='button' onClick={clickHandler} color='#014a75'>
           Create
         </Button>
       </Nav>
@@ -43,7 +47,7 @@ const Nav = styled.nav`
   display: flex;
   gap: 10px;
 `
-const LogoLink = styled.a`
+const LogoWrapper = styled.div`
   padding: 0 6px;
   border-radius: 3px;
   display: flex;

@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
-import boardsReducer from './reducers/boards'
-import listsReducer from './reducers/lists';
+import boardsReducer from './reducers/boardsReducer'
+import createSagaMiddleware from '@redux-saga/core'
+import rootSaga from './sagas'
+
+const saga = createSagaMiddleware()
 
 const store = configureStore({
   reducer: {
-    boards: boardsReducer,
-    lists: listsReducer
-  }
+    boards: boardsReducer
+  },
+  middleware:[saga]
 })
+
+saga.run(rootSaga)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

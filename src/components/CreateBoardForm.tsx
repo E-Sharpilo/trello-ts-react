@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import BorderPreview from './share/icons/BorderPreview'
+import CheckMark from './share/icons/CheckMark'
+import { InputForm } from './share/InputForm'
 
 type Props = {
   background: string
@@ -7,34 +10,38 @@ type Props = {
 
 const styles = ['#0079BF', '#D29034', '#399839', '#FFB046', '#89609E']
 
-export const CreateBoardForm: React.FC = () => {
-  const [backgroundColor] = useState('#0079BF')
+const CreateBoardForm: React.FC = () => {
+
+  const [backgroundColor, setBackgroundColor] = useState('#0079BF')
   return (
-    <StyledContainer>
-      <StyledTitle>Create board</StyledTitle>
+    <Container>
+      <Title>Create board</Title>
       <PreviewContainer background={backgroundColor}>
-        <img src='./images/board-preview.svg' alt='' />
+        <BorderPreview />
       </PreviewContainer>
-      <StyledList>
+      <List>
         {styles.map((item, i) => (
           <li key={i}>
-            <StyledColorItem background={item}></StyledColorItem>
+            <ColorItem background={item} onClick={() => setBackgroundColor(item)}>
+              {backgroundColor === item ? <CheckMark /> : ''}
+            </ColorItem>
           </li>
         ))}
-      </StyledList>
+      </List>
 
-      <input type='text' />
-      <button>create</button>
-    </StyledContainer>
+      <InputForm color={backgroundColor} />
+    </Container>
   )
 }
 
-const StyledList = styled.ul`
+export default React.memo(CreateBoardForm)
+
+const List = styled.ul`
   display: flex;
   gap: 3px;
 `
 
-const StyledColorItem = styled.button<Props>`
+const ColorItem = styled.button<Props>`
   width: 40px;
   height: 32px;
   background-color: ${(prop) => prop.background};
@@ -43,13 +50,13 @@ const StyledColorItem = styled.button<Props>`
   cursor: pointer;
 `
 
-const StyledContainer = styled.div`
+const Container = styled.div`
   max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `
-const StyledTitle = styled.div`
+const Title = styled.div`
   border-bottom: 1px solid rgba(9, 30, 66, 0.13);
   width: 100%;
   line-height: 28px;

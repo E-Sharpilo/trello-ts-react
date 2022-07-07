@@ -1,12 +1,12 @@
-import { Board } from './conponents/Board'
-// import { Boards } from './conponents/Boars'
-import { Header } from './conponents/Header'
+// import { Board } from './components/Board'
+import Boards from './components/Boards'
+import Header from './components/Header'
 
 function App() {
   return (
     <>
       <Header />
-      <Board />
+      <Boards />
     </>
   )
 }

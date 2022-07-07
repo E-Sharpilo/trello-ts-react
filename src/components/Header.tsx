@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Button } from './share/button'
-import { CreateBoardForm } from './share/createBoardForm'
-import { Modal } from './share/modal'
+import Button from './share/Button'
+import CreateBoardForm from './CreateBoardForm'
+import Modal from './share/Modal'
 
-export const Header: React.FC = () => {
+
+const Header: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false)
 
   const clickHandler = () => {
-    setModalOpen(false)
+    setModalOpen(!modalOpen)
   }
 
   return (
@@ -17,17 +18,19 @@ export const Header: React.FC = () => {
         <LogoLink href='/#'>
           <Logo />
         </LogoLink>
-        <Button arrow>My boards</Button>
-        <Button onClick={() => setModalOpen(true)} darkblue>
+        <Button arrow type='button'>My boards</Button>
+        <Button type='button' onClick={clickHandler} darkblue>
           Create
         </Button>
       </Nav>
-      <Modal isOpen={modalOpen} close={clickHandler}>
+      <Modal isOpen={modalOpen} onClose={clickHandler}>
         <CreateBoardForm />
       </Modal>
     </StyledHeader>
   )
 }
+
+export default React.memo(Header)
 
 const StyledHeader = styled.header`
   background-color: #026aa7;

@@ -17,5 +17,9 @@ transition: color 0.2s ease-out;
   position: absolute;
   top: -9px;
   right: 5px;
+  color:  #42526e;
+}
+&:hover::after {
+  color: #000;
 }
 `

@@ -23,7 +23,7 @@ const Header: React.FC = () => {
         <Button arrow type='button'>
           My boards
         </Button>
-        <Button type='button' onClick={clickHandler} color='#014a75'>
+        <Button type='button' onClick={clickHandler} background='#014a75'>
           Create
         </Button>
       </Nav>
@@ -39,7 +39,7 @@ export default React.memo(Header)
 const StyledHeader = styled.header`
   background-color: #026aa7;
   width: 100%;
-  height: 44px;
+  height: 5vh;
   padding: 6px 25px;
   position: sticky;
 `

@@ -12,7 +12,7 @@ const boardsSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {
-    getBoardsFetch: (state, action) => {
+    getBoardsFetch: (state, _action) => {
       state.loading = true
     },
     getBoardsSuccess: (state, action) => {
@@ -39,7 +39,6 @@ const boardsSlice = createSlice({
     },
     updateBoardsSuccess: (state, action) => {
       const index = state.boards.findIndex((item) => item._id === action.payload._id)
-      console.log(index)
       if (index >= 0) {
         state.boards.splice(index, 1, action.payload)
       }

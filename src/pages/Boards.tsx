@@ -7,7 +7,6 @@ import { selectBoards } from '../selectors/boardsSelector'
 
 const Boards: React.FC = () => {
   const boards = useAppSelector(selectBoards)
-  
   const dispatch = useAppDispatch()
 
   useEffect(() => {

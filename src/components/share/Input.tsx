@@ -1,5 +1,5 @@
 type Props = {
-  onChange: () => void
+  onChange?: () => void
   value: string
   type: string
   id: string

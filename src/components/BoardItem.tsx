@@ -37,14 +37,12 @@ const BoardItem: React.FC<Props> = ({ board }) => {
     </>
   ) : (
     <Item>
-      <Link to={`/board/${board._id}`}>
-        <BoardLink color={board.color}>
-          <Wrapper onClick={visibleMenuHandler}>
-            <Dots />
-          </Wrapper>
-          {board.title}
-        </BoardLink>
-      </Link>
+      <BoardLink color={board.color}>
+        <Wrapper onClick={visibleMenuHandler}>
+          <Dots />
+        </Wrapper>
+        <StyledLink to={`/board/${board._id}`}>{board.title}</StyledLink>
+      </BoardLink>
     </Item>
   )
 }
@@ -92,20 +90,6 @@ const BoardLink = styled.div`
   font-weight: 700;
   padding: 5px;
   cursor: pointer;
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    left: 0;
-    top: 0;
-    opacity: 0;
-    transition: opacity 0.1s;
-  }
-  &:hover::after {
-    opacity: 1;
-  }
 `
 const Wrapper = styled.div`
   position: absolute;
@@ -114,4 +98,10 @@ const Wrapper = styled.div`
   height: 20px;
   width: 20px;
   z-index: 3;
+`
+const StyledLink = styled(Link)`
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  height: 100%;
 `

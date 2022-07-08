@@ -5,7 +5,7 @@ import ArrowSvg from './icons/ArrowSvg'
 interface Props {
   children: React.ReactNode
   arrow?: boolean
-  color?: string
+  background?: string
   onClick?: () => void
   type: string
 }
@@ -22,7 +22,7 @@ const Button: React.FC<Props> = (props: Props) => {
 export default React.memo(Button)
 
 const StyledButton = styled.button<Props>`
-  background-color: ${(props) => (props.color ? props.color : 'transparent')};
+  background-color: ${(props) => (props.background ? props.background : 'transparent')};
   display: flex;
   align-items: center;
   white-space: nowrap;

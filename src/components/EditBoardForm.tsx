@@ -57,11 +57,11 @@ const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
           name='title'
         />
         {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-        <Button type='submit' color='#014a75'>
+        <Button type='submit' background='#014a75'>
           Edit title
         </Button>
       </Form>
-      <StyledButton type='button' color='#b04632' onClick={deleteBoard}>
+      <StyledButton type='button' background='#b04632' onClick={deleteBoard}>
         Delete Board
       </StyledButton>
     </>

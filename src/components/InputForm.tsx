@@ -54,7 +54,7 @@ export const InputForm: React.FC<Props> = ({ color }) => {
         name='title'
       />
       {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-      <Button type='submit' color='#014a75'>
+      <Button type='submit' background='#014a75'>
         Create Board
       </Button>
     </Form>

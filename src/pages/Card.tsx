@@ -1,9 +1,14 @@
 import styled from 'styled-components'
+import { TCard } from '../types/card'
 
 
-export const Card: React.FC = () => {
+type Props = {
+  card?: TCard
+}
+
+export const Card: React.FC<Props> = ({card}) => {
   return (
-    <StyledCard>title card</StyledCard>
+    <StyledCard>{card?.title}</StyledCard>
   )
 }
 

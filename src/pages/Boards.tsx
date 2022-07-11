@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector} from '../hooks'
-import { getBoardsFetch} from '../reducers/boardsReducer'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { getBoardsFetch } from '../reducers/boards'
 import BoardItem from '../components/BoardItem'
 import { selectBoards } from '../selectors/boardsSelector'
 
@@ -13,29 +13,21 @@ const Boards: React.FC = () => {
     dispatch(getBoardsFetch(null))
   }, [dispatch])
 
-  if (!boards.length) {
-    return (
-      <Container>
-        <BoardsHeader>You don&apos;t have boards yet</BoardsHeader>
-      </Container>
-    )
-  }
-
   return (
     <Container>
-      <BoardsHeader>My boards</BoardsHeader>
-      <Ul>
+      <BoardsHeader>{boards.length ? 'My boards' : 'You don&apos;t have boards yet'}</BoardsHeader>
+      <BoardsList>
         {boards.map((board) => (
           <BoardItem key={board._id} board={board} />
         ))}
-      </Ul>
+      </BoardsList>
     </Container>
   )
 }
 
 export default React.memo(Boards)
 
-const Ul = styled.ul`
+const BoardsList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 20px;

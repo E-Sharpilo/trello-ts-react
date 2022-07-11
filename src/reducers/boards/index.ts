@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
-import { TBoards } from './boards'
+import { TBoards } from './type'
 
 const initialState: TBoards = {
   boards: [],

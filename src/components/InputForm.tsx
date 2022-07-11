@@ -1,11 +1,13 @@
 import { FormikErrors, useFormik } from 'formik'
+import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { createBoardsFetch } from '../reducers/boardsReducer'
+import { createBoardsFetch } from '../reducers/boards'
 import Button from './share/Button'
 
 type Props = {
   color: string
+  onClose: () => void
 }
 
 type FormValues = {
@@ -23,7 +25,7 @@ const validate = (values: FormValues) => {
   return errors
 }
 
-export const InputForm: React.FC<Props> = ({ color }) => {
+export const InputForm: React.FC<Props> = ({ color, onClose }) => {
   const dispatch = useDispatch()
 
   const formik = useFormik({
@@ -33,16 +35,16 @@ export const InputForm: React.FC<Props> = ({ color }) => {
     },
     validate,
     onSubmit: () => {
+      onClose()
       addNewBoard()
     },
   })
 
   formik.values.color = color
 
-  const addNewBoard = () => {
+  const addNewBoard = useCallback(() => {
     dispatch(createBoardsFetch(formik.values))
-  }
-
+  }, [dispatch, formik.values])
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Label htmlFor='title'>Title Board</Label>
@@ -87,4 +89,3 @@ const ErrorMassage = styled.div`
   color: tomato;
   margin-bottom: 5px;
 `
-

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Card } from '../pages/Card'
 import { TCard } from '../types/card'
 import Button from './share/Button'
 
@@ -7,21 +8,22 @@ type Props = {
   cards: TCard[]
 }
 
-export const List: React.FC<Props> = ({ title }) => {
+export const List: React.FC<Props> = ({ title, cards}) => {
+  
   return (
-    <Div>
+    <Root>
       <Title>{title}</Title>
-      {/* {cards.map((card) => (
-
-      ))} */}
+      {cards && cards.map((card) => (
+        <Card key={card._id} card={card}/>
+      ))}
       <StyledButton type='button' background='transparent'>
         Add Card
       </StyledButton>
-    </Div>
+    </Root>
   )
 }
 
-const Div = styled.div`
+const Root = styled.div`
   background-color: #ebecf0;
   display: flex;
   flex-direction: column;
@@ -39,6 +41,6 @@ const Title = styled.h2`
 const StyledButton = styled(Button)`
   color: #5e6c84;
   &:hover {
-   background-color: #091e4214;
+    background-color: #091e4214;
   }
 `

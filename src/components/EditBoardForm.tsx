@@ -2,7 +2,7 @@ import { FormikErrors, useFormik } from 'formik'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { deleteBoardsFetch, updateBoardsFetch } from '../reducers/boardsReducer'
+import { deleteBoardsFetch, updateBoardsFetch } from '../reducers/boards'
 import Button from './share/Button'
 
 type FormValues = {

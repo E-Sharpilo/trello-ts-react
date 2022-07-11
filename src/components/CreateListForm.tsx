@@ -1,8 +1,8 @@
 import { FormikErrors, useFormik } from 'formik'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { createListsFetch } from '../reducers/listsReducer'
+import { createListsFetch } from '../reducers/lists'
 import Button from './share/Button'
 import { CloseButton } from './share/CloseButton'
 
@@ -24,8 +24,7 @@ const validate = (values: FormValues) => {
   return errors
 }
 
-
-export const AddListForm: React.FC<Props> = ({boardId}) => {
+export const AddListForm: React.FC<Props> = ({ boardId }) => {
   const [isVisibleInput, setIsVisibleInput] = useState(false)
 
   const dispatch = useDispatch()
@@ -41,14 +40,15 @@ export const AddListForm: React.FC<Props> = ({boardId}) => {
     },
   })
 
-  const addNewList = () => {
+  const addNewList = useCallback(() => {
     dispatch(createListsFetch(formik.values))
+    formik.values.title = ''
     handleClick()
-  }
+  }, [dispatch, formik.values])
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setIsVisibleInput(!isVisibleInput)
-  }
+  }, [isVisibleInput])
 
   return isVisibleInput ? (
     <Form onSubmit={formik.handleSubmit}>

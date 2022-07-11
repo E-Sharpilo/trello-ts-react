@@ -14,7 +14,7 @@ import {
   updateBoardsFailure,
   updateBoardsFetch,
   updateBoardsSuccess,
-} from '../reducers/boardsReducer'
+} from '../reducers/boards'
 
 function* getBoardsWorker(): Generator {
   try {

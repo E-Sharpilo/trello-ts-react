@@ -1,4 +1,4 @@
-import { TList } from '../types/list'
+import { TList } from '../../types/list'
 
 export type TLists = {
   lists: TList[]

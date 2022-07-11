@@ -5,6 +5,7 @@ import EdtBoardForm from './EditBoardForm'
 import { CloseButton } from './share/CloseButton'
 import Dots from './share/icons/Dots'
 import { Link } from 'react-router-dom'
+import { url } from '../constants/urlConstants'
 
 type Props = {
   board: TBoard
@@ -14,39 +15,33 @@ type Props = {
 const BoardItem: React.FC<Props> = ({ board }) => {
   const [isVisibleMenu, setIsVisibleMenu] = useState(false)
 
-  const visibleMenuHandler = useCallback(() => {
+  const toggleVisibleMenu = useCallback(() => {
     setIsVisibleMenu(!isVisibleMenu)
   }, [isVisibleMenu])
 
-  return isVisibleMenu ? (
-    <>
-      <Item>
-        <BoardLink color={board.color}>
-          <Wrapper onClick={visibleMenuHandler}>
-            <Dots />
-          </Wrapper>
-          {board.title}
-          <Overlay onClick={visibleMenuHandler}></Overlay>
-          <Popup>
-            <CloseButton onClick={visibleMenuHandler} />
-            <Title>Update Title</Title>
-            <EdtBoardForm title={board.title} id={board._id} />
-          </Popup>
-        </BoardLink>
-      </Item>
-    </>
-  ) : (
+  return (
     <Item>
       <BoardLink color={board.color}>
-        <Wrapper onClick={visibleMenuHandler}>
+        <Wrapper onClick={toggleVisibleMenu}>
           <Dots />
         </Wrapper>
-        <StyledLink to={`/board/${board._id}`}>{board.title}</StyledLink>
+        {isVisibleMenu ? (
+          <>
+            {board.title}
+            <Overlay onClick={toggleVisibleMenu}></Overlay>
+            <Popup>
+              <CloseButton onClick={toggleVisibleMenu} />
+              <Title>Update Title</Title>
+              <EdtBoardForm title={board.title} id={board._id} />
+            </Popup>
+          </>
+        ) : (
+          <StyledLink to={`${url.BOARD_PATH}/${board._id}`}>{board.title}</StyledLink>
+        )}
       </BoardLink>
     </Item>
   )
 }
-
 export default React.memo(BoardItem)
 
 const Overlay = styled.div`
@@ -105,3 +100,32 @@ const StyledLink = styled(Link)`
   display: block;
   height: 100%;
 `
+
+// return isVisibleMenu ? (
+//   <>
+//     <Item>
+//       <BoardLink color={board.color}>
+//         <Wrapper onClick={visibleMenuHandler}>
+//           <Dots />
+//         </Wrapper>
+//         {board.title}
+//         <Overlay onClick={visibleMenuHandler}></Overlay>
+//         <Popup>
+//           <CloseButton onClick={visibleMenuHandler} />
+//           <Title>Update Title</Title>
+//           <EdtBoardForm title={board.title} id={board._id} />
+//         </Popup>
+//       </BoardLink>
+//     </Item>
+//   </>
+// ) : (
+//   <Item>
+//     <BoardLink color={board.color}>
+//       <Wrapper onClick={visibleMenuHandler}>
+//         <Dots />
+//       </Wrapper>
+//       <StyledLink to={`${url.BOARD_PATH}/${board._id}`}>{board.title}</StyledLink>
+//     </BoardLink>
+//   </Item>
+// )
+// }

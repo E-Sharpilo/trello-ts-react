@@ -8,7 +8,7 @@ import {
   getListsFailure,
   getListsFetch,
   getListsSuccess,
-} from '../reducers/listsReducer'
+} from '../reducers/lists'
 
 function* getListsWorker(action: AnyAction): Generator {
   try {

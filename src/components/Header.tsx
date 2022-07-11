@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Button from './share/Button'
 import CreateBoardForm from './CreateBoardForm'
 import Modal from './share/Modal'
+import { url } from '../constants/urlConstants'
 
 const Header: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const clickHandler = () => {
-    setModalOpen(!modalOpen)
-  }
+  const toggleModal = useCallback(() => {
+    setIsModalOpen(!isModalOpen)
+  }, [isModalOpen])
 
   return (
     <StyledHeader>
       <Nav>
-        <Link to="/">
+        <Link to={url.MAIN_PATH}>
           <LogoWrapper>
             <Logo />
           </LogoWrapper>
@@ -23,12 +24,12 @@ const Header: React.FC = () => {
         <Button arrow type='button'>
           My boards
         </Button>
-        <Button type='button' onClick={clickHandler} background='#014a75'>
+        <Button type='button' onClick={toggleModal} background='#014a75'>
           Create
         </Button>
       </Nav>
-      <Modal isOpen={modalOpen} onClose={clickHandler}>
-        <CreateBoardForm />
+      <Modal isOpen={isModalOpen} onClose={toggleModal}>
+        <CreateBoardForm onClose={toggleModal}/>
       </Modal>
     </StyledHeader>
   )
@@ -38,6 +39,8 @@ export default React.memo(Header)
 
 const StyledHeader = styled.header`
   background-color: #026aa7;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 5vh;
   padding: 6px 25px;

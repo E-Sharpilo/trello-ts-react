@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
-import { TLists } from './lists'
+import { TLists } from './type'
 
 const initialState: TLists = {
   lists: [],
@@ -12,7 +12,7 @@ const listsSlice = createSlice({
   name: 'lists',
   initialState,
   reducers: {
-    getListsFetch: (state, action) => {
+    getListsFetch: (state, _action) => {
       state.loading = true
     },
     getListsSuccess: (state, action) => {

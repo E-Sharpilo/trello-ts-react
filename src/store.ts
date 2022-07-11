@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import boardsReducer from './reducers/boardsReducer'
+import boardsReducer from './reducers/boards'
 import createSagaMiddleware from '@redux-saga/core'
 import rootSaga from './sagas'
-import listsReducer from './reducers/listsReducer'
+import listsReducer from './reducers/lists'
 
 const saga = createSagaMiddleware()
 

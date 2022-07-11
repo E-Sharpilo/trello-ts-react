@@ -4,14 +4,17 @@ import BorderPreview from './share/icons/BorderPreview'
 import CheckMark from './share/icons/CheckMark'
 import { InputForm } from './InputForm'
 
-type Props = {
+type bgProps = {
   background: string
+}
+
+type Props = {
+  onClose: () => void
 }
 
 const styles = ['#0079BF', '#D29034', '#399839', '#FFB046', '#89609E']
 
-const CreateBoardForm: React.FC = () => {
-
+const CreateBoardForm: React.FC<Props> = ({ onClose }) => {
   const [backgroundColor, setBackgroundColor] = useState('#0079BF')
   return (
     <Container>
@@ -29,7 +32,7 @@ const CreateBoardForm: React.FC = () => {
         ))}
       </List>
 
-      <InputForm color={backgroundColor} />
+      <InputForm color={backgroundColor} onClose={onClose}/>
     </Container>
   )
 }
@@ -41,7 +44,7 @@ const List = styled.ul`
   gap: 3px;
 `
 
-const ColorItem = styled.button<Props>`
+const ColorItem = styled.button<bgProps>`
   width: 40px;
   height: 32px;
   background-color: ${(prop) => prop.background};
@@ -63,7 +66,7 @@ const Title = styled.div`
   text-align: center;
 `
 
-const PreviewContainer = styled.div<Props>`
+const PreviewContainer = styled.div<bgProps>`
   margin: 10px 0;
   padding: 15px;
   border-radius: 3px;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { AddListForm } from '../components/CreateListForm'
@@ -22,7 +22,21 @@ type DisplayProps = {
 const Board = () => {
   const boardId = useParams().id
   const lists = useAppSelector(selectLists)
-  const board = useAppSelector(selectBoards).find((item) => item._id === boardId)
+  const boards = useAppSelector(selectBoards)
+
+  const board = useMemo(() => {
+    if (!boards) {
+      return
+    }
+
+    return boards.find((item) => item._id === boardId)
+  }, [boards, boardId])
+
+  useEffect(() => {
+    if (board) {
+      formik.values.title = board.title
+    }
+  })
 
   const dispatch = useAppDispatch()
 
@@ -35,7 +49,7 @@ const Board = () => {
 
   const formik = useFormik({
     initialValues: {
-      title: board?.title,
+      title: '',
       id: boardId,
     },
     onSubmit: () => {

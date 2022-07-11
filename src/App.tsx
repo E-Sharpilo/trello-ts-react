@@ -1,7 +1,9 @@
+import { RoutesPage } from './pages/Routes'
+
 function App() {
-  return <div className='App'>
-    Test string
-  </div>
+  return (
+    <RoutesPage />
+  )
 }
 
 export default App

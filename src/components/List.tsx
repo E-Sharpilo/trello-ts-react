@@ -1,24 +1,36 @@
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { Card } from '../pages/Card'
-import { TCard } from '../types/card'
-import Button from './share/Button'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { Card } from './CardItem'
+import { getCardsFetch } from '../reducers/cards'
+import { selectCards } from '../selectors/cards'
+import CreateCardForm from './CreateCardForm'
 
 type Props = {
   title: string
-  cards: TCard[]
+  _id: string
 }
 
-export const List: React.FC<Props> = ({ title, cards}) => {
-  
+export const List: React.FC<Props> = ({ title, _id }) => {
+  const dispatch = useAppDispatch()
+  const boardId = useParams().id
+  const cards = useAppSelector(selectCards)
+  const cardsByList = cards.filter((item) => item.listId === _id)
+
+  useEffect(() => {
+    dispatch(getCardsFetch(boardId))
+  }, [dispatch])
+
   return (
     <Root>
       <Title>{title}</Title>
-      {cards && cards.map((card) => (
-        <Card key={card._id} card={card}/>
-      ))}
-      <StyledButton type='button' background='transparent'>
-        Add Card
-      </StyledButton>
+      <CardList>
+        {cardsByList.map((item) => (
+          <Card key={item._id} {...item}/>
+        ))}
+      </CardList>
+      <CreateCardForm boardId={boardId} listId={_id}/>
     </Root>
   )
 }
@@ -33,14 +45,18 @@ const Root = styled.div`
   padding: 8px;
   min-width: 272px;
 `
+
+const CardList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+`
+
 const Title = styled.h2`
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
+  margin-bottom: 10px;
 `
-const StyledButton = styled(Button)`
-  color: #5e6c84;
-  &:hover {
-    background-color: #091e4214;
-  }
-`
+

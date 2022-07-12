@@ -3,5 +3,5 @@ export type TCard = {
   boardId: string
   listId: string
   title: string
-  tagsIs: string[]
+  tagsId: string[]
 }

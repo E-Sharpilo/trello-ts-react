@@ -1,28 +1,14 @@
-import { FormikErrors, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { createBoardsFetch } from '../reducers/boards'
 import Button from './share/Button'
+import {validate} from '../utils/validateForms'
 
 type Props = {
   color: string
   onClose: () => void
-}
-
-type FormValues = {
-  color: string
-  title: string
-}
-
-const validate = (values: FormValues) => {
-  const errors: FormikErrors<FormValues> = {}
-
-  if (!values.title) {
-    errors.title = 'Required'
-  }
-
-  return errors
 }
 
 export const InputForm: React.FC<Props> = ({ color, onClose }) => {

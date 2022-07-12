@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getBoardsFetch } from '../reducers/boards'
 import BoardItem from '../components/BoardItem'
-import { selectBoards } from '../selectors/boardsSelector'
+import { selectBoards } from '../selectors/boards'
 
 const Boards: React.FC = () => {
   const boards = useAppSelector(selectBoards)

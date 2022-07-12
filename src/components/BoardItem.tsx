@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { TBoard } from '../types/board'
-import EdtBoardForm from './EditBoardForm'
+import EditBoardForm from './EditBoardForm'
 import { CloseButton } from './share/CloseButton'
 import Dots from './share/icons/Dots'
 import { Link } from 'react-router-dom'
@@ -32,7 +32,7 @@ const BoardItem: React.FC<Props> = ({ board }) => {
             <Popup>
               <CloseButton onClick={toggleVisibleMenu} />
               <Title>Update Title</Title>
-              <EdtBoardForm title={board.title} id={board._id} />
+              <EditBoardForm title={board.title} id={board._id} />
             </Popup>
           </>
         ) : (

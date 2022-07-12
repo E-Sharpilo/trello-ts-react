@@ -7,9 +7,10 @@ import { List } from '../components/List'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getBoardsFetch, updateBoardsFetch } from '../reducers/boards'
 import { getListsFetch } from '../reducers/lists'
-import { selectBoards } from '../selectors/boardsSelector'
-import { selectLists } from '../selectors/listsSelector'
+import { selectBoards } from '../selectors/boards'
+import { selectLists } from '../selectors/lists'
 import { useFormik } from 'formik'
+import {validate} from '../utils/validateForms'
 
 type Props = {
   background: string | undefined
@@ -32,12 +33,6 @@ const Board = () => {
     return boards.find((item) => item._id === boardId)
   }, [boards, boardId])
 
-  useEffect(() => {
-    if (board) {
-      formik.values.title = board.title
-    }
-  })
-
   const dispatch = useAppDispatch()
 
   const [isEditing, setIsEditing] = useState(false)
@@ -52,11 +47,27 @@ const Board = () => {
       title: '',
       id: boardId,
     },
+    validate,
     onSubmit: () => {
       updateTitle()
       setIsEditing(false)
     },
   })
+
+  useEffect(() => {
+    if (board) {
+      formik.values.title = board.title
+    }
+  }, [board])
+
+  const onBlurHandler = useCallback(() => {
+    updateTitle()
+    setIsEditing(false)
+  }, [formik.values])
+
+  const bdlClickHandler = useCallback(() => {
+    setIsEditing(true)
+  }, [isEditing])
 
   const updateTitle = useCallback(() => {
     dispatch(updateBoardsFetch(formik.values))
@@ -67,9 +78,7 @@ const Board = () => {
       <Container>
         <Title
           isEditing={isEditing}
-          onDoubleClick={() => {
-            setIsEditing(true)
-          }}
+          onDoubleClick={bdlClickHandler}
         >
           {board?.title}
         </Title>
@@ -81,10 +90,7 @@ const Board = () => {
             type='text'
             id='title'
             name='title'
-            onBlur={() => {
-              updateTitle()
-              setIsEditing(false)
-            }}
+            onBlur={onBlurHandler}
           />
         </form>
       </Container>

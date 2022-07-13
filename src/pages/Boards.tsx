@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getBoardsFetch } from '../reducers/boards'
 import BoardItem from '../components/BoardItem'
-import { selectBoards } from '../selectors/boardsSelector'
+import { selectBoards } from '../selectors/boards'
 
 const Boards: React.FC = () => {
   const boards = useAppSelector(selectBoards)
@@ -15,7 +15,7 @@ const Boards: React.FC = () => {
 
   return (
     <Container>
-      <BoardsHeader>{boards.length ? 'My boards' : 'You don&apos;t have boards yet'}</BoardsHeader>
+      <BoardsHeader>{boards.length ? 'My boards' : 'You don\'t have boards yet'}</BoardsHeader>
       <BoardsList>
         {boards.map((board) => (
           <BoardItem key={board._id} board={board} />

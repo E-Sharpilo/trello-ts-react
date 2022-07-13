@@ -3,13 +3,15 @@ import boardsReducer from './reducers/boards'
 import createSagaMiddleware from '@redux-saga/core'
 import rootSaga from './sagas'
 import listsReducer from './reducers/lists'
+import cardsReducer from './reducers/cards'
 
 const saga = createSagaMiddleware()
 
 const store = configureStore({
   reducer: {
     boards: boardsReducer,
-    lists: listsReducer
+    lists: listsReducer,
+    cards: cardsReducer
   },
   middleware:[saga]
 })

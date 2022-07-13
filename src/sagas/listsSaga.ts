@@ -8,6 +8,9 @@ import {
   getListsFailure,
   getListsFetch,
   getListsSuccess,
+  updateListsFailure,
+  updateListsFetch,
+  updateListsSuccess,
 } from '../reducers/lists'
 
 function* getListsWorker(action: AnyAction): Generator {
@@ -31,9 +34,22 @@ function* createListWorker(action: AnyAction): Generator {
   }
 }
 
+function* updateListWorker(action: AnyAction): Generator {
+  try {
+    const res = yield call(cApi, `list/${action.payload.id}`, {
+      method: 'PATCH',
+      body: action.payload,
+    })
+    yield put(updateListsSuccess(res))
+  } catch (error) {
+    yield put(updateListsFailure(error))
+  }
+}
+
 function* listsSaga() {
   yield takeEvery(getListsFetch.type, getListsWorker)
   yield takeEvery(createListsFetch.type, createListWorker)
+  yield takeEvery(updateListsFetch.type, updateListWorker)
 }
 
 export default listsSaga

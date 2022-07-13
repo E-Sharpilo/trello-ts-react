@@ -1,27 +1,14 @@
-import { FormikErrors, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { deleteBoardsFetch, updateBoardsFetch } from '../reducers/boards'
 import Button from './share/Button'
-
-type FormValues = {
-  title: string
-}
+import {validate} from '../utils/validateForms'
 
 type Props = {
   title: string
   id: string
-}
-
-const validate = (values: FormValues) => {
-  const errors: FormikErrors<FormValues> = {}
-
-  if (!values.title) {
-    errors.title = 'Required'
-  }
-
-  return errors
 }
 
 const EdtBoardForm: React.FC<Props> = ({ title, id }) => {

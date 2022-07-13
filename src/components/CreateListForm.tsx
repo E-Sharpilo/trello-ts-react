@@ -1,5 +1,5 @@
 import { FormikErrors, useFormik } from 'formik'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { createListsFetch } from '../reducers/lists'
@@ -24,7 +24,7 @@ const validate = (values: FormValues) => {
   return errors
 }
 
-export const AddListForm: React.FC<Props> = ({ boardId }) => {
+const AddListForm: React.FC<Props> = ({ boardId }) => {
   const [isVisibleInput, setIsVisibleInput] = useState(false)
 
   const dispatch = useDispatch()
@@ -74,6 +74,8 @@ export const AddListForm: React.FC<Props> = ({ boardId }) => {
     </StyledLongButton>
   )
 }
+
+export default React.memo(AddListForm)
 
 const Form = styled.form`
   min-width: 272px;

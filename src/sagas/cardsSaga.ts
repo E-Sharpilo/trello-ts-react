@@ -12,8 +12,12 @@ import {
 
 function* getCardsWorker(action: AnyAction): Generator {
   try {
+    yield put(getCardsSuccess([]))
+
     const res = yield call(cApi, 'card', {
-      query: `?boardId=${action.payload}`,
+      query: {
+        listId: action.payload
+      },
     })
 
     yield put(getCardsSuccess(res))

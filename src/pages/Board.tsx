@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,7 +9,8 @@ import { getListsFetch } from '../reducers/lists'
 import { selectBoards } from '../selectors/boards'
 import { selectLists } from '../selectors/lists'
 import { useFormik } from 'formik'
-import {validate} from '../utils/validateForms'
+import { validate } from '../utils/validateForms'
+import { clearCardsList } from '../reducers/cards'
 
 type Props = {
   background: string | undefined
@@ -39,8 +39,15 @@ const Board = () => {
 
   useEffect(() => {
     dispatch(getBoardsFetch(null))
-    dispatch(getListsFetch(boardId))
   }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getListsFetch(boardId))
+  }, [dispatch, boardId])
+
+  useEffect(() => {
+    dispatch(clearCardsList())
+  }, [dispatch, boardId])
 
   const formik = useFormik({
     initialValues: {
@@ -76,10 +83,7 @@ const Board = () => {
   return (
     <StyledBoard background={board?.color}>
       <Container>
-        <Title
-          isEditing={isEditing}
-          onDoubleClick={bdlClickHandler}
-        >
+        <Title isEditing={isEditing} onDoubleClick={bdlClickHandler}>
           {board?.title}
         </Title>
         <form onSubmit={formik.handleSubmit}>
@@ -96,7 +100,7 @@ const Board = () => {
       </Container>
       <Wrapper>
         {lists.map((item) => (
-          <List key={item._id} {...item} />
+          <List key={item._id} title={item.title} _id={item._id} />
         ))}
         <AddListForm boardId={boardId} />
       </Wrapper>

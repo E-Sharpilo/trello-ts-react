@@ -1,11 +1,10 @@
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { Card } from './CardItem'
-import { getCardsFetch } from '../reducers/cards'
 import { selectCards } from '../selectors/cards'
 import CreateCardForm from './CreateCardForm'
+import { useEffect } from 'react'
+import { getCardsFetch } from '../reducers/cards'
 
 type Props = {
   title: string
@@ -13,13 +12,12 @@ type Props = {
 }
 
 export const List: React.FC<Props> = ({ title, _id }) => {
-  const dispatch = useAppDispatch()
-  const boardId = useParams().id
   const cards = useAppSelector(selectCards)
   const cardsByList = cards.filter((item) => item.listId === _id)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getCardsFetch(boardId))
+    dispatch(getCardsFetch(_id))
   }, [dispatch])
 
   return (
@@ -27,10 +25,10 @@ export const List: React.FC<Props> = ({ title, _id }) => {
       <Title>{title}</Title>
       <CardList>
         {cardsByList.map((item) => (
-          <Card key={item._id} {...item}/>
+          <Card key={item._id} {...item} />
         ))}
       </CardList>
-      <CreateCardForm boardId={boardId} listId={_id}/>
+      <CreateCardForm listId={_id} />
     </Root>
   )
 }
@@ -51,6 +49,7 @@ const CardList = styled.ul`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
+  width: 100%;
 `
 
 const Title = styled.h2`
@@ -59,4 +58,3 @@ const Title = styled.h2`
   font-weight: 600;
   margin-bottom: 10px;
 `
-

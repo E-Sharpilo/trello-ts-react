@@ -15,7 +15,7 @@ const Boards: React.FC = () => {
 
   return (
     <Container>
-      <BoardsHeader>{boards.length ? 'My boards' : 'You don&apos;t have boards yet'}</BoardsHeader>
+      <BoardsHeader>{boards.length ? 'My boards' : 'You don\'t have boards yet'}</BoardsHeader>
       <BoardsList>
         {boards.map((board) => (
           <BoardItem key={board._id} board={board} />

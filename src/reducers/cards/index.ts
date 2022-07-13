@@ -17,12 +17,15 @@ const cardsSlice = createSlice({
       state.loading = true
     },
     getCardsSuccess: (state, action) => {
-      state.cards = action.payload
+      state.cards = [...state.cards, ...action.payload]
       state.loading = false
     },
     getCardsFailure: (state, action) => {
       state.error = action.payload
       state.loading = false
+    },
+    clearCardsList: (state) => {
+      state.cards = []
     },
     createCardsFetch: (state, _action) => {
       state.loading = true
@@ -45,6 +48,7 @@ export const {
   createCardsFetch,
   createCardsSuccess,
   createCardsFailure,
+  clearCardsList
 } = cardsSlice.actions
 
 export default cardsSlice.reducer

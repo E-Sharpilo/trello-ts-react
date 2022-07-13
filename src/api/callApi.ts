@@ -13,7 +13,12 @@ export const cApi = async (endpoint: string, options: Options) => {
   let Url = URL
 
   if (options.query) {
-    Url += endpoint + options.query
+    const params: string[] = []
+    const keys = Object.keys(options.query)
+
+    keys.forEach((key) => params.push(key + '=' + options.query[key]))
+
+    Url += endpoint + '?' + params.join('&')
   } else {
     Url += endpoint
   }

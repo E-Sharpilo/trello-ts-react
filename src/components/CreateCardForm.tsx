@@ -2,7 +2,7 @@ import { useFormik } from 'formik'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch } from '../hooks'
-import { createCardsFetch } from '../reducers/cards'
+import { createCardsFetch} from '../reducers/cards'
 import Button from './share/Button'
 import { CloseButton } from './share/CloseButton'
 
@@ -11,9 +11,11 @@ type Props = {
   listId?: string
 }
 
-const CreateCardForm: React.FC<Props> = ({ boardId, listId }) => {
-  const [isVisibleInput, setIsVisibleInput] = useState(false)
+const CreateCardForm: React.FC<Props> = ({ listId }) => {
   const dispatch = useAppDispatch()
+
+
+  const [isVisibleInput, setIsVisibleInput] = useState(false)
 
   const visibleToggle = useCallback(() => {
     setIsVisibleInput(!isVisibleInput)
@@ -22,7 +24,6 @@ const CreateCardForm: React.FC<Props> = ({ boardId, listId }) => {
   const formik = useFormik({
     initialValues: {
       title: '',
-      boardId: boardId,
       listId: listId,
     },
     onSubmit: () => {
@@ -35,6 +36,7 @@ const CreateCardForm: React.FC<Props> = ({ boardId, listId }) => {
     dispatch(createCardsFetch(formik.values))
   }, [dispatch, formik.values])
 
+  
   return isVisibleInput ? (
     <form onSubmit={formik.handleSubmit}>
       <TextArea
@@ -66,11 +68,10 @@ const TextArea = styled.textarea`
   box-shadow: 0 1px 0 #091e4240;
   padding: 5px;
   margin-bottom: 10px;
-
 `
 
 const StyledLongButton = styled(Button)`
-  min-width: 272px;
+  min-width: 100%;
   display: flex;
   justify-content: center;
   background-color: #252020;

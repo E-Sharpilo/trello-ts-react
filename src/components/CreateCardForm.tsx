@@ -29,6 +29,7 @@ const CreateCardForm: React.FC<Props> = ({ listId }) => {
     onSubmit: () => {
       addNewCard()
       visibleToggle()
+      formik.resetForm()
     },
   })
 
@@ -65,6 +66,8 @@ const TextArea = styled.textarea`
   border: none;
   width: 100%;
   resize: vertical;
+  min-height: 50px;
+  overflow-y: hidden;
   box-shadow: 0 1px 0 #091e4240;
   padding: 5px;
   margin-bottom: 10px;

@@ -34,6 +34,6 @@ const StyledButton = styled.button<Props>`
   border-radius: 3px;
   cursor: pointer;
   &:hover {
-    background-color: #4e97c2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
   }
 `

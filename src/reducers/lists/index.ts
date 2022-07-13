@@ -34,6 +34,20 @@ const listsSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+    updateListsFetch: (state, _action) => {
+      state.loading = true
+    },
+    updateListsSuccess: (state, action) => {
+      const index = state.lists.findIndex((item) => item._id === action.payload._id)
+      if (index >= 0) {
+        state.lists.splice(index, 1, action.payload)
+      }
+      state.loading = false
+    },
+    updateListsFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
   },
 })
 
@@ -44,6 +58,9 @@ export const {
   createListsFetch,
   createListsSuccess,
   createListsFailure,
+  updateListsFetch,
+  updateListsSuccess,
+  updateListsFailure,
 } = listsSlice.actions
 
 export default listsSlice.reducer

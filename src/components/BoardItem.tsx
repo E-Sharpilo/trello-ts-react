@@ -100,32 +100,3 @@ const StyledLink = styled(Link)`
   display: block;
   height: 100%;
 `
-
-// return isVisibleMenu ? (
-//   <>
-//     <Item>
-//       <BoardLink color={board.color}>
-//         <Wrapper onClick={visibleMenuHandler}>
-//           <Dots />
-//         </Wrapper>
-//         {board.title}
-//         <Overlay onClick={visibleMenuHandler}></Overlay>
-//         <Popup>
-//           <CloseButton onClick={visibleMenuHandler} />
-//           <Title>Update Title</Title>
-//           <EdtBoardForm title={board.title} id={board._id} />
-//         </Popup>
-//       </BoardLink>
-//     </Item>
-//   </>
-// ) : (
-//   <Item>
-//     <BoardLink color={board.color}>
-//       <Wrapper onClick={visibleMenuHandler}>
-//         <Dots />
-//       </Wrapper>
-//       <StyledLink to={`${url.BOARD_PATH}/${board._id}`}>{board.title}</StyledLink>
-//     </BoardLink>
-//   </Item>
-// )
-// }

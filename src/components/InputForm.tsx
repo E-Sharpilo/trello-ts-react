@@ -1,17 +1,17 @@
 import { useFormik } from 'formik'
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { createBoardsFetch } from '../reducers/boards'
 import Button from './share/Button'
-import {validate} from '../utils/validateForms'
+import { validate } from '../utils/validateForms'
 
 type Props = {
   color: string
   onClose: () => void
 }
 
-export const InputForm: React.FC<Props> = ({ color, onClose }) => {
+const InputForm: React.FC<Props> = ({ color, onClose }) => {
   const dispatch = useDispatch()
 
   const formik = useFormik({
@@ -48,6 +48,8 @@ export const InputForm: React.FC<Props> = ({ color, onClose }) => {
     </Form>
   )
 }
+
+export default React.memo(InputForm)
 
 const Label = styled.label`
   display: block;

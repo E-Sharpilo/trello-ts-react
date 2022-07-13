@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { AddListForm } from '../components/CreateListForm'
-import { List } from '../components/List'
+import AddListForm from '../components/CreateListForm'
+import List from '../components/List'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getBoardsFetch, updateBoardsFetch } from '../reducers/boards'
 import { getListsFetch } from '../reducers/lists'
@@ -14,10 +14,6 @@ import { clearCardsList } from '../reducers/cards'
 
 type Props = {
   background: string | undefined
-}
-
-type DisplayProps = {
-  isEditing: boolean
 }
 
 const Board = () => {
@@ -68,8 +64,7 @@ const Board = () => {
   }, [board])
 
   const onBlurHandler = useCallback(() => {
-    updateTitle()
-    setIsEditing(false)
+    formik.submitForm()
   }, [formik.values])
 
   const bdlClickHandler = useCallback(() => {
@@ -83,20 +78,20 @@ const Board = () => {
   return (
     <StyledBoard background={board?.color}>
       <Container>
-        <Title isEditing={isEditing} onDoubleClick={bdlClickHandler}>
-          {board?.title}
-        </Title>
-        <form onSubmit={formik.handleSubmit}>
-          <Input
-            isEditing={isEditing}
-            onChange={formik.handleChange}
-            value={formik.values.title}
-            type='text'
-            id='title'
-            name='title'
-            onBlur={onBlurHandler}
-          />
-        </form>
+        {isEditing ? (
+          <form onSubmit={formik.handleSubmit}>
+            <input
+              onChange={formik.handleChange}
+              value={formik.values.title}
+              type='text'
+              id='title'
+              name='title'
+              onBlur={onBlurHandler}
+            />
+          </form>
+        ) : (
+          <Title onDoubleClick={bdlClickHandler}>{board?.title}</Title>
+        )}
       </Container>
       <Wrapper>
         {lists.map((item) => (
@@ -114,15 +109,9 @@ const Wrapper = styled.div`
   align-items: start;
 `
 
-const Title = styled.h1<DisplayProps>`
-  display: ${(prop) => (prop.isEditing ? 'none' : 'block')};
+const Title = styled.h1`
   color: #fff;
 `
-
-const Input = styled.input<DisplayProps>`
-  display: ${(prop) => (prop.isEditing ? 'block' : 'none')};
-`
-
 const Container = styled.div`
   margin-bottom: 20px;
 `

@@ -1,3 +1,3 @@
-import { TCards } from '../reducers/cards/type';
+import { StateCards } from '../reducers/cards/type';
 
-export const selectCards = (state:{ cards: TCards }) => state.cards.cards
+export const selectCards = (state:{ cards: StateCards }) => state.cards.cards

@@ -5,6 +5,9 @@ import {
   createListsFailure,
   createListsFetch,
   createListsSuccess,
+  deleteListsFailure,
+  deleteListsFetch,
+  deleteListsSuccess,
   getListsFailure,
   getListsFetch,
   getListsSuccess,
@@ -46,10 +49,22 @@ function* updateListWorker(action: AnyAction): Generator {
   }
 }
 
+function* deleteListWorker(action: AnyAction): Generator {
+  try {
+    yield call(callApi, `list/${action.payload}`, {
+      method: 'DELETE',
+    })
+    yield put(deleteListsSuccess(action.payload))
+  } catch (error) {
+    yield put(deleteListsFailure(error))
+  }
+}
+
 function* listsSaga() {
   yield takeEvery(getListsFetch.type, getListsWorker)
   yield takeEvery(createListsFetch.type, createListWorker)
   yield takeEvery(updateListsFetch.type, updateListWorker)
+  yield takeEvery(deleteListsFetch.type, deleteListWorker)
 }
 
 export default listsSaga

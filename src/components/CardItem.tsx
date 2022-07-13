@@ -2,12 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../constants/urlConstants'
-import { TCard } from '../types/card'
 
+type Props = {
+  title: string
+  _id: string
+  boardId?: string
+}
 
-const CardItem: React.FC<TCard> = ({ title, _id }) => {
+const CardItem: React.FC<Props> = ({ title, _id, boardId }) => {
   return (
-    <StyledLink to={`${ROUTES.CARD_PATH}/${_id}`}>
+    <StyledLink to={`${ROUTES.BOARD_PATH}/${boardId}${ROUTES.CARD_PATH}/${_id}`}>
       <StyledCard>{title}</StyledCard>
     </StyledLink>
   )

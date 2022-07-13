@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
-import { TLists } from './type'
+import { StateLists } from './type'
 
-const initialState: TLists = {
+const initialState: StateLists = {
   lists: [],
   loading: false,
   error: null,
@@ -48,6 +48,17 @@ const listsSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+    deleteListsFetch: (state, _action) => {
+      state.loading = true
+    },
+    deleteListsSuccess: (state, action) => {
+      state.lists = state.lists.filter((item) => item._id !== action.payload)
+      state.loading = false
+    },
+    deleteListsFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
   },
 })
 
@@ -61,6 +72,9 @@ export const {
   updateListsFetch,
   updateListsSuccess,
   updateListsFailure,
+  deleteListsFetch,
+  deleteListsSuccess,
+  deleteListsFailure,
 } = listsSlice.actions
 
 export default listsSlice.reducer

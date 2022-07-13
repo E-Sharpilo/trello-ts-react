@@ -2,7 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from './Button'
 
-const ConfirmWindow = () => {
+type Props = {
+  deleteList: () => void
+}
+
+const ConfirmWindow: React.FC<Props> = ({deleteList}) => {
   return (
     <Root>
       <h3>Are you sure you want to delete this item?</h3>
@@ -12,7 +16,7 @@ const ConfirmWindow = () => {
       </div>
       <Wrapper>
         <StyledButton type='button'>Cancel</StyledButton>
-        <StyledButton type='button' background={'#b04632'}>Delete</StyledButton>
+        <StyledButton type='button' background={'#b04632'} onClick={deleteList}>Delete</StyledButton>
       </Wrapper>
     </Root>
   )

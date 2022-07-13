@@ -17,7 +17,7 @@ type Props = {
 }
 
 const Board = () => {
-  const boardId = useParams().id
+  const boardId = useParams().idb
   const lists = useAppSelector(selectLists)
   const boards = useAppSelector(selectBoards)
 
@@ -95,7 +95,7 @@ const Board = () => {
       </Container>
       <Wrapper>
         {lists.map((item) => (
-          <List key={item._id} title={item.title} _id={item._id} />
+          <List key={item._id} title={item.title} _id={item._id} boardId={boardId}/>
         ))}
         <AddListForm boardId={boardId} />
       </Wrapper>

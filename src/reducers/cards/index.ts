@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { TCards } from './type';
+import { StateCards } from './type';
 
 
-const initialState: TCards = {
+const initialState: StateCards = {
   cards: [],
   loading: false,
   error: null,

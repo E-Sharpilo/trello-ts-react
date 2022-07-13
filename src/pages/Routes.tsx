@@ -11,7 +11,7 @@ export const RoutesPage = () => {
       <Route path={ROUTES.MAIN_PATH} element={<Layout />}>
         <Route index element={<Boards />} />
         <Route path={ROUTES.TO_BOARD_PATH} element={<Board />} />
-        <Route path={ROUTES.TO_CARD_PATH} element={<CardPage />} />
+        <Route path={ROUTES.TO_BOARD_PATH + ROUTES.TO_CARD_PATH} element={<CardPage />} />
       </Route>
     </Routes>
   )

@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { cApi } from '../api/callApi'
+import { callApi } from '../api/callApi'
 import {
   createListsFailure,
   createListsFetch,
@@ -15,7 +15,7 @@ import {
 
 function* getListsWorker(action: AnyAction): Generator {
   try {
-    const res = yield call(cApi, `list/${action.payload}`, {})
+    const res = yield call(callApi, `list/${action.payload}`, {})
     yield put(getListsSuccess(res))
   } catch (error) {
     yield put(getListsFailure(error))
@@ -24,7 +24,7 @@ function* getListsWorker(action: AnyAction): Generator {
 
 function* createListWorker(action: AnyAction): Generator {
   try {
-    const res = yield call(cApi, 'list', {
+    const res = yield call(callApi, 'list', {
       method: 'POST',
       body: action.payload,
     })
@@ -36,7 +36,7 @@ function* createListWorker(action: AnyAction): Generator {
 
 function* updateListWorker(action: AnyAction): Generator {
   try {
-    const res = yield call(cApi, `list/${action.payload.id}`, {
+    const res = yield call(callApi, `list/${action.payload.id}`, {
       method: 'PATCH',
       body: action.payload,
     })

@@ -9,7 +9,7 @@ type Options = {
   query?: any
 }
 
-export const cApi = async (endpoint: string, options: Options) => {
+export const callApi = async (endpoint: string, options: Options) => {
   let Url = URL
 
   if (options.query) {

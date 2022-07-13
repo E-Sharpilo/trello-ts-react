@@ -2,7 +2,7 @@ import React from 'react'
 import { useAppSelector } from '../hooks'
 import { selectBoards } from '../selectors/boards'
 import { Link } from 'react-router-dom'
-import { url } from '../constants/urlConstants'
+import { ROUTES } from '../constants/urlConstants'
 import styled from 'styled-components'
 
 type StyleProps = {
@@ -15,7 +15,7 @@ const BoardsList = () => {
   return (
     <Root>
       {boards.map((board) => (
-        <StyledLink key={board._id} to={`${url.BOARD_PATH}/${board._id}`}>
+        <StyledLink key={board._id} to={`${ROUTES.BOARD_PATH}/${board._id}`}>
           <BoardItem>
             <BoardColor backgroundColor={board.color} />
             <div>{board.title}</div>

@@ -1,6 +1,6 @@
 import { AnyAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { cApi } from '../api/callApi'
+import { callApi } from '../api/callApi'
 import {
   createCardsFailure,
   createCardsFetch,
@@ -14,7 +14,7 @@ function* getCardsWorker(action: AnyAction): Generator {
   try {
     yield put(getCardsSuccess([]))
 
-    const res = yield call(cApi, 'card', {
+    const res = yield call(callApi, 'card', {
       query: {
         listId: action.payload
       },
@@ -28,7 +28,7 @@ function* getCardsWorker(action: AnyAction): Generator {
 
 function* createCardsWorker(action: AnyAction): Generator {
   try {
-    const res = yield call(cApi, 'card', {
+    const res = yield call(callApi, 'card', {
       method: 'POST',
       body: action.payload,
     })

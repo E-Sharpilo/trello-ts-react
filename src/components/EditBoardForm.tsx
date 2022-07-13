@@ -20,17 +20,18 @@ const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
 
   const formik = useFormik({
     initialValues: {
-      title: title,
-      id,
+      title: title
     },
     validate,
     onSubmit: () => {
+      console.log(formik.values);
+      
       updateTitle()
     },
   })
 
   const updateTitle = () => {
-    dispatch(updateBoardsFetch(formik.values))
+    dispatch(updateBoardsFetch({...formik.values, id}))
   }
 
   return (

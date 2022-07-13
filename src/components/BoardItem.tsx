@@ -5,7 +5,7 @@ import EditBoardForm from './EditBoardForm'
 import { CloseButton } from './share/CloseButton'
 import Dots from './share/icons/Dots'
 import { Link } from 'react-router-dom'
-import { url } from '../constants/urlConstants'
+import { ROUTES } from '../constants/urlConstants'
 
 type Props = {
   board: TBoard
@@ -36,7 +36,7 @@ const BoardItem: React.FC<Props> = ({ board }) => {
             </Popup>
           </>
         ) : (
-          <StyledLink to={`${url.BOARD_PATH}/${board._id}`}>{board.title}</StyledLink>
+          <StyledLink to={`${ROUTES.BOARD_PATH}/${board._id}`}>{board.title}</StyledLink>
         )}
       </BoardLink>
     </Item>

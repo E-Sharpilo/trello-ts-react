@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { url } from '../constants/urlConstants'
+import { ROUTES } from '../constants/urlConstants'
 import { TCard } from '../types/card'
 
 
 const CardItem: React.FC<TCard> = ({ title, _id }) => {
   return (
-    <StyledLink to={`${url.CARD_PATH}/${_id}`}>
+    <StyledLink to={`${ROUTES.CARD_PATH}/${_id}`}>
       <StyledCard>{title}</StyledCard>
     </StyledLink>
   )

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Button from './share/Button'
 import CreateBoardForm from './CreateBoardForm'
 import Modal from './share/Modal'
-import { url } from '../constants/urlConstants'
+import { ROUTES } from '../constants/urlConstants'
 import { CloseButton } from './share/CloseButton'
 import BoardsList from './BoardList'
 
@@ -23,16 +23,16 @@ const Header: React.FC = () => {
   return (
     <StyledHeader>
       <Nav>
-        <Link to={url.MAIN_PATH}>
+        <Link to={ROUTES.MAIN_PATH}>
           <LogoWrapper>
             <Logo />
           </LogoWrapper>
         </Link>
-        {isVisiblePopup ? (
+        <Button arrow type='button' onClick={togglePopup}>
+          My boards
+        </Button>
+        {isVisiblePopup && (
           <>
-            <Button arrow type='button' onClick={togglePopup}>
-              My boards
-            </Button>
             <Overlay onClick={togglePopup}></Overlay>
             <Popup>
               <CloseButton onClick={togglePopup} />
@@ -40,10 +40,6 @@ const Header: React.FC = () => {
               <BoardsList />
             </Popup>
           </>
-        ) : (
-          <Button arrow type='button' onClick={togglePopup}>
-            My boards
-          </Button>
         )}
         <Button type='button' onClick={toggleModal} background='#014a75'>
           Create

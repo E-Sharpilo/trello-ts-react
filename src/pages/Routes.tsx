@@ -2,16 +2,16 @@ import Layout from '../components/Layout'
 import Board from './Board'
 import Boards from './Boards'
 import { Routes, Route } from 'react-router-dom'
-import { url } from '../constants/urlConstants'
+import { ROUTES } from '../constants/urlConstants'
 import { CardPage } from './CardPage'
 
 export const RoutesPage = () => {
   return (
     <Routes>
-      <Route path={url.MAIN_PATH} element={<Layout />}>
+      <Route path={ROUTES.MAIN_PATH} element={<Layout />}>
         <Route index element={<Boards />} />
-        <Route path={url.BOARD_PATH + '/:id'} element={<Board />} />
-        <Route path={url.CARD_PATH + '/:id'} element={<CardPage />} />
+        <Route path={ROUTES.TO_BOARD_PATH} element={<Board />} />
+        <Route path={ROUTES.TO_CARD_PATH} element={<CardPage />} />
       </Route>
     </Routes>
   )

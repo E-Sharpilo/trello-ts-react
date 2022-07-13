@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { cApi } from '../api/callApi'
+import { callApi } from '../api/callApi'
 import {
   createBoardsFailure,
   createBoardsFetch,
@@ -18,7 +18,7 @@ import {
 
 function* getBoardsWorker(): Generator {
   try {
-    const res = yield call(cApi, 'board', {})
+    const res = yield call(callApi, 'board', {})
     yield put(getBoardsSuccess(res))
   } catch (error) {
     yield put(getBoardsFailure(error))
@@ -27,7 +27,7 @@ function* getBoardsWorker(): Generator {
 
 function* createBoardWorker(action: AnyAction): Generator {
   try {
-    const res = yield call(cApi, 'board', {
+    const res = yield call(callApi, 'board', {
       method: 'POST',
       body: action.payload,
     })
@@ -39,7 +39,7 @@ function* createBoardWorker(action: AnyAction): Generator {
 
 function* updateBoardWorker(action: AnyAction): Generator {
   try {
-    const res = yield call(cApi, `board/${action.payload.id}`, {
+    const res = yield call(callApi, `board/${action.payload.id}`, {
       method: 'PATCH',
       body: action.payload,
     })
@@ -51,7 +51,7 @@ function* updateBoardWorker(action: AnyAction): Generator {
 
 function* deleteBoardWorker(action: AnyAction): Generator {
   try {
-    yield call(cApi, `board/${action.payload}`, {
+    yield call(callApi, `board/${action.payload}`, {
       method: 'DELETE',
     })
     yield put(deleteBoardsSuccess(action.payload))

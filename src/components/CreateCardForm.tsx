@@ -23,18 +23,17 @@ const CreateCardForm: React.FC<Props> = ({ listId }) => {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      listId: listId,
+      title: ''
     },
     onSubmit: () => {
       addNewCard()
-      visibleToggle()
-      formik.resetForm()
     },
   })
 
   const addNewCard = useCallback(() => {
-    dispatch(createCardsFetch(formik.values))
+    dispatch(createCardsFetch({...formik.values, listId}))
+    visibleToggle()
+    formik.resetForm()
   }, [dispatch, formik.values])
 
   

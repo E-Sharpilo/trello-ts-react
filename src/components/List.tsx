@@ -33,16 +33,14 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
   const formik = useFormik({
     initialValues: {
       title,
-      id: _id,
     },
     validate,
     onSubmit: () => {
       updateTitle()
-      setIsEditing(false)
     },
   })
 
-  const onDblClickHandler = useCallback(() => {
+  const doubleClickHandler = useCallback(() => {
     setIsEditing(true)
   }, [isEditing])
 
@@ -51,7 +49,8 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
   }, [formik.values])
 
   const updateTitle = useCallback(() => {
-    dispatch(updateListsFetch(formik.values))
+    dispatch(updateListsFetch({...formik.values, id: _id}))
+    setIsEditing(false)
   }, [dispatch, formik.values])
 
   const toggleModal = useCallback(() => {
@@ -77,7 +76,7 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
           />
         </form>
       ) : (
-        <Title onDoubleClick={onDblClickHandler}>{title}</Title>
+        <Title onDoubleClick={doubleClickHandler}>{title}</Title>
       )}
       <Wrapper>
         <Trash onClick={toggleModal} />
@@ -89,7 +88,7 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
       </CardList>
       <CreateCardForm listId={_id} />
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
-        <ConfirmWindow deleteList={deleteList}/>
+        <ConfirmWindow deleteList={deleteList} onClose={toggleModal}/>
       </Modal>
     </Root>
   )

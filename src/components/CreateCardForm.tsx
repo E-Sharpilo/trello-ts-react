@@ -2,7 +2,7 @@ import { useFormik } from 'formik'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch } from '../hooks'
-import { createCardsFetch} from '../reducers/cards'
+import { createCardsFetch } from '../reducers/cards'
 import Button from './share/Button'
 import { CloseButton } from './share/CloseButton'
 
@@ -14,7 +14,6 @@ type Props = {
 const CreateCardForm: React.FC<Props> = ({ listId }) => {
   const dispatch = useAppDispatch()
 
-
   const [isVisibleInput, setIsVisibleInput] = useState(false)
 
   const visibleToggle = useCallback(() => {
@@ -23,20 +22,22 @@ const CreateCardForm: React.FC<Props> = ({ listId }) => {
 
   const formik = useFormik({
     initialValues: {
-      title: ''
+      title: '',
     },
     onSubmit: () => {
       addNewCard()
     },
   })
+  const onBlurHandler = useCallback(() => {
+    formik.submitForm()
+  }, [formik.values])
 
   const addNewCard = useCallback(() => {
-    dispatch(createCardsFetch({...formik.values, listId}))
+    dispatch(createCardsFetch({ ...formik.values, listId }))
     visibleToggle()
     formik.resetForm()
   }, [dispatch, formik.values])
 
-  
   return isVisibleInput ? (
     <form onSubmit={formik.handleSubmit}>
       <TextArea
@@ -45,6 +46,7 @@ const CreateCardForm: React.FC<Props> = ({ listId }) => {
         id='title'
         name='title'
         placeholder='Enter card title...'
+        onBlur={onBlurHandler}
       />
       <Wrapper>
         <StyledShortButton type='submit'>Add Card</StyledShortButton>

@@ -23,9 +23,7 @@ const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
       title: title
     },
     validate,
-    onSubmit: () => {
-      console.log(formik.values);
-      
+    onSubmit: () => {      
       updateTitle()
     },
   })

@@ -3,10 +3,12 @@ import styled from 'styled-components'
 import Button from './Button'
 
 type Props = {
-  deleteList: () => void
+  deleteList?: () => void
+  deleteCard?: () => void
+  onClose: () => void
 }
 
-const ConfirmWindow: React.FC<Props> = ({deleteList}) => {
+const ConfirmWindow: React.FC<Props> = ({deleteList, onClose, deleteCard}) => {
   return (
     <Root>
       <h3>Are you sure you want to delete this item?</h3>
@@ -15,8 +17,8 @@ const ConfirmWindow: React.FC<Props> = ({deleteList}) => {
         to continue
       </div>
       <Wrapper>
-        <StyledButton type='button'>Cancel</StyledButton>
-        <StyledButton type='button' background={'#b04632'} onClick={deleteList}>Delete</StyledButton>
+        <StyledButton type='button' onClick={onClose}>Cancel</StyledButton>
+        <StyledButton type='button' background={'#b04632'} onClick={deleteList || deleteCard}>Delete</StyledButton>
       </Wrapper>
     </Root>
   )

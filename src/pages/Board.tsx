@@ -48,12 +48,10 @@ const Board = () => {
   const formik = useFormik({
     initialValues: {
       title: '',
-      id: boardId,
     },
     validate,
     onSubmit: () => {
       updateTitle()
-      setIsEditing(false)
     },
   })
 
@@ -67,12 +65,13 @@ const Board = () => {
     formik.submitForm()
   }, [formik.values])
 
-  const bdlClickHandler = useCallback(() => {
+  const doubleClickHandler = useCallback(() => {
     setIsEditing(true)
   }, [isEditing])
 
   const updateTitle = useCallback(() => {
-    dispatch(updateBoardsFetch(formik.values))
+    dispatch(updateBoardsFetch({ ...formik.values, id: boardId }))
+    setIsEditing(false)
   }, [dispatch, formik.values])
 
   return (
@@ -80,7 +79,7 @@ const Board = () => {
       <Container>
         {isEditing ? (
           <form onSubmit={formik.handleSubmit}>
-            <input
+            <Input
               onChange={formik.handleChange}
               value={formik.values.title}
               type='text'
@@ -90,12 +89,12 @@ const Board = () => {
             />
           </form>
         ) : (
-          <Title onDoubleClick={bdlClickHandler}>{board?.title}</Title>
+          <Title onDoubleClick={doubleClickHandler}>{board?.title}</Title>
         )}
       </Container>
       <Wrapper>
         {lists.map((item) => (
-          <List key={item._id} title={item.title} _id={item._id} boardId={boardId}/>
+          <List key={item._id} title={item.title} _id={item._id} boardId={boardId} />
         ))}
         <AddListForm boardId={boardId} />
       </Wrapper>
@@ -109,10 +108,14 @@ const Wrapper = styled.div`
   align-items: start;
 `
 
-const Title = styled.h1`
+const Title = styled.div`
+  font-size: 22px;
+  padding: 5px;
+  font-weight: 800;
   color: #fff;
 `
 const Container = styled.div`
+  padding-top: 10px;
   margin-bottom: 20px;
 `
 
@@ -121,6 +124,12 @@ const StyledBoard = styled.div<Props>`
   padding: 0 20px;
   background-color: ${(prop) => (prop.background ? prop.background : 'blue')};
   overflow-x: auto;
+`
+
+const Input = styled.input`
+  font-size: 22px;
+  padding: 5px;
+  font-weight: 800;
 `
 
 export default React.memo(Board)

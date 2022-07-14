@@ -58,8 +58,6 @@ const AddListForm: React.FC<Props> = ({ boardId }) => {
         id='title'
         name='title'
       />
-      {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-
       <Wrapper>
         <StyledShortButton type='submit' background='transparent'>
           Add list
@@ -87,11 +85,6 @@ const Input = styled.input`
   border-radius: 3px;
   padding: 5px;
   border-color: transparent;
-`
-
-const ErrorMassage = styled.div`
-  color: tomato;
-  margin-bottom: 5px;
 `
 const Wrapper = styled.div`
   position: relative;

@@ -3,22 +3,20 @@ import styled from 'styled-components'
 import Button from './Button'
 
 type Props = {
-  deleteList?: () => void
-  deleteCard?: () => void
+  onDelete?: () => void
   onClose: () => void
+  title: string
+  text: string
 }
 
-const ConfirmWindow: React.FC<Props> = ({deleteList, onClose, deleteCard}) => {
+const ConfirmWindow: React.FC<Props> = ({onDelete, onClose, title, text}) => {
   return (
     <Root>
-      <h3>Are you sure you want to delete this item?</h3>
-      <div>
-        You don&apos;t have previous to restore. This item would be deleted, are you sure you want
-        to continue
-      </div>
+      <h3>{title}</h3>
+      <div>{text}</div>
       <Wrapper>
         <StyledButton type='button' onClick={onClose}>Cancel</StyledButton>
-        <StyledButton type='button' background={'#b04632'} onClick={deleteList || deleteCard}>Delete</StyledButton>
+        <StyledButton type='button' background={'#b04632'} onClick={onDelete}>Delete</StyledButton>
       </Wrapper>
     </Root>
   )

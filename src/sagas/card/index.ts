@@ -1,6 +1,6 @@
-import { AnyAction } from '@reduxjs/toolkit'
+import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { callApi } from '../api/callApi'
+import { callApi } from '../../api/callApi'
 import {
   deleteCardFailure,
   deleteCardFetch,
@@ -11,20 +11,22 @@ import {
   updateCardFailure,
   updateCardFetch,
   updateCardSuccess,
-} from '../reducers/card'
+} from '../../reducers/card'
+import { TCard } from '../../types/card'
+import { TUpdateCardSuccess } from './type'
 
-function* getCardWorker(action: AnyAction): Generator {
+function* getCardWorker(action: PayloadAction<string>) {
   try {
-    const res = yield call(callApi, `card/${action.payload}`, {})
+    const res: TCard = yield call(callApi, `card/${action.payload}`, {})
     yield put(getCardSuccess(res))
   } catch (error) {
     yield put(getCardFailure(error))
   }
 }
 
-function* updateCardWorker(action: AnyAction): Generator {
-  try {    
-    const res = yield call(callApi, `card/${action.payload.id}`, {
+function* updateCardWorker(action: PayloadAction<TUpdateCardSuccess>) {
+  try {
+    const res: TCard = yield call(callApi, `card/${action.payload.id}`, {
       method: 'PATCH',
       body: action.payload,
     })
@@ -34,7 +36,7 @@ function* updateCardWorker(action: AnyAction): Generator {
   }
 }
 
-function* deleteCardWorker(action: AnyAction): Generator {
+function* deleteCardWorker(action: PayloadAction<string>) {
   try {
     yield call(callApi, `card/${action.payload}`, {
       method: 'DELETE',

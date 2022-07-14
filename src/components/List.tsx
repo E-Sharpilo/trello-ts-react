@@ -49,7 +49,7 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
   }, [formik.values])
 
   const updateTitle = useCallback(() => {
-    dispatch(updateListsFetch({...formik.values, id: _id}))
+    dispatch(updateListsFetch({ ...formik.values, id: _id }))
     setIsEditing(false)
   }, [dispatch, formik.values])
 
@@ -83,12 +83,19 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
       </Wrapper>
       <CardList>
         {cardsByList.map((item) => (
-          <CardItem key={item._id} {...item} boardId={boardId}/>
+          <CardItem key={item._id} {...item} boardId={boardId} />
         ))}
       </CardList>
       <CreateCardForm listId={_id} />
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
-        <ConfirmWindow deleteList={deleteList} onClose={toggleModal}/>
+        <ConfirmWindow
+          onDelete={deleteList}
+          onClose={toggleModal}
+          title={'Are you sure you want to delete this item?'}
+          text={
+            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+          }
+        />
       </Modal>
     </Root>
   )

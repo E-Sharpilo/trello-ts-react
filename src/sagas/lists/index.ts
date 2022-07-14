@@ -1,6 +1,6 @@
-import { AnyAction } from 'redux'
+import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { callApi } from '../api/callApi'
+import { callApi } from '../../api/callApi'
 import {
   createListsFailure,
   createListsFetch,
@@ -14,20 +14,26 @@ import {
   updateListsFailure,
   updateListsFetch,
   updateListsSuccess,
-} from '../reducers/lists'
+} from '../../reducers/lists'
+import { TList } from '../../types/list'
+import { TCreateListSuccess, TUpdateListSuccess } from './type'
 
-function* getListsWorker(action: AnyAction): Generator {
+function* getListsWorker(action: PayloadAction<string>){
   try {
-    const res = yield call(callApi, `list/${action.payload}`, {})
+    const res:TList = yield call(callApi, 'list', {
+      query: {
+        boardId: action.payload
+      }
+    })
     yield put(getListsSuccess(res))
   } catch (error) {
     yield put(getListsFailure(error))
   }
 }
 
-function* createListWorker(action: AnyAction): Generator {
+function* createListWorker(action: PayloadAction<TCreateListSuccess>){
   try {
-    const res = yield call(callApi, 'list', {
+    const res: TList = yield call(callApi, 'list', {
       method: 'POST',
       body: action.payload,
     })
@@ -37,9 +43,9 @@ function* createListWorker(action: AnyAction): Generator {
   }
 }
 
-function* updateListWorker(action: AnyAction): Generator {
+function* updateListWorker(action: PayloadAction<TUpdateListSuccess>) {
   try {
-    const res = yield call(callApi, `list/${action.payload.id}`, {
+    const res: TList = yield call(callApi, `list/${action.payload.id}`, {
       method: 'PATCH',
       body: action.payload,
     })
@@ -49,7 +55,7 @@ function* updateListWorker(action: AnyAction): Generator {
   }
 }
 
-function* deleteListWorker(action: AnyAction): Generator {
+function* deleteListWorker(action: PayloadAction<string>) {
   try {
     yield call(callApi, `list/${action.payload}`, {
       method: 'DELETE',

@@ -35,11 +35,11 @@ const AddListForm: React.FC<Props> = ({ boardId }) => {
     },
     validate,
     onSubmit: () => {
-      addNewList()
+      createNewList()
     },
   })
 
-  const addNewList = useCallback(() => {
+  const createNewList = useCallback(() => {
     dispatch(createListsFetch({...formik.values, boardId}))
     formik.values.title = ''
     handleClick()

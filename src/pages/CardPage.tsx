@@ -13,7 +13,6 @@ import { deleteCardFetch, getCardFetch, updateCardFetch } from '../reducers/card
 import { selectCard } from '../selectors/card'
 import { validate } from '../utils/validateForms'
 
-
 export const CardPage: React.FC = () => {
   const [isTitleEditing, setIsTitleEditing] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -90,12 +89,21 @@ export const CardPage: React.FC = () => {
         <Title onDoubleClick={doubleClickHandler}>{card.title}</Title>
       )}
 
+      <div>Tags</div>
+
       <Wrapper>
         <Trash onClick={toggleModal} />
       </Wrapper>
 
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
-        <ConfirmWindow deleteCard={deleteCard} onClose={toggleModal} />
+        <ConfirmWindow
+          onDelete={deleteCard}
+          onClose={toggleModal}
+          title={'Are you sure you want to delete this item?'}
+          text={
+            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+          }
+        />
       </Modal>
     </Container>
   )

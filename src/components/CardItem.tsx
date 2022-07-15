@@ -7,12 +7,16 @@ type Props = {
   title: string
   _id: string
   boardId?: string
+  description?: string
 }
 
-const CardItem: React.FC<Props> = ({ title, _id, boardId }) => {
+const CardItem: React.FC<Props> = ({ title, _id, boardId, description }) => {
   return (
     <StyledLink to={`${ROUTES.BOARD_PATH}/${boardId}${ROUTES.CARD_PATH}/${_id}`}>
-      <StyledCard>{title}</StyledCard>
+      <StyledCard>
+        {title}
+        {description && 'desk'}
+      </StyledCard>
     </StyledLink>
   )
 }
@@ -21,7 +25,7 @@ export default React.memo(CardItem)
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-` 
+`
 
 const StyledCard = styled.div`
   background-color: #fff;

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { createListsFetch } from '../reducers/lists'
 import Button from './share/Button'
-import { CloseButton } from './share/CloseButton'
+import { CloseButton } from './share/icons/CloseButton'
 
 type Props = {
   boardId?: string

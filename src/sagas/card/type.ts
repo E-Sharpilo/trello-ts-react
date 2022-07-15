@@ -1,4 +1,5 @@
 export type TUpdateCardSuccess = {
-  title: string
+  title?: string
   id: string
+  description?: string
 }

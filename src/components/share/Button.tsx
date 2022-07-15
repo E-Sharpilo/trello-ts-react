@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ArrowSvg from './icons/ArrowSvg'
+import ArrowSvg from './icons/ArrowDownSvg'
 
 interface Props {
   children: React.ReactNode

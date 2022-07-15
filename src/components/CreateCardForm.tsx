@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { useAppDispatch } from '../hooks'
 import { createCardsFetch } from '../reducers/cards'
 import Button from './share/Button'
-import { CloseButton } from './share/CloseButton'
+import { CloseButton } from './share/icons/CloseButton'
+import TextareaAutoSize from 'react-textarea-autosize';
 
 type Props = {
   boardId?: string
@@ -62,11 +63,11 @@ const CreateCardForm: React.FC<Props> = ({ listId }) => {
 
 export default React.memo(CreateCardForm)
 
-const TextArea = styled.textarea`
+const TextArea = styled(TextareaAutoSize)`
   border-radius: 3px;
   border: none;
   width: 100%;
-  resize: vertical;
+  resize: none;
   min-height: 50px;
   overflow-y: hidden;
   box-shadow: 0 1px 0 #091e4240;

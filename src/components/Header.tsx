@@ -5,7 +5,7 @@ import Button from './share/Button'
 import CreateBoardForm from './CreateBoardForm'
 import Modal from './share/Modal'
 import { ROUTES } from '../constants/urlConstants'
-import { CloseButton } from './share/CloseButton'
+import { CloseButton } from './share/icons/CloseButton'
 import BoardsList from './BoardList'
 
 const Header: React.FC = () => {

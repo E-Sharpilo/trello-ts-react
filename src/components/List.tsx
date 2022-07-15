@@ -83,7 +83,7 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
       </Wrapper>
       <CardList>
         {cardsByList.map((item) => (
-          <CardItem key={item._id} {...item} boardId={boardId} />
+          <CardItem key={item._id} {...item} boardId={boardId}/>
         ))}
       </CardList>
       <CreateCardForm listId={_id} />

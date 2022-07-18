@@ -1,22 +1,32 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
+import { useAppDispatch } from '../hooks'
+import { setChosenTag } from '../reducers/tags'
 import PencilSvg from './share/icons/PencilSvg'
 
 type Props = {
   color: string
   title?: string
   editingToggle: () => void
+  id: string
 }
 
 type StyleProps = {
   backgroundColor: string
 }
 
-const Tag: React.FC<Props> = ({ color, title, editingToggle }) => {
+const Tag: React.FC<Props> = ({ color, title, editingToggle, id}) => {
+  const dispatch = useAppDispatch()
+
+  const setTag = useCallback(() => {
+    editingToggle()
+    dispatch(setChosenTag({id, color, title}))
+  }, [dispatch, id])
+
   return (
     <Root>
       <TagColor backgroundColor={color}>{title}</TagColor>
-      <EditButton onClick={editingToggle}>
+      <EditButton onClick={setTag}>
         <PencilSvg />
       </EditButton>
     </Root>

@@ -1,32 +1,22 @@
 /* eslint-disable no-unused-vars */
+import { create } from 'domain'
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { createTagsFetch, createTagsSuccess } from '../reducers/tags'
+import { createTagsFetch } from '../reducers/tags'
 import { selectCard } from '../selectors/card'
 import { selectTags } from '../selectors/tags'
 import ColorPicker from './ColorPicker'
 import Button from './share/Button'
 import { ArrowLeft } from './share/icons/ArrowLeft'
 
-const colors = [
-  '#61bd4f',
-  '#f2d600',
-  '#ff9f1a',
-  '#eb5a46',
-  '#c377e0',
-  '#0079bf',
-  '#00c2e0',
-  '#51e898',
-  '#ff78cb',
-  '#344563',
-]
 
 type Props = {
   onClose: () => void
+  colors: string[]
 }
 
-const CreateTagForm: React.FC<Props> = ({ onClose }) => {
+const CreateTagForm: React.FC<Props> = ({ onClose, colors }) => {
   const [title, setTitle] = useState('')
   const [color, setColor] = useState(colors[0])
 
@@ -73,19 +63,34 @@ const CreateTagForm: React.FC<Props> = ({ onClose }) => {
         <ArrowLeft onClick={onClose} />
       </Wrapper>
       <Title>Create Tag</Title>
-      <form onSubmit={submitHandle}>
-        <div>Title</div>
-        <input value={title} onChange={inputHandle} />
+      <form onSubmit={submitHandle} id='create'>
+        <Label>Title</Label>
+        <Input value={title} onChange={inputHandle} />
       </form>
       <ColorPicker backgroundColor={color} colors={colors} setBackgroundColor={setColor} />
-      <Button type='submit' background='#0079bf'>
+      <StyledButton type='submit' background='#0079bf' form='create'>
         Create Tag
-      </Button>
+      </StyledButton>
     </Root>
   )
 }
 
 export default React.memo(CreateTagForm)
+
+const Label = styled.div`
+  font-size: 18px;
+  margin-top: 10px;
+`
+
+const StyledButton = styled(Button)`
+  margin-top: 10px;
+`
+
+const Input = styled.input`
+  width: 100%;
+  padding: 5px;
+  margin: 10px 0;
+`
 
 const Title = styled.div`
   padding: 5px 40px;

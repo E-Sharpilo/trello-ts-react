@@ -9,6 +9,19 @@ import Button from './share/Button'
 import { CloseButton } from './share/icons/CloseButton'
 import Tag from './Tag'
 
+const colors = [
+  '#61bd4f',
+  '#f2d600',
+  '#ff9f1a',
+  '#eb5a46',
+  '#c377e0',
+  '#0079bf',
+  '#00c2e0',
+  '#51e898',
+  '#ff78cb',
+  '#344563',
+]
+
 type Props = {
   onClose: () => void
 }
@@ -36,9 +49,9 @@ const TagsPicker: React.FC<Props> = ({ onClose }) => {
     <Root>
       <CloseButton onClick={onClose} />
       {isCreate ? (
-        <CreateTagForm onClose={createToggle} />
+        <CreateTagForm onClose={createToggle} colors={colors}/>
       ) : isEditing ? (
-        <EditTagForm onClose={editingToggle}/>
+        <EditTagForm onClose={editingToggle} colors={colors}/>
       ) : (
         <>
           <Title>Tags</Title>
@@ -48,6 +61,7 @@ const TagsPicker: React.FC<Props> = ({ onClose }) => {
                 key={tag._id}
                 title={tag.title}
                 color={tag.color}
+                id={tag._id}
                 editingToggle={editingToggle}
               />
             ))}

@@ -8,6 +8,7 @@ interface Props {
   background?: string
   onClick?: () => void
   type: string
+  form?: string
 }
 
 const Button: React.FC<Props> = (props: Props) => {

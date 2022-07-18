@@ -3,3 +3,11 @@ export type TCreateTagsSuccess = {
   color: string
   cardId: string
 }
+
+export type TUpdateTagsSuccess = {
+  title?: string
+  color: string
+  id: string
+}
+
+

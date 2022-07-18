@@ -4,6 +4,11 @@ import { StateTags} from './type'
 
 const initialState: StateTags = {
   tags: [],
+  tag: {
+    id: '',
+    title: '',
+    color: ''
+  },
   loading: false,
   error: null,
 }
@@ -34,6 +39,34 @@ const tagsSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+    setChosenTag: (state, action) => {
+      state.tag = action.payload
+    },
+    deleteTagsFetch: (state, _action) => {
+      state.loading = true
+    },
+    deleteTagsSuccess: (state, action) => {
+      state.tags = state.tags.filter((item) => item._id !== action.payload)
+      state.loading = false
+    },
+    deleteTagsFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
+    updateTagsFetch: (state, _action) => {
+      state.loading = true
+    },
+    updateTagsSuccess: (state, action) => {
+      const index = state.tags.findIndex((item) => item._id === action.payload._id)
+      if (index >= 0) {
+        state.tags.splice(index, 1, action.payload)
+      }
+      state.loading = false
+    },
+    updateTagsFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
   }
 })
 
@@ -44,6 +77,13 @@ export const {
   createTagsFetch,
   createTagsSuccess,
   createTagsFailure,
+  deleteTagsFetch,
+  deleteTagsSuccess,
+  deleteTagsFailure,
+  setChosenTag,
+  updateTagsFetch,
+  updateTagsSuccess,
+  updateTagsFailure,
 } = tagsSlice.actions
 
 

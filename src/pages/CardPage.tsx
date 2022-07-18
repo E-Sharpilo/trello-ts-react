@@ -107,7 +107,7 @@ export const CardPage: React.FC = () => {
       ) : (
         <Title onDoubleClick={doubleClickHandler}>{card.title}</Title>
       )}
-      <div>Tags</div>
+      <div>Tags....................................</div>
 
       <CardDescription />
 
@@ -180,6 +180,7 @@ const Container = styled.div`
   padding-left: 40px;
   margin: auto;
   margin-top: 50px;
+  margin-bottom: 50px;
   min-height: 800px;
   width: 100%;
   max-width: 768px;

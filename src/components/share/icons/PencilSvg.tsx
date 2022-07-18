@@ -3,8 +3,9 @@ import { SVGProps, memo } from 'react'
 const PencilSvg = (props: SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
-    height={30}
-    width={29}
+    height={20}
+    width={19}
+    viewBox="0 0 29 30"
     xmlSpace="preserve"
     xmlns="http://www.w3.org/2000/svg"
   >

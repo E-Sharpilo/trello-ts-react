@@ -7,18 +7,18 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { getCardsFetch } from '../reducers/cards'
 import { validate } from '../utils/validateForms'
 import { useFormik } from 'formik'
-import { updateListsFetch } from '../reducers/lists'
+import { deleteListsFetch, updateListsFetch } from '../reducers/lists'
 import Trash from './share/icons/Trash'
 import Modal from './share/Modal'
 import ConfirmWindow from './share/ConfirmWindow'
 
-
 type Props = {
   title: string
   _id: string
+  boardId?: string
 }
 
-const List: React.FC<Props> = ({ title, _id }) => {
+const List: React.FC<Props> = ({ title, _id, boardId }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -58,6 +58,11 @@ const List: React.FC<Props> = ({ title, _id }) => {
     setIsModalOpen(!isModalOpen)
   }, [isModalOpen])
 
+  const deleteList = useCallback(() => {
+    dispatch(deleteListsFetch(_id))
+    toggleModal()
+  }, [dispatch])
+
   return (
     <Root>
       {isEditing ? (
@@ -75,16 +80,16 @@ const List: React.FC<Props> = ({ title, _id }) => {
         <Title onDoubleClick={onDblClickHandler}>{title}</Title>
       )}
       <Wrapper>
-        <Trash onClick={toggleModal}/>
+        <Trash onClick={toggleModal} />
       </Wrapper>
       <CardList>
         {cardsByList.map((item) => (
-          <CardItem key={item._id} {...item} />
+          <CardItem key={item._id} {...item} boardId={boardId}/>
         ))}
       </CardList>
       <CreateCardForm listId={_id} />
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
-        <ConfirmWindow/>
+        <ConfirmWindow deleteList={deleteList}/>
       </Modal>
     </Root>
   )

@@ -1,6 +1,6 @@
 import { TList } from '../../types/list'
 
-export type TLists = {
+export type StateLists = {
   lists: TList[]
   loading: boolean
   error: string | null

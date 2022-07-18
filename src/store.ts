@@ -4,6 +4,7 @@ import createSagaMiddleware from '@redux-saga/core'
 import rootSaga from './sagas'
 import listsReducer from './reducers/lists'
 import cardsReducer from './reducers/cards'
+import cardReducer from './reducers/card'
 
 const saga = createSagaMiddleware()
 
@@ -11,7 +12,8 @@ const store = configureStore({
   reducer: {
     boards: boardsReducer,
     lists: listsReducer,
-    cards: cardsReducer
+    cards: cardsReducer,
+    card: cardReducer
   },
   middleware:[saga]
 })

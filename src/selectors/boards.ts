@@ -1,3 +1,3 @@
-import { TBoards } from '../reducers/boards/type';
+import { StateBoards } from '../reducers/boards/type';
 
-export const selectBoards = (state:{ boards: TBoards }) => state.boards.boards
+export const selectBoards = (state:{ boards: StateBoards }) => state.boards.boards

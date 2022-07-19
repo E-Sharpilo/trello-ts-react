@@ -15,7 +15,7 @@ const CardItem: React.FC<Props> = ({ title, _id, boardId, description }) => {
     <StyledLink to={`${ROUTES.BOARD_PATH}/${boardId}${ROUTES.CARD_PATH}/${_id}`}>
       <StyledCard>
         {title}
-        {description && 'desk'}
+        {description}
       </StyledCard>
     </StyledLink>
   )

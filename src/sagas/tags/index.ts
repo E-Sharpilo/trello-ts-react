@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { callApi } from '../../api/callApi'
+import { getCardTagsFetch } from '../../reducers/cardTags'
 import {
   createTagsFailure,
   createTagsFetch,
@@ -33,6 +34,7 @@ function* createTagsWorker(action: PayloadAction<TCreateTagsSuccess>) {
       method: 'POST',
       body: action.payload,
     })
+    yield put(getCardTagsFetch(action.payload.cardId))
     yield put(createTagsSuccess(res))
   } catch (error) {
     yield put(createTagsFailure(error))

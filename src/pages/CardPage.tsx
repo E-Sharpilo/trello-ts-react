@@ -15,6 +15,8 @@ import { getBoardsFetch } from '../reducers/boards'
 import { deleteCardFetch, getCardFetch, updateCardFetch } from '../reducers/card'
 import { selectCard } from '../selectors/card'
 import { validate } from '../utils/validateForms'
+import Tags from '../components/Tags'
+import { getTagsFetch } from '../reducers/tags'
 
 export const CardPage: React.FC = () => {
   const [isTitleEditing, setIsTitleEditing] = useState(false)
@@ -36,14 +38,18 @@ export const CardPage: React.FC = () => {
   }, [dispatch, cardId])
 
   useEffect(() => {
+    dispatch(getTagsFetch(null))
+  }, [dispatch])
+
+  useEffect(() => {
     if (card) {
-      formik.values.title = card.title
+      formik.values.title = card.card.title
     }
   }, [card])
 
   const formik = useFormik({
     initialValues: {
-      title: card.title,
+      title: card.card.title,
     },
     validate,
     onSubmit: () => {
@@ -77,6 +83,10 @@ export const CardPage: React.FC = () => {
     navigate(`${ROUTES.BOARD_PATH}/${boardId}`)
   }, [dispatch, cardId])
 
+  if (card.loading) {
+    return <>Loading</>
+  }
+
   return (
     <Container>
       <Link to={`${ROUTES.BOARD_PATH}/${boardId}`}>
@@ -87,9 +97,9 @@ export const CardPage: React.FC = () => {
       </TagsButton>
       {isPopupOpen && (
         <>
-          <Overlay onClick={togglePopup}/>
+          <Overlay onClick={togglePopup} />
           <Popup>
-            <TagsPicker onClose={togglePopup}/>
+            <TagsPicker onClose={togglePopup} />
           </Popup>
         </>
       )}
@@ -105,11 +115,12 @@ export const CardPage: React.FC = () => {
           />
         </form>
       ) : (
-        <Title onDoubleClick={doubleClickHandler}>{card.title}</Title>
+        <Title onDoubleClick={doubleClickHandler}>{card.card.title}</Title>
       )}
-      <div>Tags....................................</div>
+      
+      <Tags cardId={cardId} inCard/>
 
-      <CardDescription />
+      <CardDescription card={card.card} />
 
       <Wrapper>
         <Trash onClick={toggleModal} />
@@ -188,7 +199,7 @@ const Container = styled.div`
 `
 
 const Input = styled.input`
- position: relative;
+  position: relative;
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;

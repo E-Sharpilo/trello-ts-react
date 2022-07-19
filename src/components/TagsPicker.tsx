@@ -1,13 +1,16 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { getTagsFetch } from '../reducers/tags'
+import { createTagsFetch, deleteTagsFetch, updateTagsFetch } from '../reducers/tags'
+import { selectCard } from '../selectors/card'
 import { selectTags } from '../selectors/tags'
-import CreateTagForm from './CreateTagForm'
-import EditTagForm from './EditTagForm'
 import Button from './share/Button'
+import ConfirmWindow from './share/ConfirmWindow'
 import { CloseButton } from './share/icons/CloseButton'
+import Modal from './share/Modal'
 import Tag from './Tag'
+import TagForm from './TagForm'
 
 const colors = [
   '#61bd4f',
@@ -26,32 +29,98 @@ type Props = {
   onClose: () => void
 }
 
+export enum FormState {
+  Create = 'create',
+  Editing = 'editing',
+}
+
 const TagsPicker: React.FC<Props> = ({ onClose }) => {
   const dispatch = useAppDispatch()
-  const tags = useAppSelector(selectTags)
+  const card = useAppSelector(selectCard)
+  const { tags, loading } = useAppSelector(selectTags)
 
-  const [isCreate, setIsCreate] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-
-  const createToggle = useCallback(() => {
-    setIsCreate(!isCreate)
-  }, [isCreate])
-
-  const editingToggle = useCallback(() => {
-    setIsEditing(!isEditing)
-  }, [isEditing])
+  const [newTitle, setNewTitle] = useState('')
+  const [editTitle, setEditTitle] = useState('')
+  const [color, setColor] = useState(colors[0])
+  const [formState, setFormState] = useState<FormState | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [chosenTagId, setChosenTagId] = useState('')
 
   useEffect(() => {
-    dispatch(getTagsFetch(null))
-  }, [dispatch])
+    const tag = tags.find((item) => item._id === chosenTagId)
+    if (!tag) {
+      return
+    }
+    setEditTitle(tag.title ?? '')
+  }, [chosenTagId])
+
+  const toggleModal = useCallback(() => {
+    setIsModalOpen(!isModalOpen)
+  }, [isModalOpen])
+
+  const deleteTag = useCallback(() => {
+    dispatch(deleteTagsFetch(chosenTagId))
+    toggleModal()
+    setFormState(null)
+  }, [dispatch, chosenTagId, isModalOpen])
+
+  const updateTag = useCallback(() => {
+    dispatch(updateTagsFetch({ color, title: editTitle, id: chosenTagId }))
+    setFormState(null)
+  }, [dispatch, editTitle, chosenTagId, color])
+
+  const createTag = useCallback(() => {
+    const newTag = {
+      title: newTitle.trim(),
+      color: color,
+      cardId: card.card._id,
+    }
+
+    const notUniq = tags.some((tag) => tag.color === newTag.color && tag.title === newTag.title)
+
+    if (notUniq) {
+      setNewTitle('')
+      setFormState(null)
+      return
+    }
+    setNewTitle('')
+    setFormState(null)
+    dispatch(createTagsFetch(newTag))
+  }, [dispatch, color, newTitle])
+
+  const setCreateForm = useCallback(() => {
+    setFormState(FormState.Create)
+  }, [formState])
+
+  const setEditForm = useCallback(() => {
+    setFormState(FormState.Editing)
+  }, [formState])
+
+  const setDefaultForm = useCallback(() => {
+    setFormState(null)
+  }, [formState])
+
+  if (loading) {
+    return <>Loading</>
+  }
 
   return (
     <Root>
       <CloseButton onClick={onClose} />
-      {isCreate ? (
-        <CreateTagForm onClose={createToggle} colors={colors}/>
-      ) : isEditing ? (
-        <EditTagForm onClose={editingToggle} colors={colors}/>
+      {formState ? (
+        <TagForm
+          formState={formState}
+          colors={colors}
+          color={color}
+          setColor={setColor}
+          setNewTitle={setNewTitle}
+          setEditTitle={setEditTitle}
+          createTag={createTag}
+          setDefaultForm={setDefaultForm}
+          title={formState === FormState.Create ? newTitle : editTitle}
+          updateTag={updateTag}
+          toggleModal={toggleModal}
+        />
       ) : (
         <>
           <Title>Tags</Title>
@@ -62,15 +131,27 @@ const TagsPicker: React.FC<Props> = ({ onClose }) => {
                 title={tag.title}
                 color={tag.color}
                 id={tag._id}
-                editingToggle={editingToggle}
+                setEditForm={setEditForm}
+                setChosenTagId={setChosenTagId}
               />
             ))}
           </TagsList>
-          <StyledButton type='button' onClick={createToggle}>
+          <StyledButton type='button' onClick={setCreateForm}>
             Create Tag
           </StyledButton>
         </>
       )}
+
+      <Modal isOpen={isModalOpen} onClose={toggleModal}>
+        <ConfirmWindow
+          onDelete={deleteTag}
+          onClose={toggleModal}
+          title={'Are you sure you want to delete this item?'}
+          text={
+            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+          }
+        />
+      </Modal>
     </Root>
   )
 }

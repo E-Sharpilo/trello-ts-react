@@ -4,11 +4,6 @@ import { StateTags} from './type'
 
 const initialState: StateTags = {
   tags: [],
-  tag: {
-    id: '',
-    title: '',
-    color: ''
-  },
   loading: false,
   error: null,
 }
@@ -38,9 +33,6 @@ const tagsSlice = createSlice({
     createTagsFailure: (state, action) => {
       state.error = action.payload
       state.loading = false
-    },
-    setChosenTag: (state, action) => {
-      state.tag = action.payload
     },
     deleteTagsFetch: (state, _action) => {
       state.loading = true
@@ -80,7 +72,6 @@ export const {
   deleteTagsFetch,
   deleteTagsSuccess,
   deleteTagsFailure,
-  setChosenTag,
   updateTagsFetch,
   updateTagsSuccess,
   updateTagsFailure,

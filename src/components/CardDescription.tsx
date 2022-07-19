@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppDispatch } from '../hooks'
 import { updateCardFetch } from '../reducers/card'
-import { selectCard } from '../selectors/card'
 import Button from './share/Button'
 import TextareaAutoSize from 'react-textarea-autosize'
+import { TCard } from '../types/card'
 
-const CardDescription: React.FC = () => {
-  const card = useAppSelector(selectCard)
+type Props = {
+  card: TCard
+}
 
+const CardDescription: React.FC<Props> = ({ card }) => {
   const [cardDescription, setCardDescription] = useState('')
   const [isEditing, setIsEditing] = useState(false)
 
@@ -20,7 +22,10 @@ const CardDescription: React.FC = () => {
   }, [isEditing])
 
   const updateCard = useCallback(() => {
-    dispatch(updateCardFetch({ description: cardDescription, id: card._id }))
+    if (card.description !== cardDescription.trim()) {
+      dispatch(updateCardFetch({ description: cardDescription, id: card._id }))
+      setIsEditing(false)
+    }
     setIsEditing(false)
   }, [dispatch, cardDescription])
 

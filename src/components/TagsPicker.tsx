@@ -8,6 +8,7 @@ import { selectTags } from '../selectors/tags'
 import Button from './share/Button'
 import ConfirmWindow from './share/ConfirmWindow'
 import { CloseButton } from './share/icons/CloseButton'
+import Loader from './share/Loader'
 import Modal from './share/Modal'
 import Tag from './Tag'
 import TagForm from './TagForm'
@@ -65,6 +66,13 @@ const TagsPicker: React.FC<Props> = ({ onClose }) => {
   }, [dispatch, chosenTagId, isModalOpen])
 
   const updateTag = useCallback(() => {
+    const notUniq = tags.some((tag) => tag.color === color && tag.title === editTitle)
+
+    if (notUniq) {
+      setFormState(null)
+      return
+    }
+
     dispatch(updateTagsFetch({ color, title: editTitle, id: chosenTagId }))
     setFormState(null)
   }, [dispatch, editTitle, chosenTagId, color])
@@ -101,7 +109,7 @@ const TagsPicker: React.FC<Props> = ({ onClose }) => {
   }, [formState])
 
   if (loading) {
-    return <>Loading</>
+    return <Loader/>
   }
 
   return (

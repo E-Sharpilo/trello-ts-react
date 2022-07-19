@@ -17,6 +17,7 @@ import { selectCard } from '../selectors/card'
 import { validate } from '../utils/validateForms'
 import Tags from '../components/Tags'
 import { getTagsFetch } from '../reducers/tags'
+import Loader from '../components/share/Loader'
 
 export const CardPage: React.FC = () => {
   const [isTitleEditing, setIsTitleEditing] = useState(false)
@@ -25,7 +26,7 @@ export const CardPage: React.FC = () => {
   const boardId = useParams().idb
   const cardId = useParams().idc
   const dispatch = useAppDispatch()
-  const card = useAppSelector(selectCard)
+  const {card, loading} = useAppSelector(selectCard)
 
   const navigate = useNavigate()
 
@@ -43,13 +44,13 @@ export const CardPage: React.FC = () => {
 
   useEffect(() => {
     if (card) {
-      formik.values.title = card.card.title
+      formik.values.title = card.title
     }
   }, [card])
 
   const formik = useFormik({
     initialValues: {
-      title: card.card.title,
+      title: card.title,
     },
     validate,
     onSubmit: () => {
@@ -83,8 +84,8 @@ export const CardPage: React.FC = () => {
     navigate(`${ROUTES.BOARD_PATH}/${boardId}`)
   }, [dispatch, cardId])
 
-  if (card.loading) {
-    return <>Loading</>
+  if (loading) {
+    return <Loader />
   }
 
   return (
@@ -115,12 +116,12 @@ export const CardPage: React.FC = () => {
           />
         </form>
       ) : (
-        <Title onDoubleClick={doubleClickHandler}>{card.card.title}</Title>
+        <Title onDoubleClick={doubleClickHandler}>{card.title}</Title>
       )}
       
       <Tags cardId={cardId} inCard/>
 
-      <CardDescription card={card.card} />
+      <CardDescription card={card} />
 
       <Wrapper>
         <Trash onClick={toggleModal} />

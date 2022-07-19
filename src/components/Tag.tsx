@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
@@ -34,10 +33,10 @@ const Tag: React.FC<Props> = ({ color, title, id, setEditForm, setChosenTagId })
 
   const dispatch = useAppDispatch()
 
-  const toggleIsEditing = () => {
+  const toggleIsEditing = useCallback(() => {
     setIsSelectTag(!isSelectTag)
-  }
-  
+  }, [isSelectTag])
+
   const createCardTag = useCallback(() => {
     dispatch(createCardTagsFetch({ tagId: id, cardId }))
     toggleIsEditing()

@@ -33,6 +33,7 @@ const Board = () => {
 
   const [isEditing, setIsEditing] = useState(false)
 
+
   useEffect(() => {
     dispatch(getBoardsFetch(null))
   }, [dispatch])

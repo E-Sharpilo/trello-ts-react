@@ -4,14 +4,22 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 import { getBoardsFetch } from '../reducers/boards'
 import BoardItem from '../components/BoardItem'
 import { selectBoards } from '../selectors/boards'
+import Loader from '../components/share/Loader'
 
 const Boards: React.FC = () => {
-  const boards = useAppSelector(selectBoards)
+  const {boards, loading} = useAppSelector(selectBoards)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getBoardsFetch(null))
   }, [dispatch])
+
+  // eslint-disable-next-line no-constant-condition
+  if (loading) {
+    return <Wrapper>
+      <Loader />
+    </Wrapper>
+  }
 
   return (
     <Container>
@@ -26,6 +34,12 @@ const Boards: React.FC = () => {
 }
 
 export default React.memo(Boards)
+
+const Wrapper = styled.div`
+  position: relative;
+  height: 90vh;
+  width: 100%;
+`
 
 const BoardsList = styled.ul`
   display: flex;

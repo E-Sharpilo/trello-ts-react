@@ -12,27 +12,14 @@ const cardTagsSlice = createSlice({
   name: 'cardTags',
   initialState,
   reducers: {
-    getCardTagsFetch: (state, _action) => {
-      state.loading = true
-    },
-    getCardTagsSuccess: (state, action) => {
-      state.cardTags = action.payload
-      state.loading = false
-    },
-    getCardTagsFailure: (state, action) => {
-      state.error = action.payload
-      state.loading = false
-    },
     createCardTagsFetch: (state, _action) => {
       state.loading = true
     },
     createCardTagsSuccess: (state, action) => {
       state.cardTags.push(action.payload)
-      state.loading = false
     },
     createCardTagsFailure: (state, action) => {
       state.error = action.payload
-      state.loading = false
     },
     deleteCardTagsFetch: (state, _action) => {
       state.loading = true
@@ -52,9 +39,6 @@ const cardTagsSlice = createSlice({
 })
 
 export const {
-  getCardTagsFetch,
-  getCardTagsSuccess,
-  getCardTagsFailure,
   createCardTagsFetch,
   createCardTagsSuccess,
   createCardTagsFailure,

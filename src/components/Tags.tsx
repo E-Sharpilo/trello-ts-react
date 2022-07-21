@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { getCardTagsFetch } from '../reducers/cardTags'
-import { selectCardTags } from '../selectors/cardTags'
+import { useAppSelector } from '../hooks'
+
 import { selectTags } from '../selectors/tags'
-import Loader from './share/Loader'
+import { CardTags } from '../types/card_tags'
 
 type Props = {
-  cardId?: string
+  tagsId?: CardTags[]
   inCard?: boolean
 }
 
@@ -17,24 +16,18 @@ type StyleProps = {
   inCard?: boolean
 }
 
-const Tags: React.FC<Props> = ({ cardId, inCard }) => {
-  const dispatch = useAppDispatch()
+const Tags: React.FC<Props> = ({ tagsId, inCard }) => {
   const { tags: allTags } = useAppSelector(selectTags)
-  const { cardTags, loading } = useAppSelector(selectCardTags)
 
-  useEffect(() => {
-    dispatch(getCardTagsFetch(cardId))
-  }, [dispatch])
 
-  const tags = allTags.filter((item) => cardTags.some((cardTag) => item._id === cardTag.tagId))
+  const tagsForCard = allTags.filter(tag => (
+    tagsId?.some(item => item.tagId === tag._id)
+  ))
 
-  if (loading) {
-    return <Loader />
-  }
 
-  return tags.length ? (
+  return tagsForCard.length ? (
     <TagsList inCard>
-      {tags.map((tag) => (
+      {tagsForCard.map((tag) => (
         <Tag key={tag._id} backGround={tag.color}>
           {inCard && tag.title}
         </Tag>

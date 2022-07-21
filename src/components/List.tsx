@@ -4,7 +4,7 @@ import CardItem from './CardItem'
 import { selectCards } from '../selectors/cards'
 import CreateCardForm from './CreateCardForm'
 import React, { useCallback, useEffect, useState } from 'react'
-import { getCardsFetch } from '../reducers/cards'
+import { clearCardsList, getCardsFetch } from '../reducers/cards'
 import { validate } from '../utils/validateForms'
 import { useFormik } from 'formik'
 import { deleteListsFetch, updateListsFetch } from '../reducers/lists'
@@ -22,12 +22,16 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const cards = useAppSelector(selectCards)
+  const {cards} = useAppSelector(selectCards)
   const cardsByList = cards.filter((item) => item.listId === _id)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getCardsFetch(_id))
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(clearCardsList())
   }, [dispatch])
 
   const formik = useFormik({

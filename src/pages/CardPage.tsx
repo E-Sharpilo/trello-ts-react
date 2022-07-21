@@ -26,6 +26,7 @@ export const CardPage: React.FC = () => {
   const boardId = useParams().idb
   const cardId = useParams().idc
   const dispatch = useAppDispatch()
+  
   const {card, loading} = useAppSelector(selectCard)
 
   const navigate = useNavigate()
@@ -119,7 +120,7 @@ export const CardPage: React.FC = () => {
         <Title onDoubleClick={doubleClickHandler}>{card.title}</Title>
       )}
       
-      <Tags cardId={cardId} inCard/>
+      <Tags tagsId={card.tagsId} inCard/>
 
       <CardDescription card={card} />
 

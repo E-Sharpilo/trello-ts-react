@@ -20,10 +20,10 @@ const rotate = keyframes`
   }
 `
 
-const SpinnerContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 100%;
+const SpinnerContainer = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
 `
 
 const Spinner = styled.div`

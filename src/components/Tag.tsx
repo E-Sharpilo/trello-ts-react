@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { createCardTagsFetch, deleteCardTagsFetch } from '../reducers/cardTags'
-import { selectCardTags } from '../selectors/cardTags'
 import PencilSvg from './share/icons/PencilSvg'
 import CheckMark from './share/icons/CheckMark'
+import { selectCard } from '../selectors/card'
 
 type Props = {
   color: string
@@ -22,14 +22,15 @@ type StyleProps = {
 
 const Tag: React.FC<Props> = ({ color, title, id, setEditForm, setChosenTagId }) => {
   const cardId = useParams().idc
-  const { cardTags } = useAppSelector(selectCardTags)
-  const [isSelectTag, setIsSelectTag] = useState(() => cardTags.some((item) => item.tagId === id))
+  const { card } = useAppSelector(selectCard)
+  const [isSelectTag, setIsSelectTag] = useState(() =>
+    card.tagsId.some((item) => item.tagId === id),
+  )
 
-  useEffect(() => {
-    setIsSelectTag(() => cardTags.some((item) => item.tagId === id))
-  }, [cardTags])
+  const cardTagId = card.tagsId.find((item => item.tagId === id))
 
-  const cardTagId = cardTags.find((item) => item.tagId === id && item.cardId === cardId)
+  console.log(cardTagId);
+  
 
   const dispatch = useAppDispatch()
 
@@ -43,15 +44,14 @@ const Tag: React.FC<Props> = ({ color, title, id, setEditForm, setChosenTagId })
   }, [isSelectTag, dispatch, id, cardId])
 
   const deleteCardTag = useCallback(() => {
-    if (cardTagId) {
-      dispatch(deleteCardTagsFetch({tagId: cardTagId._id, cardId}))
-      toggleIsEditing()
-    }
-    return
-  }, [isSelectTag, dispatch, cardTagId, cardId])
+    dispatch(deleteCardTagsFetch({ tagId: cardTagId?._id, cardId }))
+    toggleIsEditing()
+  }, [isSelectTag, dispatch, cardId, id])
 
   const clickHandle = useCallback(() => {
     if (isSelectTag) {
+      console.log('deleted');
+      
       deleteCardTag()
     } else {
       createCardTag()

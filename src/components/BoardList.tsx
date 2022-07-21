@@ -10,7 +10,7 @@ type StyleProps = {
 }
 
 const BoardsList = () => {
-  const boards = useAppSelector(selectBoards)
+  const {boards} = useAppSelector(selectBoards)
 
   return (
     <Root>

@@ -48,6 +48,7 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
     formik.submitForm()
   }, [formik.values])
 
+
   const updateTitle = useCallback(() => {
     dispatch(updateListsFetch({ ...formik.values, id: _id }))
     setIsEditing(false)

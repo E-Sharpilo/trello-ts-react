@@ -14,8 +14,6 @@ import { TCreateCardsSuccess } from './type'
 
 function* getCardsWorker(action: PayloadAction<string>) {
   try {
-    yield put(getCardsSuccess([]))
-
     const res: TCard[] = yield call(callApi, 'card', {
       query: {
         listId: action.payload,
@@ -30,8 +28,6 @@ function* getCardsWorker(action: PayloadAction<string>) {
 
 function* createCardsWorker(action: PayloadAction<TCreateCardsSuccess>) {
   try {
-    yield put(getCardsSuccess([]))
-
     const res: TCard = yield call(callApi, 'card', {
       method: 'POST',
       body: action.payload,

@@ -10,10 +10,8 @@ import { selectBoards } from '../selectors/boards'
 import { selectLists } from '../selectors/lists'
 import { useFormik } from 'formik'
 import { validate } from '../utils/validateForms'
-import { clearCardsList } from '../reducers/cards'
 import { getTagsFetch } from '../reducers/tags'
 import Loader from '../components/share/Loader'
-import { selectCards } from '../selectors/cards'
 
 type Props = {
   background: string | undefined
@@ -23,7 +21,6 @@ const Board = () => {
   const boardId = useParams().idb
   const lists = useAppSelector(selectLists)
   const {boards, loading} = useAppSelector(selectBoards)
-  const {loading: loadingCards} = useAppSelector(selectCards)
 
   const board = useMemo(() => {
     if (!boards) {
@@ -47,10 +44,6 @@ const Board = () => {
 
   useEffect(() => {
     dispatch(getListsFetch(boardId))
-  }, [dispatch, boardId])
-
-  useEffect(() => {
-    dispatch(clearCardsList())
   }, [dispatch, boardId])
 
   const formik = useFormik({
@@ -82,7 +75,7 @@ const Board = () => {
     setIsEditing(false)
   }, [dispatch, formik.values])
 
-  if (loading || loadingCards) {
+  if (loading) {
     return <Loader />
   }
 

@@ -29,9 +29,6 @@ const Tag: React.FC<Props> = ({ color, title, id, setEditForm, setChosenTagId })
 
   const cardTagId = card.tagsId.find((item => item.tagId === id))
 
-  console.log(cardTagId);
-  
-
   const dispatch = useAppDispatch()
 
   const toggleIsEditing = useCallback(() => {

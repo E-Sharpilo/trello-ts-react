@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { deleteBoardsFetch, updateBoardsFetch } from '../reducers/boards'
@@ -14,9 +14,9 @@ type Props = {
 const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
   const dispatch = useDispatch()
 
-  const deleteBoard = () => {
+  const deleteBoard = useCallback(() => {
     dispatch(deleteBoardsFetch(id))
-  }
+  }, [dispatch, id])
 
   const formik = useFormik({
     initialValues: {
@@ -28,9 +28,9 @@ const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
     },
   })
 
-  const updateTitle = () => {
+  const updateTitle = useCallback(() => {
     dispatch(updateBoardsFetch({...formik.values, id}))
-  }
+  }, [dispatch, id, formik.values])
 
   return (
     <>

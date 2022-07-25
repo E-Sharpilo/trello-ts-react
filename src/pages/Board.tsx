@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import AddListForm from '../components/CreateListForm'
 import List from '../components/List'
@@ -10,8 +10,10 @@ import { selectBoards } from '../selectors/boards'
 import { selectLists } from '../selectors/lists'
 import { useFormik } from 'formik'
 import { validate } from '../utils/validateForms'
+import { clearCardsList } from '../reducers/cards'
 import { getTagsFetch } from '../reducers/tags'
 import Loader from '../components/share/Loader'
+import { ROUTES } from '../constants/urlConstants'
 
 type Props = {
   background: string | undefined
@@ -19,8 +21,10 @@ type Props = {
 
 const Board = () => {
   const boardId = useParams().idb
-  const lists = useAppSelector(selectLists)
+  const {lists} = useAppSelector(selectLists)
   const {boards, loading} = useAppSelector(selectBoards)
+
+  const navigate = useNavigate()
 
   const board = useMemo(() => {
     if (!boards) {
@@ -45,6 +49,16 @@ const Board = () => {
   useEffect(() => {
     dispatch(getListsFetch(boardId))
   }, [dispatch, boardId])
+
+  useEffect(() => {
+    dispatch(clearCardsList())
+  }, [dispatch, boardId])
+
+  useEffect(() => {
+    if (!board) {
+      navigate(`${ROUTES.MAIN_PATH}`)
+    }
+  })
 
   const formik = useFormik({
     initialValues: {

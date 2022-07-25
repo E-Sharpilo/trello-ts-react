@@ -52,6 +52,7 @@ const Tag = styled.li<StyleProps>`
   min-width: 40px;
   border-radius: 3px;
   line-height: 30px;
+  color: #fff;
   padding: 0 10px;
   background-color: ${(props) => props.backGround};
 `

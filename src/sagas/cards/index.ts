@@ -19,7 +19,6 @@ function* getCardsWorker(action: PayloadAction<string>) {
         listId: action.payload,
       },
     })
-
     yield put(getCardsSuccess(res))
   } catch (error) {
     yield put(getCardsFailure(error))

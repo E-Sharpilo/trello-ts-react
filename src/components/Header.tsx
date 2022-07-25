@@ -37,7 +37,7 @@ const Header: React.FC = () => {
             <Popup>
               <CloseButton onClick={togglePopup} />
               <Title>My Boards</Title>
-              <BoardsList />
+              <BoardsList onClose={togglePopup}/>
             </Popup>
           </>
         )}

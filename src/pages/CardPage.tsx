@@ -44,6 +44,12 @@ export const CardPage: React.FC = () => {
   }, [dispatch])
 
   useEffect(() => {
+    if (Object.keys(card).length === 0) {      
+      navigate(`${ROUTES.MAIN_PATH}`)
+    }
+  })
+
+  useEffect(() => {
     if (card) {
       formik.values.title = card.title
     }

@@ -1,38 +1,50 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { callApi } from '../../api/callApi'
-import { getLoginFailure, getLoginFetch, getLoginSuccess, getLogoutFailure, getLogoutFetch, getLogoutSuccess, getRefreshFailure, getRefreshFetch, getRefreshSuccess, getRegistrationFailure, getRegistrationFetch, getRegistrationSuccess } from '../../reducers/user'
+import {
+  getLoginFailure,
+  getLoginFetch,
+  getLoginSuccess,
+  getLogoutFailure,
+  getLogoutFetch,
+  getLogoutSuccess,
+  getRefreshFailure,
+  getRefreshFetch,
+  getRefreshSuccess,
+  getRegistrationFailure,
+  getRegistrationFetch,
+  getRegistrationSuccess,
+} from '../../reducers/user'
 
 import { AuthResponse, LoginPass } from './types'
 
-
 function* getLoginWorker(action: PayloadAction<LoginPass>) {
-  console.log('login worker');
-  
+  console.log('login worker')
+
   try {
     const res: AuthResponse = yield call(callApi, 'login', {
       method: 'post',
-      body: action.payload
+      body: action.payload,
     })
-    console.log(res);
-    
-    localStorage.setItem('token', res.accessToken)    
-    
+    console.log(res)
+
+    localStorage.setItem('token', res.accessToken)
+
     yield put(getLoginSuccess(res))
   } catch (error) {
-    console.log(error);
-    
+    console.log(error)
+
     yield put(getLoginFailure(error))
   }
 }
 
 function* getRegisterWorker(action: PayloadAction<LoginPass>) {
-  console.log(action.payload);
-  
+  console.log(action.payload)
+
   try {
     const res: AuthResponse = yield call(callApi, 'registration', {
       method: 'post',
-      body: action.payload
+      body: action.payload,
     })
     localStorage.setItem('token', res.accessToken)
     yield put(getRegistrationSuccess(res))
@@ -60,7 +72,6 @@ function* getLogoutWorker() {
     yield put(getLogoutFailure(error))
   }
 }
-
 
 function* userSaga() {
   yield takeEvery(getLoginFetch.type, getLoginWorker)

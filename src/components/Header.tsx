@@ -12,7 +12,7 @@ import { selectUser } from '../selectors/user'
 import { getLogoutFetch } from '../reducers/user'
 
 const Header: React.FC = () => {
-  const {isAuth} = useAppSelector(selectUser)
+  const { isAuth, user } = useAppSelector(selectUser)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isVisiblePopup, setIsVisiblePopup] = useState(false)
 
@@ -47,24 +47,41 @@ const Header: React.FC = () => {
             <Popup>
               <CloseButton onClick={togglePopup} />
               <Title>My Boards</Title>
-              <BoardsList onClose={togglePopup}/>
+              <BoardsList onClose={togglePopup} />
             </Popup>
           </>
         )}
         <Button type='button' onClick={toggleModal} background='#014a75'>
           Create
         </Button>
-        
       </Nav>
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
         <CreateBoardForm onClose={toggleModal} />
       </Modal>
-      {isAuth && <Button onClick={logout} type='button' background='#014a75'>Logout</Button>}
+      {isAuth && (
+        <User>
+          <Mail>{user.email}</Mail>
+          <Button onClick={logout} type='button' background='#014a75'>
+            Logout
+          </Button>
+        </User>
+      )}
     </StyledHeader>
   )
 }
 
 export default React.memo(Header)
+
+const User = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`
+
+const Mail = styled.div`
+  color: #fff;
+`
 
 const Overlay = styled.div`
   position: fixed;

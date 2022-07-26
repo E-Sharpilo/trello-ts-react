@@ -1,7 +1,11 @@
+import axios, { AxiosRequestConfig } from 'axios'
+
+const api = axios.create()
+
 const URL = 'http://localhost:8080/'
 
 type Options = {
-  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
+  method?: 'get' | 'post' | 'patch' | 'delete'
   headers?: {
     [key: string]: any
   }
@@ -24,23 +28,45 @@ export const callApi = async (endpoint: string, options: Options) => {
   }
 
   try {
-    const res = await fetch(Url, {
-      credentials: 'include',
-      method: options.method || 'GET',
+    const res = await api({
+      withCredentials: true,
+      url: Url,
+      method: options.method || 'get',
       headers: {
         ...options.headers,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify(options.body),
+      data: JSON.stringify(options.body),
     })
 
-    if (!res.ok) {
-      throw new Error(res.statusText)
-    }
+    return res.data
 
-    return await res.json()
   } catch (error) {
     return error
   }
 }
+
+api.interceptors.request.use((config: AxiosRequestConfig) => {
+  (config.headers ??= {}).Authorization = `Bearer ${localStorage.getItem('token')}`
+  return config;
+})
+
+api.interceptors.response.use(
+  (config: AxiosRequestConfig) => {
+    return config
+  },
+  async (error) => {
+    const originalRequest = error.config
+    if (error.response.status === 401 && error.config && !error.config._isRetry) {
+      originalRequest._isRetry = true
+      try {
+        const response = await axios.get(`${URL}refresh`, { withCredentials: true })
+        localStorage.setItem('token', response.data.accessToken)
+        return api.request(originalRequest)
+      } catch (error) {
+        console.log('Not authorized')
+      }
+    }
+    throw error
+  },
+)

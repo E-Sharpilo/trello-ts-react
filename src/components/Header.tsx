@@ -7,10 +7,16 @@ import Modal from './share/Modal'
 import { ROUTES } from '../constants/urlConstants'
 import { CloseButton } from './share/icons/CloseButton'
 import BoardsList from './BoardList'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { selectUser } from '../selectors/user'
+import { getLogoutFetch } from '../reducers/user'
 
 const Header: React.FC = () => {
+  const {isAuth} = useAppSelector(selectUser)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isVisiblePopup, setIsVisiblePopup] = useState(false)
+
+  const dispatch = useAppDispatch()
 
   const togglePopup = useCallback(() => {
     setIsVisiblePopup(!isVisiblePopup)
@@ -19,6 +25,10 @@ const Header: React.FC = () => {
   const toggleModal = useCallback(() => {
     setIsModalOpen(!isModalOpen)
   }, [isModalOpen])
+
+  const logout = useCallback(() => {
+    dispatch(getLogoutFetch(null))
+  }, [dispatch])
 
   return (
     <StyledHeader>
@@ -44,10 +54,12 @@ const Header: React.FC = () => {
         <Button type='button' onClick={toggleModal} background='#014a75'>
           Create
         </Button>
+        
       </Nav>
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
         <CreateBoardForm onClose={toggleModal} />
       </Modal>
+      {isAuth && <Button onClick={logout} type='button' background='#014a75'>Logout</Button>}
     </StyledHeader>
   )
 }
@@ -85,6 +97,7 @@ const StyledHeader = styled.header`
   background-color: #026aa7;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 5vh;
   padding: 6px 25px;
@@ -94,6 +107,7 @@ const StyledHeader = styled.header`
 const Nav = styled.nav`
   display: flex;
   gap: 10px;
+  width: 100%;
 `
 const LogoWrapper = styled.div`
   padding: 0 6px;

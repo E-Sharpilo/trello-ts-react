@@ -27,7 +27,7 @@ function* getCardWorker(action: PayloadAction<string>) {
 function* updateCardWorker(action: PayloadAction<TUpdateCardSuccess>) {
   try {
     const res: TCard = yield call(callApi, `card/${action.payload.id}`, {
-      method: 'PATCH',
+      method: 'patch',
       body: action.payload,
     })
     yield put(updateCardSuccess(res))
@@ -39,7 +39,7 @@ function* updateCardWorker(action: PayloadAction<TUpdateCardSuccess>) {
 function* deleteCardWorker(action: PayloadAction<string>) {
   try {
     yield call(callApi, `card/${action.payload}`, {
-      method: 'DELETE',
+      method: 'delete',
     })
     yield put(deleteCardSuccess(action.payload))
   } catch (error) {

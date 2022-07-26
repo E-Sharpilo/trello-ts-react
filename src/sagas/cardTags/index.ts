@@ -16,7 +16,7 @@ import { TCreateCardTagsSuccess, TDeleteCardTagsSuccess } from './type'
 function* createCardTagsWorker(action: PayloadAction<TCreateCardTagsSuccess>) {
   try {
     const res: CardTags = yield call(callApi, 'card-tag', {
-      method: 'POST',
+      method: 'post',
       body: action.payload,
     })
     yield put(createCardTagsSuccess(res))
@@ -29,7 +29,7 @@ function* createCardTagsWorker(action: PayloadAction<TCreateCardTagsSuccess>) {
 function* deleteCardTagsWorker(action: PayloadAction<TDeleteCardTagsSuccess>) {
   try {
     yield call(callApi, `card-tag/${action.payload.tagId}`, {
-      method: 'DELETE',
+      method: 'delete',
     })
     yield put(deleteCardTagsSuccess(action.payload))
     yield put(getCardFetch(action.payload.cardId))

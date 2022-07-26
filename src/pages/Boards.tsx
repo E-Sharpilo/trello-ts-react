@@ -14,7 +14,7 @@ const Boards: React.FC = () => {
     dispatch(getBoardsFetch(null))
   }, [dispatch])
 
-  // eslint-disable-next-line no-constant-condition
+
   if (loading) {
     return <Wrapper>
       <Loader />

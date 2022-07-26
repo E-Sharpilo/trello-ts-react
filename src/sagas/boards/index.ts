@@ -31,7 +31,7 @@ function* createBoardWorker(action: PayloadAction<TCreateBoardsSuccess>) {
   
   try {
     const res: TBoard = yield call(callApi, 'board', {
-      method: 'POST',
+      method: 'post',
       body: action.payload,
     })
     yield put(createBoardsSuccess(res))
@@ -43,7 +43,7 @@ function* createBoardWorker(action: PayloadAction<TCreateBoardsSuccess>) {
 function* updateBoardWorker(action: PayloadAction<TUpdateBoardsSuccess>) {
   try {
     const res: TBoard = yield call(callApi, `board/${action.payload.id}`, {
-      method: 'PATCH',
+      method: 'patch',
       body: action.payload,
     })
     yield put(updateBoardsSuccess(res))
@@ -55,7 +55,7 @@ function* updateBoardWorker(action: PayloadAction<TUpdateBoardsSuccess>) {
 function* deleteBoardWorker(action: PayloadAction<string>) {
   try {
     yield call(callApi, `board/${action.payload}`, {
-      method: 'DELETE',
+      method: 'delete',
     })
     yield put(deleteBoardsSuccess(action.payload))
   } catch (error) {

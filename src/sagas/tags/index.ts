@@ -30,7 +30,7 @@ function* getTagsWorker() {
 function* createTagsWorker(action: PayloadAction<TCreateTagsSuccess>) {
   try {
     const res: TTag = yield call(callApi, 'tag', {
-      method: 'POST',
+      method: 'post',
       body: action.payload,
     })
     yield put(createTagsSuccess(res))
@@ -42,7 +42,7 @@ function* createTagsWorker(action: PayloadAction<TCreateTagsSuccess>) {
 function* deleteTagsWorker(action: PayloadAction<string>) {
   try {
     yield call(callApi, `tag/${action.payload}`, {
-      method: 'DELETE',
+      method: 'delete',
     })
     yield put(deleteTagsSuccess(action.payload))
   } catch (error) {
@@ -53,7 +53,7 @@ function* deleteTagsWorker(action: PayloadAction<string>) {
 function* updateTagsWorker(action: PayloadAction<TUpdateTagsSuccess>) {
   try {
     const res: TTag = yield call(callApi, `tag/${action.payload.id}`, {
-      method: 'PATCH',
+      method: 'patch',
       body: action.payload,
     })
     yield put(updateTagsSuccess(res))

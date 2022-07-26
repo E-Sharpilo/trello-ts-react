@@ -4,8 +4,21 @@ import Boards from './Boards'
 import { Routes, Route } from 'react-router-dom'
 import { ROUTES } from '../constants/urlConstants'
 import { CardPage } from './CardPage'
+import { useAppSelector } from '../hooks'
+import { selectUser } from '../selectors/user'
+import LoginForm from '../components/LoginForm'
 
 export const RoutesPage = () => {
+  const { user } = useAppSelector(selectUser)
+
+  if (!Object.keys(user).length) {
+    return (
+      <Routes>
+        <Route index element={<LoginForm />} />
+      </Routes>
+    )
+  }
+
   return (
     <Routes>
       <Route path={ROUTES.MAIN_PATH} element={<Layout />}>

@@ -5,6 +5,7 @@ import cardsSaga from './cards'
 import listsSaga from './lists'
 import tagsSaga from './tags'
 import cardTagsSaga from './cardTags'
+import userSaga from './user'
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     fork(cardSaga),
     fork(tagsSaga),
     fork(cardTagsSaga),
+    fork(userSaga)
   ])
 }

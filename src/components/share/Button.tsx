@@ -9,6 +9,7 @@ interface Props {
   onClick?: () => void
   type: string
   form?: string
+  disabled?: boolean
 }
 
 const Button: React.FC<Props> = (props: Props) => {

@@ -27,7 +27,11 @@ export const callApi = async (endpoint: string, options: Options) => {
     const res = await fetch(Url, {
       credentials: 'include',
       method: options.method || 'GET',
-      headers: { ...options.headers, 'Content-Type': 'application/json' },
+      headers: {
+        ...options.headers,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify(options.body),
     })
 

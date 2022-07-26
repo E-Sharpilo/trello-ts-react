@@ -25,6 +25,7 @@ export const callApi = async (endpoint: string, options: Options) => {
 
   try {
     const res = await fetch(Url, {
+      credentials: 'include',
       method: options.method || 'GET',
       headers: { ...options.headers, 'Content-Type': 'application/json' },
       body: JSON.stringify(options.body),

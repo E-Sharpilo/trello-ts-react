@@ -5,6 +5,8 @@ import BorderPreview from './share/icons/BorderPreview'
 import InputForm from './InputForm'
 import ColorPicker from './ColorPicker'
 
+const colors = ['#0079BF', '#D29034', '#399839', '#FFB046', '#89609E']
+
 type Props = {
   onClose: () => void
 }
@@ -22,7 +24,7 @@ const CreateBoardForm: React.FC<Props> = ({ onClose }) => {
       <PreviewContainer background={backgroundColor}>
         <BorderPreview />
       </PreviewContainer>
-      <ColorPicker backgroundColor={backgroundColor} setBackgroundColor={setBackgroundColor} />
+      <ColorPicker backgroundColor={backgroundColor} setBackgroundColor={setBackgroundColor} colors={colors}/>
       <InputForm color={backgroundColor} onClose={onClose} />
     </Container>
   )

@@ -9,14 +9,18 @@ type StyleProps = {
   backgroundColor: string
 }
 
-const BoardsList = () => {
-  const boards = useAppSelector(selectBoards)
+type Props = {
+  onClose: () => void
+}
+
+const BoardsList: React.FC<Props> = ({ onClose }) => {
+  const { boards } = useAppSelector(selectBoards)
 
   return (
     <Root>
       {boards.map((board) => (
         <StyledLink key={board._id} to={`${ROUTES.BOARD_PATH}/${board._id}`}>
-          <BoardItem>
+          <BoardItem onClick={onClose}>
             <BoardColor backgroundColor={board.color} />
             <div>{board.title}</div>
           </BoardItem>

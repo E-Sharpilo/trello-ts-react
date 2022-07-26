@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
+import { TCard } from '../../types/card';
 import { StateCards } from './type';
 
 
@@ -17,7 +18,12 @@ const cardsSlice = createSlice({
       state.loading = true
     },
     getCardsSuccess: (state, action) => {
-      state.cards = [...state.cards, ...action.payload]
+      action.payload.forEach((element:TCard) => {
+        if (!state.cards.some(item => item._id === element._id)) {
+          state.cards.push(element)
+        }
+      });
+      
       state.loading = false
     },
     getCardsFailure: (state, action) => {

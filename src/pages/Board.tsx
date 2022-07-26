@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import AddListForm from '../components/CreateListForm'
 import List from '../components/List'
@@ -11,6 +11,9 @@ import { selectLists } from '../selectors/lists'
 import { useFormik } from 'formik'
 import { validate } from '../utils/validateForms'
 import { clearCardsList } from '../reducers/cards'
+import { getTagsFetch } from '../reducers/tags'
+import Loader from '../components/share/Loader'
+import { ROUTES } from '../constants/urlConstants'
 
 type Props = {
   background: string | undefined
@@ -18,8 +21,10 @@ type Props = {
 
 const Board = () => {
   const boardId = useParams().idb
-  const lists = useAppSelector(selectLists)
-  const boards = useAppSelector(selectBoards)
+  const {lists} = useAppSelector(selectLists)
+  const {boards, loading} = useAppSelector(selectBoards)
+
+  const navigate = useNavigate()
 
   const board = useMemo(() => {
     if (!boards) {
@@ -34,6 +39,10 @@ const Board = () => {
   const [isEditing, setIsEditing] = useState(false)
 
   useEffect(() => {
+    dispatch(getTagsFetch(null))
+  }, [dispatch])
+
+  useEffect(() => {
     dispatch(getBoardsFetch(null))
   }, [dispatch])
 
@@ -45,15 +54,19 @@ const Board = () => {
     dispatch(clearCardsList())
   }, [dispatch, boardId])
 
+  useEffect(() => {
+    if (!board) {
+      navigate(`${ROUTES.MAIN_PATH}`)
+    }
+  })
+
   const formik = useFormik({
     initialValues: {
       title: '',
-      id: boardId,
     },
     validate,
     onSubmit: () => {
       updateTitle()
-      setIsEditing(false)
     },
   })
 
@@ -67,20 +80,25 @@ const Board = () => {
     formik.submitForm()
   }, [formik.values])
 
-  const bdlClickHandler = useCallback(() => {
+  const doubleClickHandler = useCallback(() => {
     setIsEditing(true)
   }, [isEditing])
 
   const updateTitle = useCallback(() => {
-    dispatch(updateBoardsFetch(formik.values))
+    dispatch(updateBoardsFetch({ ...formik.values, id: boardId }))
+    setIsEditing(false)
   }, [dispatch, formik.values])
+
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <StyledBoard background={board?.color}>
       <Container>
         {isEditing ? (
           <form onSubmit={formik.handleSubmit}>
-            <input
+            <Input
               onChange={formik.handleChange}
               value={formik.values.title}
               type='text'
@@ -90,12 +108,12 @@ const Board = () => {
             />
           </form>
         ) : (
-          <Title onDoubleClick={bdlClickHandler}>{board?.title}</Title>
+          <Title onDoubleClick={doubleClickHandler}>{board?.title}</Title>
         )}
       </Container>
       <Wrapper>
         {lists.map((item) => (
-          <List key={item._id} title={item.title} _id={item._id} boardId={boardId}/>
+          <List key={item._id} title={item.title} _id={item._id} boardId={boardId} />
         ))}
         <AddListForm boardId={boardId} />
       </Wrapper>
@@ -109,10 +127,14 @@ const Wrapper = styled.div`
   align-items: start;
 `
 
-const Title = styled.h1`
+const Title = styled.div`
+  font-size: 22px;
+  padding: 5px;
+  font-weight: 800;
   color: #fff;
 `
 const Container = styled.div`
+  padding-top: 10px;
   margin-bottom: 20px;
 `
 
@@ -121,6 +143,12 @@ const StyledBoard = styled.div<Props>`
   padding: 0 20px;
   background-color: ${(prop) => (prop.background ? prop.background : 'blue')};
   overflow-x: auto;
+`
+
+const Input = styled.input`
+  font-size: 22px;
+  padding: 5px;
+  font-weight: 800;
 `
 
 export default React.memo(Board)

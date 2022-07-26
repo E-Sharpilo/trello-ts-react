@@ -11,6 +11,8 @@ import { deleteListsFetch, updateListsFetch } from '../reducers/lists'
 import Trash from './share/icons/Trash'
 import Modal from './share/Modal'
 import ConfirmWindow from './share/ConfirmWindow'
+import { selectLists } from '../selectors/lists'
+import Loader from './share/Loader'
 
 type Props = {
   title: string
@@ -22,27 +24,27 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const cards = useAppSelector(selectCards)
+  const { cards } = useAppSelector(selectCards)
   const cardsByList = cards.filter((item) => item.listId === _id)
   const dispatch = useAppDispatch()
 
+  const { loading } = useAppSelector(selectLists)
+
   useEffect(() => {
     dispatch(getCardsFetch(_id))
-  }, [dispatch])
+  }, [dispatch, _id])
 
   const formik = useFormik({
     initialValues: {
       title,
-      id: _id,
     },
     validate,
     onSubmit: () => {
       updateTitle()
-      setIsEditing(false)
     },
   })
 
-  const onDblClickHandler = useCallback(() => {
+  const doubleClickHandler = useCallback(() => {
     setIsEditing(true)
   }, [isEditing])
 
@@ -51,7 +53,8 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
   }, [formik.values])
 
   const updateTitle = useCallback(() => {
-    dispatch(updateListsFetch(formik.values))
+    dispatch(updateListsFetch({ ...formik.values, id: _id }))
+    setIsEditing(false)
   }, [dispatch, formik.values])
 
   const toggleModal = useCallback(() => {
@@ -62,6 +65,10 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
     dispatch(deleteListsFetch(_id))
     toggleModal()
   }, [dispatch])
+
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <Root>
@@ -77,19 +84,26 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
           />
         </form>
       ) : (
-        <Title onDoubleClick={onDblClickHandler}>{title}</Title>
+        <Title onDoubleClick={doubleClickHandler}>{title}</Title>
       )}
       <Wrapper>
         <Trash onClick={toggleModal} />
       </Wrapper>
       <CardList>
         {cardsByList.map((item) => (
-          <CardItem key={item._id} {...item} boardId={boardId}/>
+          <CardItem key={item._id} {...item} boardId={boardId} />
         ))}
       </CardList>
       <CreateCardForm listId={_id} />
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
-        <ConfirmWindow deleteList={deleteList}/>
+        <ConfirmWindow
+          onDelete={deleteList}
+          onClose={toggleModal}
+          title={'Are you sure you want to delete this item?'}
+          text={
+            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+          }
+        />
       </Modal>
     </Root>
   )
@@ -129,4 +143,6 @@ const Title = styled.h2`
   line-height: 24px;
   font-weight: 600;
   margin-bottom: 10px;
+  word-wrap: break-word;
+  max-width: 230px;
 `

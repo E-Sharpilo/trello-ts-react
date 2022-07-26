@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { createListsFetch } from '../reducers/lists'
 import Button from './share/Button'
-import { CloseButton } from './share/CloseButton'
+import { CloseButton } from './share/icons/CloseButton'
 
 type Props = {
   boardId?: string
@@ -35,11 +35,11 @@ const AddListForm: React.FC<Props> = ({ boardId }) => {
     },
     validate,
     onSubmit: () => {
-      addNewList()
+      createNewList()
     },
   })
 
-  const addNewList = useCallback(() => {
+  const createNewList = useCallback(() => {
     dispatch(createListsFetch({...formik.values, boardId}))
     formik.values.title = ''
     handleClick()
@@ -58,8 +58,6 @@ const AddListForm: React.FC<Props> = ({ boardId }) => {
         id='title'
         name='title'
       />
-      {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-
       <Wrapper>
         <StyledShortButton type='submit' background='transparent'>
           Add list
@@ -87,11 +85,6 @@ const Input = styled.input`
   border-radius: 3px;
   padding: 5px;
   border-color: transparent;
-`
-
-const ErrorMassage = styled.div`
-  color: tomato;
-  margin-bottom: 5px;
 `
 const Wrapper = styled.div`
   position: relative;

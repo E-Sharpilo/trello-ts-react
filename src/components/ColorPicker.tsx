@@ -2,22 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import CheckMark from './share/icons/CheckMark'
 
-const styles = ['#0079BF', '#D29034', '#399839', '#FFB046', '#89609E']
-
 type bgProps = {
   background: string
 }
 
 type Props = {
   backgroundColor: string
+  colors: string[]
   // eslint-disable-next-line no-unused-vars
   setBackgroundColor: (item: string) => void
 }
 
-const ColorPicker: React.FC<Props> = ({ backgroundColor, setBackgroundColor }) => {
+const ColorPicker: React.FC<Props> = ({ backgroundColor, setBackgroundColor, colors }) => {
   return (
     <List>
-      {styles.map((item, i) => (
+      {colors.map((item, i) => (
         <li key={i}>
           <ColorItem background={item} onClick={() => setBackgroundColor(item)}>
             {backgroundColor === item ? <CheckMark /> : ''}
@@ -32,7 +31,10 @@ export default React.memo(ColorPicker)
 
 const List = styled.ul`
   display: flex;
-  gap: 3px;
+  flex-wrap: wrap;
+  gap: 5px;
+  vertical-align: middle;
+  justify-content: space-between;
 `
 
 const ColorItem = styled.button<bgProps>`

@@ -34,7 +34,7 @@ function* getListsWorker(action: PayloadAction<string>){
 function* createListWorker(action: PayloadAction<TCreateListSuccess>){
   try {
     const res: TList = yield call(callApi, 'list', {
-      method: 'post',
+      method: 'POST',
       body: action.payload,
     })
     yield put(createListsSuccess(res))
@@ -46,7 +46,7 @@ function* createListWorker(action: PayloadAction<TCreateListSuccess>){
 function* updateListWorker(action: PayloadAction<TUpdateListSuccess>) {
   try {
     const res: TList = yield call(callApi, `list/${action.payload.id}`, {
-      method: 'patch',
+      method: 'PATCH',
       body: action.payload,
     })
     yield put(updateListsSuccess(res))
@@ -58,7 +58,7 @@ function* updateListWorker(action: PayloadAction<TUpdateListSuccess>) {
 function* deleteListWorker(action: PayloadAction<string>) {
   try {
     yield call(callApi, `list/${action.payload}`, {
-      method: 'delete',
+      method: 'DELETE',
     })
     yield put(deleteListsSuccess(action.payload))
   } catch (error) {

@@ -5,18 +5,16 @@ import Button from './share/Button'
 import CreateBoardForm from './CreateBoardForm'
 import Modal from './share/Modal'
 import { ROUTES } from '../constants/urlConstants'
-import { CloseButton } from './share/icons/CloseButton'
 import BoardsList from './BoardList'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppSelector } from '../hooks'
 import { selectUser } from '../selectors/user'
-import { getLogoutFetch } from '../reducers/user'
+import User from './User'
+import Popup from './share/Popup'
 
 const Header: React.FC = () => {
-  const { isAuth, user } = useAppSelector(selectUser)
+  const { isAuth } = useAppSelector(selectUser)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isVisiblePopup, setIsVisiblePopup] = useState(false)
-
-  const dispatch = useAppDispatch()
 
   const togglePopup = useCallback(() => {
     setIsVisiblePopup(!isVisiblePopup)
@@ -25,10 +23,6 @@ const Header: React.FC = () => {
   const toggleModal = useCallback(() => {
     setIsModalOpen(!isModalOpen)
   }, [isModalOpen])
-
-  const logout = useCallback(() => {
-    dispatch(getLogoutFetch(null))
-  }, [dispatch])
 
   return (
     <StyledHeader>
@@ -43,9 +37,7 @@ const Header: React.FC = () => {
         </Button>
         {isVisiblePopup && (
           <>
-            <Overlay onClick={togglePopup}></Overlay>
-            <Popup>
-              <CloseButton onClick={togglePopup} />
+            <Popup onClose={togglePopup} coords={{top: '5.5vh', left: '50px'}}>
               <Title>My Boards</Title>
               <BoardsList onClose={togglePopup} />
             </Popup>
@@ -58,50 +50,12 @@ const Header: React.FC = () => {
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
         <CreateBoardForm onClose={toggleModal} />
       </Modal>
-      {isAuth && (
-        <User>
-          <Mail>{user.email}</Mail>
-          <Button onClick={logout} type='button' background='#014a75'>
-            Logout
-          </Button>
-        </User>
-      )}
+      {isAuth && <User />}
     </StyledHeader>
   )
 }
 
 export default React.memo(Header)
-
-const User = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-`
-
-const Mail = styled.div`
-  color: #fff;
-`
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`
-
-const Popup = styled.div`
-  min-width: 200px;
-  min-height: 150px;
-  padding: 5px;
-  position: absolute;
-  background-color: #fff;
-  left: 50px;
-  top: 5.5vh;
-  border-radius: 3px;
-  box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
-`
 
 const Title = styled.div`
   border-bottom: 1px solid rgba(9, 30, 66, 0.13);

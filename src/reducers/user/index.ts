@@ -62,6 +62,20 @@ const userSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+
+    getUserFetch: (state, _action) => {
+      state.loading = true
+    },
+    getUserSuccess: (state, action) => {
+      state.user = action.payload
+      state.loading = false
+      state.isAuth = true
+    },
+    getUserFailure: (state, action) => {
+      state.error = action.payload
+      state.loading = false
+    },
+
   },
 })
 
@@ -77,7 +91,10 @@ export const {
   getLogoutFailure,
   getRefreshFetch,
   getRefreshSuccess,
-  getRefreshFailure
+  getRefreshFailure,
+  getUserFetch,
+  getUserSuccess,
+  getUserFailure
 } = userSlice.actions
 
 export default userSlice.reducer

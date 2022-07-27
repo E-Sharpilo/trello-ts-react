@@ -4,22 +4,17 @@ import Boards from './Boards'
 import { Routes, Route } from 'react-router-dom'
 import { ROUTES } from '../constants/urlConstants'
 import { CardPage } from './CardPage'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppSelector } from '../hooks'
 import { selectUser } from '../selectors/user'
-import LoginForm from '../components/LoginForm'
-import { useEffect } from 'react'
-import { getRefreshFetch } from '../reducers/user'
+import LoginForm from './LoginPage'
 import Loader from '../components/share/Loader'
+import RegisterPage from './RegisterPage'
 
 export const RoutesPage = () => {
-  const dispatch = useAppDispatch()
   const { loading, user } = useAppSelector(selectUser)
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(getRefreshFetch(null))
-    }
-  }, [])
+  console.log('rout', user);
+  
 
   if (loading) {
     return <Loader />
@@ -29,6 +24,7 @@ export const RoutesPage = () => {
     return (
       <Routes>
         <Route index element={<LoginForm />} />
+        <Route path={ROUTES.REGISTRATION_PATH} element={<RegisterPage />} />
       </Routes>
     )
   }

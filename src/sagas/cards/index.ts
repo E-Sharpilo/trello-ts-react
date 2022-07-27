@@ -28,7 +28,7 @@ function* getCardsWorker(action: PayloadAction<string>) {
 function* createCardsWorker(action: PayloadAction<TCreateCardsSuccess>) {
   try {
     const res: TCard = yield call(callApi, 'card', {
-      method: 'post',
+      method: 'POST',
       body: action.payload,
     })
     yield put(createCardsSuccess(res))

@@ -14,7 +14,11 @@ import {
   getRegistrationFailure,
   getRegistrationFetch,
   getRegistrationSuccess,
+  getUserFailure,
+  getUserFetch,
+  getUserSuccess,
 } from '../../reducers/user'
+import { TUser } from '../../types/user'
 
 import { AuthResponse, LoginPass } from './types'
 
@@ -23,7 +27,7 @@ function* getLoginWorker(action: PayloadAction<LoginPass>) {
 
   try {
     const res: AuthResponse = yield call(callApi, 'login', {
-      method: 'post',
+      method: 'POST',
       body: action.payload,
     })
     console.log(res)
@@ -43,7 +47,7 @@ function* getRegisterWorker(action: PayloadAction<LoginPass>) {
 
   try {
     const res: AuthResponse = yield call(callApi, 'registration', {
-      method: 'post',
+      method: 'POST',
       body: action.payload,
     })
     localStorage.setItem('token', res.accessToken)
@@ -73,7 +77,17 @@ function* getLogoutWorker() {
   }
 }
 
+function* getUserWorker() {
+  try {
+    const res: TUser = yield call(callApi, 'user', {})
+    yield put(getUserSuccess(res))
+  } catch (error) {
+    yield put(getUserFailure(error))
+  }
+}
+
 function* userSaga() {
+  yield takeEvery(getUserFetch.type, getUserWorker)
   yield takeEvery(getLoginFetch.type, getLoginWorker)
   yield takeEvery(getRegistrationFetch.type, getRegisterWorker)
   yield takeEvery(getRefreshFetch.type, getRefreshWorker)

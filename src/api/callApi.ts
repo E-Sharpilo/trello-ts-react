@@ -1,11 +1,13 @@
 import axios, { AxiosRequestConfig } from 'axios'
+import { getLogoutFetch } from '../reducers/user'
+import store from '../store'
 
 const api = axios.create()
 
 const URL = 'http://localhost:8080/'
 
 type Options = {
-  method?: 'get' | 'post' | 'patch' | 'delete'
+  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
   headers?: {
     [key: string]: any
   }
@@ -27,28 +29,23 @@ export const callApi = async (endpoint: string, options: Options) => {
     Url += endpoint
   }
 
-  try {
-    const res = await api({
-      withCredentials: true,
-      url: Url,
-      method: options.method || 'get',
-      headers: {
-        ...options.headers,
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify(options.body),
-    })
+  const res = await api({
+    withCredentials: true,
+    url: Url,
+    method: options.method || 'get',
+    headers: {
+      ...options.headers,
+      'Content-Type': 'application/json',
+    },
+    data: JSON.stringify(options.body),
+  })
 
-    return res.data
-
-  } catch (error) {
-    return error
-  }
+  return res.data
 }
 
 api.interceptors.request.use((config: AxiosRequestConfig) => {
-  (config.headers ??= {}).Authorization = `Bearer ${localStorage.getItem('token')}`
-  return config;
+  ;(config.headers ??= {}).Authorization = `Bearer ${localStorage.getItem('token')}`
+  return config
 })
 
 api.interceptors.response.use(
@@ -64,7 +61,7 @@ api.interceptors.response.use(
         localStorage.setItem('token', response.data.accessToken)
         return api.request(originalRequest)
       } catch (error) {
-        console.log('Not authorized')
+        store.dispatch(getLogoutFetch(null))
       }
     }
     throw error

@@ -1,29 +1,29 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import styled from 'styled-components'
-import { CloseButton } from './CloseButton'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import { CloseButton } from './icons/CloseButton';
 
 type Props = {
-  isOpen: boolean
-  onClose: () => void
-  children?: React.ReactNode
-}
+  isOpen: boolean;
+  onClose: () => void;
+  children?: React.ReactNode;
+};
 
 const Modal: React.FC<Props> = ({ children, isOpen, onClose }) => {
-  if (!isOpen) return null
+  if (!isOpen) return null;
   return ReactDOM.createPortal(
     <>
-      <Overlay onClick={onClose}/>
+      <Overlay onClick={onClose} />
       <ModalWindow>
-        <CloseButton onClick={onClose}/>
+        <CloseButton onClick={onClose} />
         {children}
       </ModalWindow>
     </>,
     document.getElementById('portal') as HTMLElement,
-  )
-}
+  );
+};
 
-export default React.memo(Modal)
+export default React.memo(Modal);
 
 const Overlay = styled.div`
   position: fixed;
@@ -31,9 +31,9 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 1000;
-`
+`;
 
 const ModalWindow = styled.div`
   position: fixed;
@@ -45,5 +45,4 @@ const ModalWindow = styled.div`
   border-radius: 3px;
   box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
   z-index: 1001;
-`
-
+`;

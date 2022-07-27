@@ -1,9 +1,14 @@
-import { RoutesPage } from './pages/Routes'
+import { useEffect } from 'react';
+import { useAppDispatch } from './hooks';
+import { RoutesPage } from './pages/Routes';
+import { getUserFetch } from './reducers/user';
 
 function App() {
-  return (
-    <RoutesPage />
-  )
-}
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getUserFetch(null));
+  }, []);
 
-export default App
+  return <RoutesPage />;
+}
+export default App;

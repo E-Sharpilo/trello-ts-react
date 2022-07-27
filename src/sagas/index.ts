@@ -1,9 +1,20 @@
-import { all, fork } from 'redux-saga/effects';
-import boardsSaga from './boardsSaga';
-import cardSaga from './cardSaga';
-import cardsSaga from './cardsSaga';
-import listsSaga from './listsSaga';
+import { all, fork } from 'redux-saga/effects'
+import boardsSaga from './boards'
+import cardSaga from './card'
+import cardsSaga from './cards'
+import listsSaga from './lists'
+import tagsSaga from './tags'
+import cardTagsSaga from './cardTags'
+import userSaga from './user'
 
 export default function* rootSaga() {
-  yield all([fork(boardsSaga), fork(listsSaga), fork(cardsSaga), fork(cardSaga)]);
+  yield all([
+    fork(boardsSaga),
+    fork(listsSaga),
+    fork(cardsSaga),
+    fork(cardSaga),
+    fork(tagsSaga),
+    fork(cardTagsSaga),
+    fork(userSaga)
+  ])
 }

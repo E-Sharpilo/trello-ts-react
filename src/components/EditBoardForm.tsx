@@ -1,38 +1,36 @@
-import { useFormik } from 'formik'
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { deleteBoardsFetch, updateBoardsFetch } from '../reducers/boards'
-import Button from './share/Button'
-import {validate} from '../utils/validateForms'
+import { useFormik } from 'formik';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { deleteBoardsFetch, updateBoardsFetch } from '../reducers/boards';
+import Button from './share/Button';
+import { validate } from '../utils/validateForms';
 
 type Props = {
-  title: string
-  id: string
-}
+  title: string;
+  id: string;
+};
 
 const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const deleteBoard = () => {
-    dispatch(deleteBoardsFetch(id))
-  }
+  const deleteBoard = useCallback(() => {
+    dispatch(deleteBoardsFetch(id));
+  }, [dispatch, id]);
 
   const formik = useFormik({
     initialValues: {
-      title: title
+      title: title,
     },
     validate,
     onSubmit: () => {
-      console.log(formik.values);
-      
-      updateTitle()
+      updateTitle();
     },
-  })
+  });
 
-  const updateTitle = () => {
-    dispatch(updateBoardsFetch({...formik.values, id}))
-  }
+  const updateTitle = useCallback(() => {
+    dispatch(updateBoardsFetch({ ...formik.values, id }));
+  }, [dispatch, id, formik.values]);
 
   return (
     <>
@@ -45,22 +43,29 @@ const EdtBoardForm: React.FC<Props> = ({ title, id }) => {
           name='title'
         />
         {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-        <Button type='submit' background='#014a75'>
+        <Button
+          type='submit'
+          background='#014a75'
+        >
           Edit title
         </Button>
       </Form>
-      <StyledButton type='button' background='#b04632' onClick={deleteBoard}>
+      <StyledButton
+        type='button'
+        background='#b04632'
+        onClick={deleteBoard}
+      >
         Delete Board
       </StyledButton>
     </>
-  )
-}
+  );
+};
 
-export default React.memo(EdtBoardForm)
+export default React.memo(EdtBoardForm);
 
 const Form = styled.form`
   width: 100%;
-`
+`;
 
 const Input = styled.input`
   width: 100%;
@@ -72,16 +77,16 @@ const Input = styled.input`
   &:focus {
     border-color: #0079bf;
   }
-`
+`;
 
 const ErrorMassage = styled.div`
   color: tomato;
   margin-bottom: 5px;
-`
+`;
 
 const StyledButton = styled(Button)`
-margin-top: 5px;
+  margin-top: 5px;
   &:hover {
     background-color: #933b27;
   }
-`
+`;

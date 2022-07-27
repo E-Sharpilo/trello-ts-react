@@ -1,10 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import store from './store'
-import { Provider } from 'react-redux'
-import { createGlobalStyle } from 'styled-components'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import store from './store';
+import { Provider } from 'react-redux';
+import { createGlobalStyle } from 'styled-components';
 
 const Global = createGlobalStyle`
   * {
@@ -15,9 +15,9 @@ const Global = createGlobalStyle`
     color: #172b4d;
     list-style: none;
   }
-`
+`;
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <Provider store={store}>
     <BrowserRouter>
@@ -25,4 +25,4 @@ root.render(
       <App />
     </BrowserRouter>
   </Provider>,
-)
+);

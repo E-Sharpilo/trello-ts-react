@@ -1,53 +1,53 @@
-import { FormikErrors, useFormik } from 'formik'
-import React, { useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { createListsFetch } from '../reducers/lists'
-import Button from './share/Button'
-import { CloseButton } from './share/CloseButton'
+import { FormikErrors, useFormik } from 'formik';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { createListsFetch } from '../reducers/lists';
+import Button from './share/Button';
+import { CloseButton } from './share/icons/CloseButton';
 
 type Props = {
-  boardId?: string
-}
+  boardId?: string;
+};
 
 type FormValues = {
-  title: string
-}
+  title: string;
+};
 
 const validate = (values: FormValues) => {
-  const errors: FormikErrors<FormValues> = {}
+  const errors: FormikErrors<FormValues> = {};
 
   if (!values.title) {
-    errors.title = 'Required'
+    errors.title = 'Required';
   }
 
-  return errors
-}
+  return errors;
+};
 
 const AddListForm: React.FC<Props> = ({ boardId }) => {
-  const [isVisibleInput, setIsVisibleInput] = useState(false)
+  const [isVisibleInput, setIsVisibleInput] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      title: ''
+      title: '',
     },
     validate,
     onSubmit: () => {
-      addNewList()
+      createNewList();
     },
-  })
+  });
 
-  const addNewList = useCallback(() => {
-    dispatch(createListsFetch({...formik.values, boardId}))
-    formik.values.title = ''
-    handleClick()
-  }, [dispatch, formik.values])
+  const createNewList = useCallback(() => {
+    dispatch(createListsFetch({ ...formik.values, boardId }));
+    formik.values.title = '';
+    handleClick();
+  }, [dispatch, formik.values]);
 
   const handleClick = useCallback(() => {
-    setIsVisibleInput(!isVisibleInput)
-  }, [isVisibleInput])
+    setIsVisibleInput(!isVisibleInput);
+  }, [isVisibleInput]);
 
   return isVisibleInput ? (
     <Form onSubmit={formik.handleSubmit}>
@@ -58,27 +58,32 @@ const AddListForm: React.FC<Props> = ({ boardId }) => {
         id='title'
         name='title'
       />
-      {formik.errors.title ? <ErrorMassage>{formik.errors.title}</ErrorMassage> : null}
-
       <Wrapper>
-        <StyledShortButton type='submit' background='transparent'>
+        <StyledShortButton
+          type='submit'
+          background='transparent'
+        >
           Add list
         </StyledShortButton>
         <StyledCloseButton onClick={handleClick} />
       </Wrapper>
     </Form>
   ) : (
-    <StyledLongButton type='button' background='#ffffff3d' onClick={handleClick}>
+    <StyledLongButton
+      type='button'
+      background='#ffffff3d'
+      onClick={handleClick}
+    >
       Add column
     </StyledLongButton>
-  )
-}
+  );
+};
 
-export default React.memo(AddListForm)
+export default React.memo(AddListForm);
 
 const Form = styled.form`
   min-width: 272px;
-`
+`;
 
 const Input = styled.input`
   width: 272px;
@@ -87,28 +92,23 @@ const Input = styled.input`
   border-radius: 3px;
   padding: 5px;
   border-color: transparent;
-`
-
-const ErrorMassage = styled.div`
-  color: tomato;
-  margin-bottom: 5px;
-`
+`;
 const Wrapper = styled.div`
   position: relative;
-`
+`;
 
 const StyledLongButton = styled(Button)`
   min-width: 272px;
   display: flex;
   justify-content: center;
-`
+`;
 const StyledShortButton = styled(Button)`
   width: 136px;
   display: flex;
   justify-content: center;
-`
+`;
 
 const StyledCloseButton = styled(CloseButton)`
   right: 100px;
   background-color: transparent;
-`
+`;

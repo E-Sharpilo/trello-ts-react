@@ -1,6 +1,6 @@
-import { AnyAction } from '@reduxjs/toolkit'
+import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeEvery } from 'redux-saga/effects'
-import { callApi } from '../api/callApi'
+import { callApi } from '../../api/callApi'
 import {
   createCardsFailure,
   createCardsFetch,
@@ -8,27 +8,26 @@ import {
   getCardsFailure,
   getCardsFetch,
   getCardsSuccess,
-} from '../reducers/cards'
+} from '../../reducers/cards'
+import { TCard } from '../../types/card'
+import { TCreateCardsSuccess } from './type'
 
-function* getCardsWorker(action: AnyAction): Generator {
+function* getCardsWorker(action: PayloadAction<string>) {
   try {
-    yield put(getCardsSuccess([]))
-
-    const res = yield call(callApi, 'card', {
+    const res: TCard[] = yield call(callApi, 'card', {
       query: {
-        listId: action.payload
+        listId: action.payload,
       },
     })
-
     yield put(getCardsSuccess(res))
   } catch (error) {
     yield put(getCardsFailure(error))
   }
 }
 
-function* createCardsWorker(action: AnyAction): Generator {
+function* createCardsWorker(action: PayloadAction<TCreateCardsSuccess>) {
   try {
-    const res = yield call(callApi, 'card', {
+    const res: TCard = yield call(callApi, 'card', {
       method: 'POST',
       body: action.payload,
     })

@@ -1,25 +1,30 @@
-import React from 'react'
-import styled from 'styled-components'
-import ArrowSvg from './icons/ArrowSvg'
+import React from 'react';
+import styled from 'styled-components';
+import ArrowSvg from './icons/ArrowDownSvg';
 
 interface Props {
-  children: React.ReactNode
-  arrow?: boolean
-  background?: string
-  onClick?: () => void
-  type: string
+  children: React.ReactNode;
+  arrow?: boolean;
+  background?: string;
+  onClick?: () => void;
+  type: string;
+  form?: string;
+  disabled?: boolean;
 }
 
 const Button: React.FC<Props> = (props: Props) => {
   return (
-    <StyledButton {...props} type='submit'>
+    <StyledButton
+      {...props}
+      type='submit'
+    >
       {props.children}
       {props.arrow && <ArrowSvg />}
     </StyledButton>
-  )
-}
+  );
+};
 
-export default React.memo(Button)
+export default React.memo(Button);
 
 const StyledButton = styled.button<Props>`
   background-color: ${(props) => (props.background ? props.background : 'transparent')};
@@ -34,6 +39,6 @@ const StyledButton = styled.button<Props>`
   border-radius: 3px;
   cursor: pointer;
   &:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   }
-`
+`;

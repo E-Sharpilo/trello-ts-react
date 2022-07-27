@@ -1,49 +1,48 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import styled from 'styled-components'
-import { useAppSelector } from '../hooks'
+import React from 'react';
+import styled from 'styled-components';
+import { useAppSelector } from '../hooks';
 
-import { selectTags } from '../selectors/tags'
-import { CardTags } from '../types/card_tags'
+import { selectTags } from '../selectors/tags';
+import { CardTags } from '../types/card_tags';
 
 type Props = {
-  tagsId?: CardTags[]
-  inCard?: boolean
-}
+  tagsId?: CardTags[];
+  inCard?: boolean;
+};
 
 type StyleProps = {
-  backGround?: string
-  inCard?: boolean
-}
+  backGround?: string;
+  inCard?: boolean;
+};
 
 const Tags: React.FC<Props> = ({ tagsId, inCard }) => {
-  const { tags: allTags } = useAppSelector(selectTags)
+  const { tags: allTags } = useAppSelector(selectTags);
 
-
-  const tagsForCard = allTags.filter(tag => (
-    tagsId?.some(item => item.tagId === tag._id)
-  ))
-
+  const tagsForCard = allTags.filter((tag) => tagsId?.some((item) => item.tagId === tag._id));
 
   return tagsForCard.length ? (
     <TagsList inCard>
       {tagsForCard.map((tag) => (
-        <Tag key={tag._id} backGround={tag.color}>
+        <Tag
+          key={tag._id}
+          backGround={tag.color}
+        >
           {inCard && tag.title}
         </Tag>
       ))}
     </TagsList>
-  ) : null
-}
+  ) : null;
+};
 
-export default React.memo(Tags)
+export default React.memo(Tags);
 
 const TagsList = styled.ul<StyleProps>`
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   max-width: 90%;
-`
+`;
 
 const Tag = styled.li<StyleProps>`
   margin: 0;
@@ -55,4 +54,4 @@ const Tag = styled.li<StyleProps>`
   color: #fff;
   padding: 0 10px;
   background-color: ${(props) => props.backGround};
-`
+`;

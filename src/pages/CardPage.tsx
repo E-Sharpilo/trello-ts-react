@@ -1,59 +1,59 @@
-import { useFormik } from 'formik'
-import React, { useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import CardDescription from '../components/CardDescription'
-import Button from '../components/share/Button'
-import { CloseButton } from '../components/share/icons/CloseButton'
-import ConfirmWindow from '../components/share/ConfirmWindow'
-import Trash from '../components/share/icons/Trash'
-import Modal from '../components/share/Modal'
-import TagsPicker from '../components/TagsPicker'
-import { ROUTES } from '../constants/urlConstants'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { getBoardsFetch } from '../reducers/boards'
-import { deleteCardFetch, getCardFetch, updateCardFetch } from '../reducers/card'
-import { selectCard } from '../selectors/card'
-import { validate } from '../utils/validateForms'
-import Tags from '../components/Tags'
-import { getTagsFetch } from '../reducers/tags'
-import Loader from '../components/share/Loader'
+import { useFormik } from 'formik';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import CardDescription from '../components/CardDescription';
+import Button from '../components/share/Button';
+import { CloseButton } from '../components/share/icons/CloseButton';
+import ConfirmWindow from '../components/share/ConfirmWindow';
+import Trash from '../components/share/icons/Trash';
+import Modal from '../components/share/Modal';
+import TagsPicker from '../components/TagsPicker';
+import { ROUTES } from '../constants/urlConstants';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { getBoardsFetch } from '../reducers/boards';
+import { deleteCardFetch, getCardFetch, updateCardFetch } from '../reducers/card';
+import { selectCard } from '../selectors/card';
+import { validate } from '../utils/validateForms';
+import Tags from '../components/Tags';
+import { getTagsFetch } from '../reducers/tags';
+import Loader from '../components/share/Loader';
 
 export const CardPage: React.FC = () => {
-  const [isTitleEditing, setIsTitleEditing] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const boardId = useParams().idb
-  const cardId = useParams().idc
-  const dispatch = useAppDispatch()
-  
-  const {card, loading} = useAppSelector(selectCard)
+  const [isTitleEditing, setIsTitleEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const boardId = useParams().idb;
+  const cardId = useParams().idc;
+  const dispatch = useAppDispatch();
 
-  const navigate = useNavigate()
+  const { card, loading } = useAppSelector(selectCard);
 
-  useEffect(() => {
-    dispatch(getBoardsFetch(null))
-  }, [dispatch])
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getCardFetch(cardId))
-  }, [dispatch, cardId])
+    dispatch(getBoardsFetch(null));
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getTagsFetch(null))
-  }, [dispatch])
+    dispatch(getCardFetch(cardId));
+  }, [dispatch, cardId]);
 
   useEffect(() => {
-    if (Object.keys(card).length === 0) {      
-      navigate(`${ROUTES.MAIN_PATH}`)
+    dispatch(getTagsFetch(null));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (Object.keys(card).length === 0) {
+      navigate(`${ROUTES.MAIN_PATH}`);
     }
-  })
+  });
 
   useEffect(() => {
     if (card) {
-      formik.values.title = card.title
+      formik.values.title = card.title;
     }
-  }, [card])
+  }, [card]);
 
   const formik = useFormik({
     initialValues: {
@@ -61,38 +61,38 @@ export const CardPage: React.FC = () => {
     },
     validate,
     onSubmit: () => {
-      updateTitle()
+      updateTitle();
     },
-  })
+  });
 
   const doubleClickHandler = useCallback(() => {
-    setIsTitleEditing(true)
-  }, [isTitleEditing])
+    setIsTitleEditing(true);
+  }, [isTitleEditing]);
 
   const onBlurHandler = useCallback(() => {
-    formik.submitForm()
-  }, [formik.values])
+    formik.submitForm();
+  }, [formik.values]);
 
   const updateTitle = useCallback(() => {
-    dispatch(updateCardFetch({ ...formik.values, id: cardId }))
-    setIsTitleEditing(false)
-  }, [dispatch, formik.values])
+    dispatch(updateCardFetch({ ...formik.values, id: cardId }));
+    setIsTitleEditing(false);
+  }, [dispatch, formik.values]);
 
   const toggleModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen)
-  }, [isModalOpen])
+    setIsModalOpen(!isModalOpen);
+  }, [isModalOpen]);
 
   const togglePopup = useCallback(() => {
-    setIsPopupOpen(!isPopupOpen)
-  }, [isPopupOpen])
+    setIsPopupOpen(!isPopupOpen);
+  }, [isPopupOpen]);
 
   const deleteCard = useCallback(() => {
-    dispatch(deleteCardFetch(cardId))
-    navigate(`${ROUTES.BOARD_PATH}/${boardId}`)
-  }, [dispatch, cardId])
+    dispatch(deleteCardFetch(cardId));
+    navigate(`${ROUTES.BOARD_PATH}/${boardId}`);
+  }, [dispatch, cardId]);
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -100,7 +100,11 @@ export const CardPage: React.FC = () => {
       <Link to={`${ROUTES.BOARD_PATH}/${boardId}`}>
         <CloseButton />
       </Link>
-      <TagsButton type='button' background='#0079bf' onClick={togglePopup}>
+      <TagsButton
+        type='button'
+        background='#0079bf'
+        onClick={togglePopup}
+      >
         Tags
       </TagsButton>
       {isPopupOpen && (
@@ -125,8 +129,11 @@ export const CardPage: React.FC = () => {
       ) : (
         <Title onDoubleClick={doubleClickHandler}>{card.title}</Title>
       )}
-      
-      <Tags tagsId={card.tagsId} inCard/>
+
+      <Tags
+        tagsId={card.tagsId}
+        inCard
+      />
 
       <CardDescription card={card} />
 
@@ -134,21 +141,24 @@ export const CardPage: React.FC = () => {
         <Trash onClick={toggleModal} />
       </Wrapper>
 
-      <Modal isOpen={isModalOpen} onClose={toggleModal}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+      >
         <ConfirmWindow
           onDelete={deleteCard}
           onClose={toggleModal}
           title={'Are you sure you want to delete this item?'}
           text={
-            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+            "You don't have previous to restore. This item would be deleted, are you sure you want to continue"
           }
         />
       </Modal>
     </Container>
-  )
-}
+  );
+};
 
-export default React.memo(CardPage)
+export default React.memo(CardPage);
 
 const Overlay = styled.div`
   position: fixed;
@@ -157,13 +167,13 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
   z-index: 1000;
-`
+`;
 const Wrapper = styled.div`
   position: absolute;
   bottom: 10px;
   right: 10px;
   cursor: pointer;
-`
+`;
 
 const Popup = styled.div`
   width: 254px;
@@ -176,13 +186,13 @@ const Popup = styled.div`
   top: 20px;
   border-radius: 3px;
   box-shadow: 0 8px 16px -4px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
-`
+`;
 
 const TagsButton = styled(Button)`
   position: absolute;
   right: 10px;
   top: 40px;
-`
+`;
 
 const Title = styled.div`
   padding: 5px;
@@ -190,7 +200,7 @@ const Title = styled.div`
   font-weight: 600;
   line-height: 24px;
   max-width: 70%;
-`
+`;
 
 const Container = styled.div`
   position: relative;
@@ -204,7 +214,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 768px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;
-`
+`;
 
 const Input = styled.input`
   position: relative;
@@ -212,4 +222,4 @@ const Input = styled.input`
   font-weight: 600;
   line-height: 24px;
   padding: 5px;
-`
+`;

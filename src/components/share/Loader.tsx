@@ -1,15 +1,15 @@
-import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const Loader = () => {
   return (
     <SpinnerContainer>
       <Spinner></Spinner>
     </SpinnerContainer>
-  )
-}
+  );
+};
 
-export default React.memo(Loader)
+export default React.memo(Loader);
 
 const rotate = keyframes`
   0% {
@@ -18,13 +18,13 @@ const rotate = keyframes`
   100% {
     transform: rotate(360deg);
   }
-`
+`;
 
 const SpinnerContainer = styled.span`
   position: absolute;
   top: 50%;
   left: 50%;
-`
+`;
 
 const Spinner = styled.div`
   width: 50px;
@@ -33,4 +33,4 @@ const Spinner = styled.div`
   border-top: 10px solid #383636; /* Black */
   border-radius: 50%;
   animation: ${rotate} 1.5s linear infinite;
-`
+`;

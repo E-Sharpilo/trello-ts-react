@@ -4,4 +4,4 @@ export type StateCard = {
   card: TCard;
   loading: boolean;
   error: string | null;
-}
+};

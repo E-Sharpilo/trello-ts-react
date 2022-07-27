@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-import { createSlice } from '@reduxjs/toolkit'
-import { StateCard } from './type'
+import { createSlice } from '@reduxjs/toolkit';
+import { StateCard } from './type';
 
 const initialState: StateCard = {
   card: {
@@ -12,47 +11,47 @@ const initialState: StateCard = {
   },
   loading: false,
   error: null,
-}
+};
 
 const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
     getCardFetch: (state, _action) => {
-      state.loading = true
+      state.loading = true;
     },
     getCardSuccess: (state, action) => {
-      state.card = action.payload
-      state.loading = false
+      state.card = action.payload;
+      state.loading = false;
     },
     getCardFailure: (state, action) => {
-      state.error = action.payload
-      state.loading = false
+      state.error = action.payload;
+      state.loading = false;
     },
     updateCardFetch: (state, _action) => {
-      state.loading = true
+      state.loading = true;
     },
     updateCardSuccess: (state, action) => {
-      state.card = action.payload
-      state.loading = false
+      state.card = action.payload;
+      state.loading = false;
     },
     updateCardFailure: (state, action) => {
-      state.error = action.payload
-      state.loading = false
+      state.error = action.payload;
+      state.loading = false;
     },
     deleteCardFetch: (state, _action) => {
-      state.loading = true
+      state.loading = true;
     },
     deleteCardSuccess: (state, action) => {
-      state.card = initialState.card
-      state.loading = false
+      state.card = initialState.card;
+      state.loading = false;
     },
     deleteCardFailure: (state, action) => {
-      state.error = action.payload
-      state.loading = false
+      state.error = action.payload;
+      state.loading = false;
     },
   },
-})
+});
 
 export const {
   getCardFetch,
@@ -64,6 +63,6 @@ export const {
   deleteCardFetch,
   deleteCardSuccess,
   deleteCardFailure,
-} = cardSlice.actions
+} = cardSlice.actions;
 
-export default cardSlice.reducer
+export default cardSlice.reducer;

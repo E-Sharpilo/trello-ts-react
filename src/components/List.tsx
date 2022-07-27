@@ -1,38 +1,38 @@
-import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import CardItem from './CardItem'
-import { selectCards } from '../selectors/cards'
-import CreateCardForm from './CreateCardForm'
-import React, { useCallback, useEffect, useState } from 'react'
-import { getCardsFetch } from '../reducers/cards'
-import { validate } from '../utils/validateForms'
-import { useFormik } from 'formik'
-import { deleteListsFetch, updateListsFetch } from '../reducers/lists'
-import Trash from './share/icons/Trash'
-import Modal from './share/Modal'
-import ConfirmWindow from './share/ConfirmWindow'
-import { selectLists } from '../selectors/lists'
-import Loader from './share/Loader'
+import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import CardItem from './CardItem';
+import { selectCards } from '../selectors/cards';
+import CreateCardForm from './CreateCardForm';
+import React, { useCallback, useEffect, useState } from 'react';
+import { getCardsFetch } from '../reducers/cards';
+import { validate } from '../utils/validateForms';
+import { useFormik } from 'formik';
+import { deleteListsFetch, updateListsFetch } from '../reducers/lists';
+import Trash from './share/icons/Trash';
+import Modal from './share/Modal';
+import ConfirmWindow from './share/ConfirmWindow';
+import { selectLists } from '../selectors/lists';
+import Loader from './share/Loader';
 
 type Props = {
-  title: string
-  _id: string
-  boardId?: string
-}
+  title: string;
+  _id: string;
+  boardId?: string;
+};
 
 const List: React.FC<Props> = ({ title, _id, boardId }) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { cards } = useAppSelector(selectCards)
-  const cardsByList = cards.filter((item) => item.listId === _id)
-  const dispatch = useAppDispatch()
+  const { cards } = useAppSelector(selectCards);
+  const cardsByList = cards.filter((item) => item.listId === _id);
+  const dispatch = useAppDispatch();
 
-  const { loading } = useAppSelector(selectLists)
+  const { loading } = useAppSelector(selectLists);
 
   useEffect(() => {
-    dispatch(getCardsFetch(_id))
-  }, [dispatch, _id])
+    dispatch(getCardsFetch(_id));
+  }, [dispatch, _id]);
 
   const formik = useFormik({
     initialValues: {
@@ -40,34 +40,34 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
     },
     validate,
     onSubmit: () => {
-      updateTitle()
+      updateTitle();
     },
-  })
+  });
 
   const doubleClickHandler = useCallback(() => {
-    setIsEditing(true)
-  }, [isEditing])
+    setIsEditing(true);
+  }, [isEditing]);
 
   const onBlurHandler = useCallback(() => {
-    formik.submitForm()
-  }, [formik.values])
+    formik.submitForm();
+  }, [formik.values]);
 
   const updateTitle = useCallback(() => {
-    dispatch(updateListsFetch({ ...formik.values, id: _id }))
-    setIsEditing(false)
-  }, [dispatch, formik.values])
+    dispatch(updateListsFetch({ ...formik.values, id: _id }));
+    setIsEditing(false);
+  }, [dispatch, formik.values]);
 
   const toggleModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen)
-  }, [isModalOpen])
+    setIsModalOpen(!isModalOpen);
+  }, [isModalOpen]);
 
   const deleteList = useCallback(() => {
-    dispatch(deleteListsFetch(_id))
-    toggleModal()
-  }, [dispatch])
+    dispatch(deleteListsFetch(_id));
+    toggleModal();
+  }, [dispatch]);
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -91,31 +91,38 @@ const List: React.FC<Props> = ({ title, _id, boardId }) => {
       </Wrapper>
       <CardList>
         {cardsByList.map((item) => (
-          <CardItem key={item._id} {...item} boardId={boardId} />
+          <CardItem
+            key={item._id}
+            {...item}
+            boardId={boardId}
+          />
         ))}
       </CardList>
       <CreateCardForm listId={_id} />
-      <Modal isOpen={isModalOpen} onClose={toggleModal}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+      >
         <ConfirmWindow
           onDelete={deleteList}
           onClose={toggleModal}
           title={'Are you sure you want to delete this item?'}
           text={
-            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+            "You don't have previous to restore. This item would be deleted, are you sure you want to continue"
           }
         />
       </Modal>
     </Root>
-  )
-}
+  );
+};
 
-export default React.memo(List)
+export default React.memo(List);
 
 const Wrapper = styled.div`
   position: absolute;
   right: 10px;
   cursor: pointer;
-`
+`;
 
 const Root = styled.div`
   position: relative;
@@ -128,7 +135,7 @@ const Root = styled.div`
   padding: 8px;
   width: 100%;
   max-width: 272px;
-`
+`;
 
 const CardList = styled.ul`
   display: flex;
@@ -136,7 +143,7 @@ const CardList = styled.ul`
   gap: 10px;
   margin-bottom: 10px;
   width: 100%;
-`
+`;
 
 const Title = styled.h2`
   font-size: 16px;
@@ -145,4 +152,4 @@ const Title = styled.h2`
   margin-bottom: 10px;
   word-wrap: break-word;
   max-width: 230px;
-`
+`;

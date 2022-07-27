@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const validate = yup.object({
   firstName: yup.string().max(30, 'Must be less then 31 symbol').required('First name is required'),
@@ -13,4 +13,4 @@ export const validate = yup.object({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
-})
+});

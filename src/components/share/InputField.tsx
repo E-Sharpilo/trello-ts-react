@@ -1,18 +1,18 @@
-import { useField, ErrorMessage } from 'formik'
-import styled from 'styled-components'
+import { useField, ErrorMessage } from 'formik';
+import styled from 'styled-components';
 
 type Props = {
-  name: string
-  label: string
-  type: string
-}
+  name: string;
+  label: string;
+  type: string;
+};
 
 type StyledProps = {
-  border: string
-}
+  border: string;
+};
 
 export const InputField: React.FC<Props> = ({ label, ...props }) => {
-  const [field, meta] = useField(props)
+  const [field, meta] = useField(props);
   return (
     <>
       <label htmlFor={field.name}>{label}</label>
@@ -20,12 +20,15 @@ export const InputField: React.FC<Props> = ({ label, ...props }) => {
         autoComplete='off'
         {...field}
         {...props}
-        border={(meta.touched && meta.error) ? '1px solid red' : ''}
+        border={meta.touched && meta.error ? '1px solid red' : ''}
       />
-      <StyledErrorMassage component='div' name={field.name} />
+      <StyledErrorMassage
+        component='div'
+        name={field.name}
+      />
     </>
-  )
-}
+  );
+};
 
 const Input = styled.input<StyledProps>`
   width: 100%;
@@ -33,7 +36,7 @@ const Input = styled.input<StyledProps>`
   padding: 5px;
   border: ${(props) => props.border || '1px solid #000000'};
   border-radius: 3px;
-`
+`;
 const StyledErrorMassage = styled(ErrorMessage)`
   color: #e60505;
-`
+`;

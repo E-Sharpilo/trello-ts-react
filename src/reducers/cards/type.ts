@@ -1,7 +1,7 @@
-import { TCard } from '../../types/card'
+import { TCard } from '../../types/card';
 
 export type StateCards = {
-  cards: TCard[]
-  loading: boolean
-  error: string | null
-}
+  cards: TCard[];
+  loading: boolean;
+  error: string | null;
+};

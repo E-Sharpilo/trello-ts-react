@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { createTagsFetch, deleteTagsFetch, updateTagsFetch } from '../reducers/tags'
-import { selectCard } from '../selectors/card'
-import { selectTags } from '../selectors/tags'
-import Button from './share/Button'
-import ConfirmWindow from './share/ConfirmWindow'
-import { CloseButton } from './share/icons/CloseButton'
-import Loader from './share/Loader'
-import Modal from './share/Modal'
-import Tag from './Tag'
-import TagForm from './TagForm'
+import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { createTagsFetch, deleteTagsFetch, updateTagsFetch } from '../reducers/tags';
+import { selectCard } from '../selectors/card';
+import { selectTags } from '../selectors/tags';
+import Button from './share/Button';
+import ConfirmWindow from './share/ConfirmWindow';
+import { CloseButton } from './share/icons/CloseButton';
+import Loader from './share/Loader';
+import Modal from './share/Modal';
+import Tag from './Tag';
+import TagForm from './TagForm';
 
 const colors = [
   '#61bd4f',
@@ -24,11 +24,11 @@ const colors = [
   '#51e898',
   '#ff78cb',
   '#344563',
-]
+];
 
 type Props = {
-  onClose: () => void
-}
+  onClose: () => void;
+};
 
 export enum FormState {
   Create = 'create',
@@ -36,80 +36,80 @@ export enum FormState {
 }
 
 const TagsPicker: React.FC<Props> = ({ onClose }) => {
-  const dispatch = useAppDispatch()
-  const card = useAppSelector(selectCard)
-  const { tags, loading } = useAppSelector(selectTags)
+  const dispatch = useAppDispatch();
+  const card = useAppSelector(selectCard);
+  const { tags, loading } = useAppSelector(selectTags);
 
-  const [newTitle, setNewTitle] = useState('')
-  const [editTitle, setEditTitle] = useState('')
-  const [color, setColor] = useState(colors[0])
-  const [formState, setFormState] = useState<FormState | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [chosenTagId, setChosenTagId] = useState('')
+  const [newTitle, setNewTitle] = useState('');
+  const [editTitle, setEditTitle] = useState('');
+  const [color, setColor] = useState(colors[0]);
+  const [formState, setFormState] = useState<FormState | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chosenTagId, setChosenTagId] = useState('');
 
   useEffect(() => {
-    const tag = tags.find((item) => item._id === chosenTagId)
+    const tag = tags.find((item) => item._id === chosenTagId);
     if (!tag) {
-      return
+      return;
     }
-    setEditTitle(tag.title ?? '')
-  }, [chosenTagId])
+    setEditTitle(tag.title ?? '');
+  }, [chosenTagId]);
 
   const toggleModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen)
-  }, [isModalOpen])
+    setIsModalOpen(!isModalOpen);
+  }, [isModalOpen]);
 
   const deleteTag = useCallback(() => {
-    dispatch(deleteTagsFetch(chosenTagId))
-    toggleModal()
-    setFormState(null)
-  }, [dispatch, chosenTagId, isModalOpen])
+    dispatch(deleteTagsFetch(chosenTagId));
+    toggleModal();
+    setFormState(null);
+  }, [dispatch, chosenTagId, isModalOpen]);
 
   const updateTag = useCallback(() => {
-    const notUniq = tags.some((tag) => tag.color === color && tag.title === editTitle)
+    const notUniq = tags.some((tag) => tag.color === color && tag.title === editTitle);
 
     if (notUniq) {
-      setFormState(null)
-      return
+      setFormState(null);
+      return;
     }
 
-    dispatch(updateTagsFetch({ color, title: editTitle, id: chosenTagId }))
-    setFormState(null)
-  }, [dispatch, editTitle, chosenTagId, color])
+    dispatch(updateTagsFetch({ color, title: editTitle, id: chosenTagId }));
+    setFormState(null);
+  }, [dispatch, editTitle, chosenTagId, color]);
 
   const createTag = useCallback(() => {
     const newTag = {
       title: newTitle.trim(),
       color: color,
       cardId: card.card._id,
-    }
+    };
 
-    const notUniq = tags.some((tag) => tag.color === newTag.color && tag.title === newTag.title)
+    const notUniq = tags.some((tag) => tag.color === newTag.color && tag.title === newTag.title);
 
     if (notUniq) {
-      setNewTitle('')
-      setFormState(null)
-      return
+      setNewTitle('');
+      setFormState(null);
+      return;
     }
-    setNewTitle('')
-    setFormState(null)
-    dispatch(createTagsFetch(newTag))
-  }, [dispatch, color, newTitle])
+    setNewTitle('');
+    setFormState(null);
+    dispatch(createTagsFetch(newTag));
+  }, [dispatch, color, newTitle]);
 
   const setCreateForm = useCallback(() => {
-    setFormState(FormState.Create)
-  }, [formState])
+    setFormState(FormState.Create);
+  }, [formState]);
 
   const setEditForm = useCallback(() => {
-    setFormState(FormState.Editing)
-  }, [formState])
+    setFormState(FormState.Editing);
+  }, [formState]);
 
   const setDefaultForm = useCallback(() => {
-    setFormState(null)
-  }, [formState])
+    setFormState(null);
+  }, [formState]);
 
   if (loading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   return (
@@ -144,34 +144,40 @@ const TagsPicker: React.FC<Props> = ({ onClose }) => {
               />
             ))}
           </TagsList>
-          <StyledButton type='button' onClick={setCreateForm}>
+          <StyledButton
+            type='button'
+            onClick={setCreateForm}
+          >
             Create Tag
           </StyledButton>
         </>
       )}
 
-      <Modal isOpen={isModalOpen} onClose={toggleModal}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+      >
         <ConfirmWindow
           onDelete={deleteTag}
           onClose={toggleModal}
           title={'Are you sure you want to delete this item?'}
           text={
-            'You don\'t have previous to restore. This item would be deleted, are you sure you want to continue'
+            "You don't have previous to restore. This item would be deleted, are you sure you want to continue"
           }
         />
       </Modal>
     </Root>
-  )
-}
+  );
+};
 
-export default React.memo(TagsPicker)
+export default React.memo(TagsPicker);
 
 const Title = styled.div`
   border-bottom: 1px solid rgba(9, 30, 66, 0.13);
   line-height: 24px;
   text-align: center;
   padding: 5px;
-`
+`;
 
 const StyledButton = styled(Button)`
   width: 100%;
@@ -180,14 +186,14 @@ const StyledButton = styled(Button)`
   display: flex;
   justify-content: center;
   vertical-align: middle;
-`
+`;
 
 const Root = styled.div`
   position: relative;
-`
+`;
 const TagsList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 5px;
   margin: 10px 0;
-`
+`;

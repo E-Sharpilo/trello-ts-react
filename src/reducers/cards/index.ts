@@ -1,51 +1,49 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import { TCard } from '../../types/card';
 import { StateCards } from './type';
-
 
 const initialState: StateCards = {
   cards: [],
   loading: false,
   error: null,
-}
+};
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
     getCardsFetch: (state, _action) => {
-      state.loading = true
+      state.loading = true;
     },
     getCardsSuccess: (state, action) => {
-      action.payload.forEach((element:TCard) => {
-        if (!state.cards.some(item => item._id === element._id)) {
-          state.cards.push(element)
+      action.payload.forEach((element: TCard) => {
+        if (!state.cards.some((item) => item._id === element._id)) {
+          state.cards.push(element);
         }
       });
-      
-      state.loading = false
+
+      state.loading = false;
     },
     getCardsFailure: (state, action) => {
-      state.error = action.payload
-      state.loading = false
+      state.error = action.payload;
+      state.loading = false;
     },
     clearCardsList: (state) => {
-      state.cards = []
+      state.cards = [];
     },
     createCardsFetch: (state, _action) => {
-      state.loading = true
+      state.loading = true;
     },
     createCardsSuccess: (state, action) => {
-      state.cards.push(action.payload)
-      state.loading = false
+      state.cards.push(action.payload);
+      state.loading = false;
     },
     createCardsFailure: (state, action) => {
-      state.error = action.payload
-      state.loading = false
+      state.error = action.payload;
+      state.loading = false;
     },
   },
-})
+});
 
 export const {
   getCardsFetch,
@@ -54,7 +52,7 @@ export const {
   createCardsFetch,
   createCardsSuccess,
   createCardsFailure,
-  clearCardsList
-} = cardsSlice.actions
+  clearCardsList,
+} = cardsSlice.actions;
 
-export default cardsSlice.reducer
+export default cardsSlice.reducer;

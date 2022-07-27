@@ -5,4 +5,4 @@ export const ROUTES = {
   REGISTRATION_PATH: '/registration',
   TO_BOARD_PATH: '/board/:idb',
   TO_CARD_PATH: '/card/:idc',
-}
+};

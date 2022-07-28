@@ -32,13 +32,15 @@ const Header: React.FC = () => {
             <Logo />
           </LogoWrapper>
         </Link>
-        <Button
-          arrow
-          type='button'
-          onClick={togglePopup}
-        >
-          My boards
-        </Button>
+        {isAuth && (
+          <Button
+            arrow
+            type='button'
+            onClick={togglePopup}
+          >
+            My boards
+          </Button>
+        )}
         {isVisiblePopup && (
           <>
             <Popup
@@ -50,13 +52,15 @@ const Header: React.FC = () => {
             </Popup>
           </>
         )}
-        <Button
-          type='button'
-          onClick={toggleModal}
-          background='#014a75'
-        >
-          Create
-        </Button>
+        {isAuth && (
+          <Button
+            type='button'
+            onClick={toggleModal}
+            background='#014a75'
+          >
+            Create
+          </Button>
+        )}
       </Nav>
       <Modal
         isOpen={isModalOpen}

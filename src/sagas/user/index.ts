@@ -35,6 +35,7 @@ function* getLoginWorker(action: PayloadAction<LoginPass>) {
     localStorage.setItem('token', res.accessToken)
 
     yield put(getLoginSuccess(res))
+
   } catch (error) {
     console.log(error)
 
@@ -72,6 +73,7 @@ function* getLogoutWorker() {
     yield call(callApi, 'logout', {})
     localStorage.removeItem('token')
     yield put(getLogoutSuccess(null))
+
   } catch (error) {
     yield put(getLogoutFailure(error))
   }

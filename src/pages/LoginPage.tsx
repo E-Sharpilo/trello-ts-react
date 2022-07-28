@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { getLoginFetch } from '../reducers/user';
 import Button from '../components/share/Button';
 import { Formik, Form } from 'formik';
@@ -8,9 +8,24 @@ import { InputField } from '../components/share/InputField';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../constants/urlConstants';
 import { validate } from '../utils/validateLoginForm';
+import { selectUser } from '../selectors/user';
+import ErrorMessage from '../components/share/ErrorMessage';
 
 const LoginFrom = () => {
   const dispatch = useAppDispatch();
+
+  const { error } = useAppSelector(selectUser);
+
+  const [visibleError, setVisibleError] = useState(false);
+
+  useEffect(() => {
+    if (error?.response?.status === 400) {
+      setVisibleError(true);
+      setTimeout(() => {
+        setVisibleError(false);
+      }, 2000);
+    }
+  }, [error]);
 
   return (
     <Wrapper>
@@ -57,6 +72,7 @@ const LoginFrom = () => {
           </StyledForm>
         )}
       </Formik>
+      {error?.response?.status === 400 && visibleError && <ErrorMessage>Email or password is wrong</ErrorMessage>}
     </Wrapper>
   );
 };
@@ -68,6 +84,7 @@ const Wrapper = styled.div`
   width: 100vw;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
 `;
 

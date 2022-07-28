@@ -43,6 +43,7 @@ const userSlice = createSlice({
     },
     getLogoutSuccess: (state, action) => {
       state.user = {};
+      
       state.loading = false;
       state.isAuth = false;
     },

@@ -13,7 +13,6 @@ import { validate } from '../utils/validateForms';
 import { clearCardsList } from '../reducers/cards';
 import { getTagsFetch } from '../reducers/tags';
 import Loader from '../components/share/Loader';
-import { ROUTES } from '../constants/urlConstants';
 
 type Props = {
   background: string | undefined;
@@ -24,11 +23,9 @@ const Board = () => {
   const { lists } = useAppSelector(selectLists);
   const { boards, loading } = useAppSelector(selectBoards);
 
-  const navigate = useNavigate();
-
   const board = useMemo(() => {
     if (!boards) {
-      navigate(`${ROUTES.MAIN_PATH}`);
+      return
     }
 
     return boards.find((item) => item._id === boardId);
@@ -53,6 +50,7 @@ const Board = () => {
   useEffect(() => {
     dispatch(clearCardsList());
   }, [dispatch, boardId]);
+
 
   const formik = useFormik({
     initialValues: {

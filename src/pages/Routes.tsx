@@ -1,7 +1,7 @@
 import Layout from '../components/Layout';
 import Board from './Board';
 import Boards from './Boards';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from '../constants/urlConstants';
 import { CardPage } from './CardPage';
 import { useAppSelector } from '../hooks';
@@ -21,12 +21,21 @@ export const RoutesPage = () => {
     return (
       <Routes>
         <Route
-          index
-          element={<LoginForm />}
-        />
+          path={ROUTES.MAIN_PATH}
+          element={<Layout />}
+        >
+          <Route
+            path={ROUTES.MAIN_PATH}
+            element={<LoginForm />}
+          />
+          <Route
+            path={ROUTES.REGISTRATION_PATH}
+            element={<RegisterPage />}
+          />
+        </Route>
         <Route
-          path={ROUTES.REGISTRATION_PATH}
-          element={<RegisterPage />}
+          path='*'
+          element={<Navigate to={ROUTES.MAIN_PATH} />}
         />
       </Routes>
     );
@@ -39,7 +48,7 @@ export const RoutesPage = () => {
         element={<Layout />}
       >
         <Route
-          index
+          path={ROUTES.MAIN_PATH}
           element={<Boards />}
         />
         <Route
@@ -50,11 +59,11 @@ export const RoutesPage = () => {
           path={ROUTES.TO_BOARD_PATH + ROUTES.TO_CARD_PATH}
           element={<CardPage />}
         />
-        <Route
-          path='*'
-          element={<Boards />}
-        />
       </Route>
+      {/* <Route
+        path='*'
+        element={<Navigate to={ROUTES.MAIN_PATH} />}
+      /> */}
     </Routes>
   );
 };

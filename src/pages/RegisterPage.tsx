@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/share/Button';
 import { Formik, Form } from 'formik';
@@ -7,14 +7,23 @@ import { validate } from '../utils/validateRegisterForm';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { getRegistrationFetch } from '../reducers/user';
 import { selectUser } from '../selectors/user';
+import ErrorMessage from '../components/share/ErrorMessage';
 
 const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const {error} = useAppSelector(selectUser)
 
-  if (error?.response?.status === 400) {
-    console.log('mail already register');
-  }
+  const [visibleError, setVisibleError] = useState(false)
+
+  
+  useEffect(() => {
+    if (error?.response?.status === 400) {
+      setVisibleError(true)
+      setTimeout(() => {
+        setVisibleError(false)
+      }, 2000);
+    }
+  }, [error])
 
   return (
     <Wrapper>
@@ -77,6 +86,7 @@ const RegisterForm = () => {
           </StyledForm>
         )}
       </Formik>
+      {error?.response?.status === 400 && visibleError && <ErrorMessage>Email already registered</ErrorMessage>}
     </Wrapper>
   );
 };
@@ -87,6 +97,7 @@ const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;

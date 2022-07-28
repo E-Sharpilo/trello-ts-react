@@ -12,7 +12,7 @@ const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const {error} = useAppSelector(selectUser)
 
-  if (error?.status === '400') {
+  if (error?.response?.status === 400) {
     console.log('mail already register');
   }
 

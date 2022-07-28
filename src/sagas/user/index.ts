@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { callApi } from '../../api/callApi'
 import {
@@ -30,7 +31,6 @@ function* getLoginWorker(action: PayloadAction<LoginPass>) {
       method: 'POST',
       body: action.payload,
     })
-    console.log(res)
 
     localStorage.setItem('token', res.accessToken)
 
@@ -82,7 +82,7 @@ function* getUserWorker() {
     const res: TUser = yield call(callApi, 'user', {})
     yield put(getUserSuccess(res))
   } catch (error) {
-    yield put(getUserFailure(error))
+    yield put(getUserFailure(error as AxiosError))
   }
 }
 

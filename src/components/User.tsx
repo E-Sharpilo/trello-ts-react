@@ -11,7 +11,6 @@ const User = () => {
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   const { user } = useAppSelector(selectUser);
 
-  console.log('user', user);
   const togglePopup = useCallback(() => {
     setIsVisiblePopup(!isVisiblePopup);
   }, [isVisiblePopup]);

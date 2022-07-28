@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { StateUser } from './type';
 
 const initialState: StateUser = {
@@ -71,7 +72,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuth = true;
     },
-    getUserFailure: (state, action) => {
+    getUserFailure: (state, action: PayloadAction<AxiosError>) => {
       state.error = action.payload;
       state.loading = false;
     },

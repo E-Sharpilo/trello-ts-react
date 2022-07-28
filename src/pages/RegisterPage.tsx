@@ -4,11 +4,18 @@ import Button from '../components/share/Button';
 import { Formik, Form } from 'formik';
 import { InputField } from '../components/share/InputField';
 import { validate } from '../utils/validateRegisterForm';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { getRegistrationFetch } from '../reducers/user';
+import { selectUser } from '../selectors/user';
 
 const RegisterForm = () => {
   const dispatch = useAppDispatch();
+  const {error} = useAppSelector(selectUser)
+
+  if (error?.status === '400') {
+    console.log('mail already register');
+  }
+
   return (
     <Wrapper>
       <Formik

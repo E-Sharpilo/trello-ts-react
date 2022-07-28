@@ -28,7 +28,7 @@ const Board = () => {
 
   const board = useMemo(() => {
     if (!boards) {
-      return;
+      navigate(`${ROUTES.MAIN_PATH}`);
     }
 
     return boards.find((item) => item._id === boardId);
@@ -53,12 +53,6 @@ const Board = () => {
   useEffect(() => {
     dispatch(clearCardsList());
   }, [dispatch, boardId]);
-
-  useEffect(() => {
-    if (!board) {
-      navigate(`${ROUTES.MAIN_PATH}`);
-    }
-  });
 
   const formik = useFormik({
     initialValues: {

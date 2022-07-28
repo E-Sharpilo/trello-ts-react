@@ -50,10 +50,6 @@ export const RoutesPage = () => {
           path={ROUTES.TO_BOARD_PATH + ROUTES.TO_CARD_PATH}
           element={<CardPage />}
         />
-        <Route
-          path='*'
-          element={<Boards />}
-        />
       </Route>
     </Routes>
   );
